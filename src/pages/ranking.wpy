@@ -1,0 +1,149 @@
+<template>
+  <view class="wrap">
+    <view class="typewrap">
+      <view class="typebar">
+        <view class="{{ rank.typeId === '1' ? 'active' : '' }}" @tap="toggleType(1)">
+          <text>资产排行</text>
+        </view>
+        <view class="{{ rank.typeId === '2' ? 'active' : '' }}" @tap="toggleType(2)">
+          <text>目标排行</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 排行榜滚动区域 -->
+    <view class="rankbox">
+      <scroll-view>
+        <repeat for="{{ rankList }}" key="index" index="index" item="item">
+          <view class="item" data-id="{{ item.id }}">
+            <view class="number">{{ index + 1 }}</view>
+            <image src="{{ item.image }}"></image>
+            <text class="name">{{ item.name }}</text>
+            <text class="val">{{ item.val }}</text>
+          </view>
+        </repeat>
+      </scroll-view>
+    </view>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Ranking extends wepy.page {
+    config = {
+      navigationBarTitleText: '榜单'
+    }
+
+    data = {
+      rankList: [
+        {
+          id: 1,
+          image: '/images/reading.png',
+          name: '曦莫琅',
+          val: '100币'
+        },
+        {
+          id: 2,
+          image: '/images/reading.png',
+          name: '曦莫琅',
+          val: '100币'
+        },
+        {
+          id: 3,
+          image: '/images/reading.png',
+          name: '曦莫琅',
+          val: '100币'
+        },
+        {
+          id: 4,
+          image: '/images/reading.png',
+          name: '曦莫琅',
+          val: '100币'
+        }
+      ],
+      rank: {
+        typeId: '1'
+      }
+    }
+
+    methods = {
+      toggleType(t) {
+        if (t === '1' && this.rank.typeId === '2') {
+          this.rank.typeId = t
+        } else if (t === '2' && this.rank.typeId === '1') {
+          this.rank.typeId = t
+        }
+      }
+    }
+  }
+</script>
+
+<style lang="less">
+  .typewrap{
+    padding: 30rpx 0;
+  }
+  .typebar{
+    display: flex;
+    width: 50%;
+    margin: 0 auto;
+    height: 60rpx;
+    view{
+      width: 50%;
+      line-height: 60rpx;
+      text-align: center;
+      font-size: 28rpx;
+      background-color: #fff;
+      transition: background-color .3s;
+      box-sizing: border-box;
+      border: 2rpx solid #138cff;
+      text{
+        color: #138cff;
+      }
+    }
+    view:first-child{
+      border-top-left-radius: 6rpx;
+      border-bottom-left-radius: 6rpx;
+    }
+    view:last-child{
+      border-top-right-radius: 6rpx;
+      border-bottom-right-radius: 6rpx;
+    }
+    .active{
+      background-color: #138cff;
+      text{
+        color: #fff;
+      }
+    }
+  }
+
+  .rankbox{
+    padding: 0 30rpx;
+  }
+
+  .rankbox .item{
+    display: flex;
+    padding: 10rpx;
+    height: 60rpx;
+    border-bottom: 1rpx solid #f3f3f3;
+    text{
+      font-size: 28rpx;
+      line-height: 60rpx;
+    }
+    .number{
+      width: 100rpx;
+      text-align: center;
+    }
+    image{
+      display: block;
+      margin-right: 30rpx;
+      width: 60rpx;
+      height: 60rpx;
+    }
+    .name{
+      flex: 1;
+    }
+    .val{
+      padding: 0 20rpx;
+    }
+  }
+</style>

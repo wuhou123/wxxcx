@@ -1,0 +1,15 @@
+{
+	"description": "yes,just a demo",
+	"setting": {
+		"urlCheck": true,
+		"es6": false,
+		"postcss": false,
+		"minified": false,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"appid": "wx80f84ed0d7bd972f",
+	"projectname": "recode",
+	"miniprogramRoot": "./dist",
+	"condition": {}
+}
