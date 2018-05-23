@@ -101,6 +101,10 @@
           this.isStart = false
           this.btnText = '开始'
           console.log('请先设置时长')
+          wx.showToast({
+            title:'请先设置时长',
+            icon:'none'
+          })
         }
         this.$apply()
       }

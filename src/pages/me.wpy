@@ -13,7 +13,7 @@
       <view class="right">
         <text>计划</text>
         <text>{{ hours }} h</text>
-      </view>
+      </view>      
     </view>
 
     <!-- 菜单列表 -->
@@ -76,7 +76,6 @@
         self.$apply()
       })
     }
-  }
 </script>
 
 <style lang="less">

@@ -70,6 +70,7 @@
         :likes="item.likes">
       </listitem>
     </repeat>
+    <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
   </view>
 </template>
 
@@ -245,6 +246,9 @@
       counterEmit (...args) {
         let $event = args[args.length - 1]
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
+      },
+      onGotUserInfo(e){
+        this.$parent.globalData = e.detail.userInfo
       }
     }
 
@@ -257,20 +261,31 @@
 
     onLoad() {
       let self = this
-      this.$parent.getUserInfo(function (userInfo) {
-        if (userInfo) {
-          self.userInfo = userInfo
-        }
-        self.normalTitle = '标题已被修改'
+      // this.$parent.getUserInfo(function (userInfo) {
+      //   if (userInfo) {
+      //     self.userInfo = userInfo
+      //   }
+      //   self.normalTitle = '标题已被修改'
 
-        self.setTimeoutTitle = '标题三秒后会被修改'
-        setTimeout(() => {
-          self.setTimeoutTitle = '到三秒了'
-          self.$apply()
-        }, 3000)
+      //   self.setTimeoutTitle = '标题三秒后会被修改'
+      //   setTimeout(() => {
+      //     self.setTimeoutTitle = '到三秒了'
+      //     self.$apply()
+      //   }, 3000)
 
-        self.$apply()
-      })
+      //   self.$apply()
+      // })
+      // wx.showModal({
+      //   title: '提示',
+      //   content: '登陆',
+      //   success: function(res) {
+      //     if (res.confirm) {
+      //       self.onGotUserInfo()
+      //     } else if (res.cancel) {
+      //       console.log('用户点击取消')
+      //     }
+      //   }
+      // })
     }
   }
 </script>
@@ -293,5 +308,8 @@
 
   .userinfo-nickname {
     color: #aaa;
+  }
+  .css-Isshow{
+    display:none
   }
 </style>
