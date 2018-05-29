@@ -1,63 +1,4 @@
 <template>
-  <!-- <view class="container">
-    <view class="userinfo" @tap="handleViewTap">
-      <image class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"/>
-      <view class="userinfo-nickname">{{ userInfo.nickName }}</view>
-    </view>
-
-    <panel>
-      <view class="title" slot="title">测试数据绑定</view>
-
-      <text class="info">{{normalTitle}}</text>
-      <text class="info">{{setTimeoutTitle}}</text>
-      <text class="info">{{mixin}}</text>
-      <text class="info">{{mynum}}</text>
-      <text class="info">{{now}}</text>
-      <button @tap="plus('a')" size="mini">  +  </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">其它测试</view>
-      <button @tap="toast" size="mini">第三方组件</button>
-      <button @tap="communicate" size="mini">组件通信</button>
-      <button @tap="tap" size="mini">混合TAP事件</button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试并发网络请求</view>
-      <view>返回结果: <text>{{netrst}}</text></view>
-      <button @tap="request" size="mini"> 点我发起10个请求 </button>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件</view>
-
-      <text class="testcounter">计数组件1: </text>
-      <view class="counterview">
-        <counter1 @index-emit.user="counterEmit" />
-      </view>
-
-      <text class="testcounter">计数组件2: </text>
-
-      <view class="counterview">
-        <counter2 :num.sync="mynum"></counter2>
-      </view>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试组件Repeat</view>
-      <repeat for="" index="index" item="item" key="key">
-        <group :grouplist="item" :indexa="index"></group>
-      </repeat>
-    </panel>
-
-    <panel>
-      <view class="title" slot="title">测试列表</view>
-      <list></list>
-    </panel>
-
-    <toast />
-  </view> -->
   <view class="wrap">
     <repeat for="{{ dynamicList }}" key="index" index="index" item="item">
       <listitem
@@ -69,9 +10,11 @@
         :username="item.username"
         :likes="item.likes">
       </listitem>
-    </repeat>
-    <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
+    </repeat>    
   </view>
+    <view class='mark' wx:if="{{showMark}}">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
+    </view>
 </template>
 
 <script>
@@ -105,6 +48,7 @@
     mixins = [testMixin]
 
     data = {
+      showMark:true,
       dynamicList: [
         {
           id: 1,
@@ -261,6 +205,8 @@
 
     onLoad() {
       let self = this
+      this.showMark = this.$parent.globalData.userInfo?false:true
+      console.log(this.showMark)
       // this.$parent.getUserInfo(function (userInfo) {
       //   if (userInfo) {
       //     self.userInfo = userInfo
@@ -291,6 +237,15 @@
 </script>
 
 <style lang="less">
+  .mark{
+    width:100%;
+    height:100%;
+    position:fixed;
+    background:rgba(0,0,0,0.8);
+    top:0;
+    z-index:2;
+    overflow:hidden;
+  }
   .wrap{
     background-color: #f8f8f8;
   }
