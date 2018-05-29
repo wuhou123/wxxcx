@@ -8,7 +8,7 @@
       <view class="center">
         <image src="{{ userInfo.avatarUrl }}"></image>
         <text>{{ userInfo.nickName }}</text>
-        <text>{{ userInfo.country }}</text>
+        <text>{{ userInfo.city?userInfo.city:userInfo.province }}</text>
       </view>
       <view class="right">
         <text>计划</text>
@@ -69,13 +69,11 @@
 
     onLoad() {
       let self = this
-      this.$parent.getUserInfo(function (userInfo) {
-        if (userInfo) {
-          self.userInfo = userInfo
-        }
-        self.$apply()
-      })
+      if(!this.$parent.globalData.userInfo) return;
+      this.userInfo = this.$parent.globalData.userInfo
+      console.log(this.userInfo)      
     }
+  }
 </script>
 
 <style lang="less">

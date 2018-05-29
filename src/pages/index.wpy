@@ -13,7 +13,7 @@
     </repeat>    
   </view>
     <view class='mark' wx:if="{{showMark}}">
-      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
     </view>
 </template>
 
@@ -192,7 +192,9 @@
         console.log(`${this.$name} receive ${$event.name} from ${$event.source.$name}`)
       },
       onGotUserInfo(e){
-        this.$parent.globalData = e.detail.userInfo
+        this.$parent.globalData.userInfo = e.detail.userInfo        
+        this.showMark = this.$parent.globalData.userInfo?false:true
+        console.log(this.showMark)
       }
     }
 
@@ -207,36 +209,17 @@
       let self = this
       this.showMark = this.$parent.globalData.userInfo?false:true
       console.log(this.showMark)
-      // this.$parent.getUserInfo(function (userInfo) {
-      //   if (userInfo) {
-      //     self.userInfo = userInfo
-      //   }
-      //   self.normalTitle = '标题已被修改'
-
-      //   self.setTimeoutTitle = '标题三秒后会被修改'
-      //   setTimeout(() => {
-      //     self.setTimeoutTitle = '到三秒了'
-      //     self.$apply()
-      //   }, 3000)
-
-      //   self.$apply()
-      // })
-      // wx.showModal({
-      //   title: '提示',
-      //   content: '登陆',
-      //   success: function(res) {
-      //     if (res.confirm) {
-      //       self.onGotUserInfo()
-      //     } else if (res.cancel) {
-      //       console.log('用户点击取消')
-      //     }
-      //   }
-      // })
     }
   }
 </script>
 
 <style lang="less">
+  .css-button{
+    width:150px;
+    margin:50% auto;
+    background:#138cff;
+    color:#fff
+  }
   .mark{
     width:100%;
     height:100%;
