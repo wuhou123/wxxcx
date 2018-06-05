@@ -1,15 +1,8 @@
 <style lang="less">
+@import './font/iconfont.less';
 page{
   height: 100%;
   background-color: #f9fbff;
-}
-@font-face {
-  font-family: 'iconfont';  /* project id 573053 */
-  src: url('//at.alicdn.com/t/font_573053_6w688di648xxyldi.eot');
-  src: url('//at.alicdn.com/t/font_573053_6w688di648xxyldi.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_573053_6w688di648xxyldi.woff') format('woff'),
-  url('//at.alicdn.com/t/font_573053_6w688di648xxyldi.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_573053_6w688di648xxyldi.svg#iconfont') format('svg');
 }
 </style>
 

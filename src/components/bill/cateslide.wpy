@@ -4,7 +4,9 @@
       <repeat for="{{ list }}" key="index" index="index" item="item">
         <view class="item {{ cateType == item.type && cateId == item.cateId ? 'active' : '' }}"
           @tap="selectCate({{item.type}}, {{item.cateId}})">
-          <view class="icon icon-{{ item.type }}-{{ item.cateId }}"></view>
+          <view class="showDiv">
+            <i class="iconfont icon-{{ item.type }}"></i>
+          </view>
           <text>{{ item.cateName }}</text>
         </view>
       </repeat>
@@ -65,33 +67,24 @@
         color: #333;
       }
     }
+    .showDiv{
+      width:30px;
+      height:30px;
+      background:#fff;
+      line-height:26px;
+      margin:0rpx auto 0rpx 28rpx;     
+    }
     .active{
-      .icon{
-        background-color: #138cff;
-      }
-      .icon::after{
+      .iconfont{
         color: #fff;
       }
       text{
         color: #138cff;
       }
+      .showDiv{
+        border-radius:50%;
+        background-color: #138cff
+      }
     }
-  }
-  .icon{
-    margin: 0 auto 8rpx auto;
-    width: 70rpx;
-    height: 70rpx;
-    border-radius: 100%;
-    background-color: #f8f8f8;
-  }
-  .icon::after{
-    font-family: "iconfont" !important;
-    font-size: 38rpx;
-    line-height:70rpx;
-    color: #333;
-  }
-  
-  .icon-pay-1::after{
-    content: '\e600';
   }
 </style>

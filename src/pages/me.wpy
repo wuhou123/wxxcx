@@ -69,9 +69,13 @@
 
     onLoad() {
       let self = this
-      if(!this.$parent.globalData.userInfo) return;
-      this.userInfo = this.$parent.globalData.userInfo
-      console.log(this.userInfo)      
+      try {
+        var res = wx.getStorageSync('user')        
+        if(res) this.userInfo = res;        
+        self.$apply()
+      } catch (e) {
+        this.userInfo.nickName = '未获取';
+      }      
     }
   }
 </script>
