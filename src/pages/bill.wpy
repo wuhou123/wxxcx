@@ -60,7 +60,8 @@
             date: '02月25日',
             day: '星期日',
             totalIncome: 0,
-            totalPay: 0
+            totalPay: 0,
+            type: 'chongwu'
           },
           list: [
             {
@@ -68,28 +69,32 @@
               image: '/images/reading.png',
               title: '餐饮',
               remark: '',
-              mount: -12
+              mount: -12,
+              type: 'chongwu',
             },
             {
               id: 2,
               image: '/images/reading.png',
               title: '兼职',
               remark: '',
-              mount: 20
+              mount: 20,
+              type: 'chongwu'
             },
             {
               id: 1,
               image: '/images/reading.png',
               title: '餐饮',
               remark: '',
-              mount: -12
+              mount: -12,
+              type: 'chongwu'
             },
             {
               id: 2,
               image: '/images/reading.png',
               title: '兼职',
               remark: '',
-              mount: 20
+              mount: 20,
+              type: 'chongwu'
             }
           ]
         },
@@ -98,7 +103,8 @@
             date: '02月25日',
             day: '星期日',
             totalIncome: 0,
-            totalPay: 0
+            totalPay: 0,
+            type: 'chongwu'
           },
           list: [
             {
@@ -106,14 +112,16 @@
               image: '/images/reading.png',
               title: '餐饮',
               remark: '',
-              mount: -12
+              mount: -12,
+              type: 'chongwu'
             },
             {
               id: 2,
               image: '/images/reading.png',
               title: '兼职',
               remark: '',
-              mount: 20
+              mount: 20,
+              type: 'chongwu'
             }
           ]
         },
@@ -191,6 +199,7 @@
     }
 
     onLoad() {
+      console.log(wx.getStorageSync('payList'))
       log('账单页面加载成功')
       const sys = getSystem()
       wx.createSelectorQuery().select('#topInfo').boundingClientRect((rect) => {

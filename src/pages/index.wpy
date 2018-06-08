@@ -119,8 +119,10 @@
     onLoad() {
       let self = this
       try {
-        var res = wx.getStorageSync('user')               
-        if(res) this.showMark = false;                
+        var res = wx.getStorageSync('user')
+        console.log(res)             
+        if(res) this.showMark = false;
+        if(!res) this.showMark = true;               
         self.$apply()
       } catch (e) {
         this.showMark = true;

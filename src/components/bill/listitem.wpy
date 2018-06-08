@@ -1,6 +1,6 @@
 <template>
   <view class="listitem" data-id="{{ obj.id }}">
-    <image src="{{ obj.image }}"></image>
+    <i class="iconfont icon-{{ obj.type }}"></i>
     <text class="title">{{ obj.title }}</text>
     <text class="mount">{{ obj.mount }}</text>
   </view>
@@ -17,6 +17,9 @@
     }
 
     methods = {}
+    onLoad(){
+      console.log(this.obj)
+    }
   }
 </script>
 
@@ -41,6 +44,12 @@
     }
     .title{
       flex: 1;
+    }
+    .iconfont{
+      line-height:60rpx;
+      width:30rpx;
+      padding-right:10rpx;
+
     }
   }
 </style>

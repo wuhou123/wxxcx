@@ -75,3 +75,9 @@ function formatNumber(n) {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+
+//正则判断数字
+export const isNumber = (num) => {
+  let RegExp = /^\d+(\.\d+)?$/;
+  return RegExp.test(num)
+}
