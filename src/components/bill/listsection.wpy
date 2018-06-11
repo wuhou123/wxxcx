@@ -2,12 +2,12 @@
   <view class="listsection">
     <view class="header">
       <view class="left">
-        <text>{{ item.info.date }}</text>
-        <text>{{ item.info.day }}</text>
+        <text>{{ item.day }}</text>
+        <text>{{ item.day }}</text>
       </view>
       <view class="right">
-        <text>收入：{{ item.info.totalIncome }}</text>
-        <text>支出：{{ item.info.totalPay }}</text>
+        <text>收入：{{ item.income }}</text>
+        <text>支出：{{ item.pay }}</text>
       </view>
     </view>
     <view class="body">

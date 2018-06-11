@@ -1,8 +1,8 @@
 <template>
-  <view class="listitem" data-id="{{ obj.id }}">
-    <i class="iconfont icon-{{ obj.type }}"></i>
-    <text class="title">{{ obj.title }}</text>
-    <text class="mount">{{ obj.mount }}</text>
+  <view class="listitem">
+    <i class="iconfont icon-{{ obj.cateType }}"></i>
+    <text class="title">{{ obj.remark }}</text>
+    <text class="mount">{{ obj.money }}</text>
   </view>
 </template>
 

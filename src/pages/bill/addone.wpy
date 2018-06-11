@@ -15,7 +15,7 @@
     <view class="input-area">
       <view class="money">
         <view class="money-font">￥</view>
-        <input type="digit" confirm-type="done" @input="bindInputMoney" @blur="bindBlurMoney" value="{{form.money}}"/>
+        <input type="digit" confirm-type="done" @blur="bindBlurMoney" value="{{form.money}}"/>
       </view>
       <view class="remark">
         <input type="text" placeholder="备注信息:" @blur="bindBlurRemark" value="{{form.remark}}"/>
@@ -47,6 +47,7 @@
   import { log } from '@/utils/util'
   import { payCateList, incomeCateList } from '@/utils/config'
   import {isNumber} from '@/utils/util'
+  import {formatTime } from '@/utils/util'
 
   export default class AddOne extends wepy.page {
     config = {
@@ -62,7 +63,8 @@
         cateType: '',
         cateId: '',
         money:null,
-        remark: ''
+        remark: '',
+        getDate:''
       }
     }
 
@@ -132,6 +134,7 @@
         // 发送Post请求记录
         let getForm = []
         this.form.money = parseFloat(money)
+        this.form.getDate = formatTime(new Date()).slice(0, 3)
         getForm.push(this.form)
         let self = this
         try {
@@ -169,7 +172,6 @@
           })
       },
       resetData(){
-        console.log(this.form)
         for(var i in this.form){
           if(this.form[i]) this.form[i] = '';
         }        
@@ -177,7 +179,6 @@
     }
 
     onLoad() {
-      // log('账单页面加载成功')
       // 设置当前月份
       // const _cdate = formatTime(new Date()).slice(0, 2)
       // this.calenderArr = _cdate

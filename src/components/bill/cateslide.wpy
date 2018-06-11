@@ -64,7 +64,7 @@
       box-sizing: border-box;
       text{
         font-size: 24rpx;
-        color: #333;
+        color: #666;
       }
     }
     .showDiv{
@@ -73,6 +73,9 @@
       background:#fff;
       line-height:26px;
       margin:0rpx auto 0rpx 28rpx;     
+    }
+    .iconfont{
+      color:#8ac1f4
     }
     .active{
       .iconfont{
