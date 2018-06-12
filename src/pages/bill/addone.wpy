@@ -15,7 +15,7 @@
     <view class="input-area">
       <view class="money">
         <view class="money-font">￥</view>
-        <input type="digit" confirm-type="done" @blur="bindBlurMoney" value="{{form.money}}"/>
+        <input type="digit" confirm-type="done" @blur="bindBlurMoney" value="{{bill.typeId === '1' ?form.money:form.getmoney}}"/>
       </view>
       <view class="remark">
         <input type="text" placeholder="备注信息:" @blur="bindBlurRemark" value="{{form.remark}}"/>
@@ -54,7 +54,8 @@
       navigationBarTitleText: '记账'
     }
 
-    data = {     
+    data = {
+      mount:'',     
       cateList: payCateList,
       bill: {
         typeId: '1'
@@ -63,8 +64,10 @@
         cateType: '',
         cateId: '',
         money:null,
+        getmoney:null,
         remark: '',
-        getDate:''
+        getDate:'',
+        title:''
       }
     }
 
@@ -89,11 +92,12 @@
       },
 
       // 选择收入或支出类别
-      chooseCate(type, id) {
+      chooseCate(type, id,title) {
         log('type', type)
         log('id', id)
         this.form.cateType = type
         this.form.cateId = id
+        this.form.title = title
       },
 
       // 输入金额变化得到值
@@ -103,7 +107,9 @@
 
       bindBlurMoney(e) {
         let val = e.detail.value.trim()
-        this.form.money = val
+        this.mount = val
+        if(this.bill.typeId === '1') this.form.money = val
+        if(this.bill.typeId === '2') this.form.getmoney = val
       },
 
       bindBlurRemark(e) {
@@ -115,13 +121,12 @@
       },
 
       // 确认记账
-      confirmAdd() {
-        let { money } = this.form       
-        if(!parseFloat(money)||!isNumber(money)){
+      confirmAdd() {      
+        if(!parseFloat(this.mount)||!isNumber(this.mount)){
             this.methods.showTitle('请输入正确金额')            
             return
         }        
-        if (parseFloat(money) <= 0) {
+        if (parseFloat(this.mount) <= 0) {
           // 提示金额不能为0
           let titel = this.bill.typeId === '1' ? '没花钱不能记哦' : '没收钱不能记哦'
           this.methods.showTitle(titel)
@@ -133,7 +138,8 @@
         }               
         // 发送Post请求记录
         let getForm = []
-        this.form.money = parseFloat(money)
+        if(this.bill.typeId === '1') this.form.money = parseFloat(this.mount)
+        if(this.bill.typeId === '2') this.form.getmoney = parseFloat(this.mount)
         this.form.getDate = formatTime(new Date()).slice(0, 3)
         getForm.push(this.form)
         let self = this
@@ -178,12 +184,7 @@
       }
     }
 
-    onLoad() {
-      // 设置当前月份
-      // const _cdate = formatTime(new Date()).slice(0, 2)
-      // this.calenderArr = _cdate
-      // this.$apply()
-    }
+    onLoad() {}
   }
 </script>
 

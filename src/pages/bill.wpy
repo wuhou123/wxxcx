@@ -68,79 +68,92 @@
       bindDateChange(e) {
         let dateStr = e.detail.value
         this.calenderArr = dateStr.split('-')
-        console.log('checked:'+dateStr)
         this.$apply()
-
+        this.methods.getdetailList.call(this)
         // 发送接口请求当前月份的数据
       },
 
       // 跳转到记账页面
       bindToAddpage() {
         this.$navigate('./bill/addone')
-      }
+      },
+      getBillDatas(items){
+        let total = {}
+        items.map((v,i)=>{ 
+          let date = `${v.getDate[0]}-${v.getDate[1]}`
+          if(!total[date]){
+            total[date] = {
+              income:null,
+              pay:null,
+              list:[]
+            }
+          }
+          let adds = v.getmoney?v.getmoney:0
+          let calcs = v.money?v.money:0
+          total[date].income = total[date].income + adds
+          total[date].pay = total[date].pay + calcs
+          total[date].list.push(v)               
+        })
+        return total
+      },
+      getdetailList(){
+        let storageData = wx.getStorageSync('payList')
+        if(!storageData){
+          this.moneyStat = {
+            income:'未获取',
+            pay:'未获取'
+          }
+          return
+          };
+        // console.log(storageData.push({
+        //   cateId:22,
+        //   cateType:"yiliao",
+        //   getDate:["2018", "05", "10"],
+        //   money:100,
+        //   remark:"大"        
+        // }))
+      // console.log(storageData.push({
+      //     cateId:22,
+      //     cateType:"yiliao",
+      //     getDate:["2018", "06", "10"],
+      //     money:100,
+      //     remark:"大"        
+      //   }))
+        log('账单页面激活')
+        let forYearData = this.methods.getBillDatas(storageData)
+        this.detailList = forYearData[`${this.calenderArr[0]}-${this.calenderArr[1]}`]
+        let arr;
+        arr = this.detailList.list.slice()
+        let totalT = {}
+        if(this.detailList.list&&this.detailList.list.length>1){
+            arr.map((v,i) => {
+              let getDay = `${v.getDate[0]}-${v.getDate[1]}-${v.getDate[2]}`
+              if(!totalT[getDay]){
+                totalT[getDay] = {
+                  day:getDay,
+                  income:null,
+                  pay:null,
+                  list:[]
+                }
+              }
+              let adds = v.getmoney?v.getmoney:0
+              let calcs = v.money?v.money:0
+              totalT[getDay].income = totalT[getDay].income + adds
+              totalT[getDay].pay = totalT[getDay].pay + calcs
+              totalT[getDay].list.push(v)
+            })      
+        }
+        console.log(totalT)
+        this.detailList.list = []
+        for(var i in totalT){
+          this.detailList.list.push(totalT[i])
+        }
+        this.moneyStat = this.detailList
+        console.log(this.detailList)
+      }        
     }
     onShow() {
-      let storageData = wx.getStorageSync('payList')
-      console.log(storageData.push({
-        cateId:22,
-        cateType:"yiliao",
-        getDate:["2018", "05", "10"],
-        money:100,
-        remark:"大"        
-      }))
-     console.log(storageData.push({
-        cateId:22,
-        cateType:"yiliao",
-        getDate:["2018", "06", "10"],
-        money:100,
-        remark:"大"        
-      }))
-      log('账单页面激活')
-      let total = {},totalT = {};
-      storageData.map((v,i) =>{
-        let date = `${v.getDate[0]}-${v.getDate[1]}`
-        if(!total[date]){
-          total[date] = {
-            income:null,
-            pay:null,
-            list:[]
-          }
-        }
-        let adds = v.money?v.money:0
-        let calcs = v.paymoney?v.paymoney:0
-        total[date].income = total[date].income + adds
-        total[date].pay = total[date].pay + calcs
-        total[date].list.push(v)
-      })
-      this.detailList = total[`${this.calenderArr[0]}-${this.calenderArr[1]}`]
-      let arr;
-      arr = this.detailList.list.slice()
-      console.log(total,this.detailList)
-      if(this.detailList.list&&this.detailList.list.length>1){
-          arr.map((v,i) => {
-            let getDay = `${v.getDate[0]}-${v.getDate[1]}-${v.getDate[2]}`
-            if(!totalT[getDay]){
-              totalT[getDay] = {
-                day:getDay,
-                income:null,
-                pay:null,
-                list:[]
-              }
-            }
-            let adds = v.money?v.money:0
-            let calcs = v.paymoney?v.paymoney:0
-            totalT[getDay].income = totalT[getDay].income + adds
-            totalT[getDay].pay = totalT[getDay].pay + calcs
-            totalT[getDay].list.push(v)
-          })      
-      }
-      console.log(totalT)
-      this.detailList.list = []
-      for(var i in totalT){
-        this.detailList.list.push(totalT[i])
-      }
-      this.moneyStat = this.detailList
-      console.log(this.detailList)
+      this.methods.getdetailList.call(this)
     }
     onLoad() {
       const sys = getSystem()

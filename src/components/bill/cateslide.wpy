@@ -3,7 +3,7 @@
     <view class="box">
       <repeat for="{{ list }}" key="index" index="index" item="item">
         <view class="item {{ cateType == item.type && cateId == item.cateId ? 'active' : '' }}"
-          @tap="selectCate({{item.type}}, {{item.cateId}})">
+          @tap="selectCate({{item.type}}, {{item.cateId}},{{item.cateName}})">
           <view class="showDiv">
             <i class="iconfont icon-{{ item.type }}"></i>
           </view>
@@ -30,16 +30,17 @@
     }
 
     methods = {
-      selectCate(type, id) {
+      selectCate(type, id,title) {
         if (!type || !id) {
           console.error('未能获取到类别信息')
           return
         }
         this.cateType = type
         this.cateId = id
-        this.$emit('selectCate', type, id)
+        this.$emit('selectCate', type, id,title)
       }
     }
+    onLoad(){console.log(this.list)}
   }
 </script>
 
