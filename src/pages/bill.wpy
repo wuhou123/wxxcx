@@ -54,7 +54,7 @@
         income: '',   // 收入
         pay: ''       // 支出
       },
-      detailList: [],
+      detailList: {list:[]},
       // 滚动区域信息
       scrollHeight: 0
     }
@@ -105,24 +105,18 @@
           }
           return
           };
-        // console.log(storageData.push({
-        //   cateId:22,
-        //   cateType:"yiliao",
-        //   getDate:["2018", "05", "10"],
-        //   money:100,
-        //   remark:"大"        
-        // }))
-      // console.log(storageData.push({
-      //     cateId:22,
-      //     cateType:"yiliao",
-      //     getDate:["2018", "06", "10"],
-      //     money:100,
-      //     remark:"大"        
-      //   }))
         log('账单页面激活')
         let forYearData = this.methods.getBillDatas(storageData)
         this.detailList = forYearData[`${this.calenderArr[0]}-${this.calenderArr[1]}`]
         let arr;
+        if(!this.detailList){
+          this.moneyStat = {
+            income: '0',   // 收入
+            pay: '0'       // 支出
+          }
+          this.detailList = {list:[]}
+          return         
+        }
         arr = this.detailList.list.slice()
         let totalT = {}
         if(this.detailList.list&&this.detailList.list.length>1){

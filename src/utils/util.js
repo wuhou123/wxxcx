@@ -81,3 +81,57 @@ export const isNumber = (num) => {
   let RegExp = /^\d+(\.\d+)?$/;
   return RegExp.test(num)
 }
+
+export const request = function(method, requestHandler, isShowLoading = true) {
+  // 加密
+  console.log(method, requestHandler, isShowLoading = true)
+  let params = requestHandler.params
+  isShowLoading && wx.showLoading && wx.showLoading({title: '加载中...'})
+  return new Promise((resolve, reject) => {
+    wx.request({
+      url: requestHandler.url,
+      data: params,
+      method: method, // OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT
+      header: {
+        'Content-Type': method === 'POST' ? 'application/x-www-form-urlencoded' : 'application/json'
+      },
+      success: function (res) {
+        isShowLoading && wx.hideLoading && wx.hideLoading()
+        // 解密
+        if (res.data.showapi_res_code==0) {
+          resolve(res.data.showapi_res_body)
+        } else {
+          reject(res.data.showapi_res_error)
+          // throw new Error('Network request success but data state not success')
+        }
+      },
+      fail: function () {
+        // 因为hide会让showToast隐藏
+        isShowLoading && wx.hideLoading && wx.hideLoading()
+        wx.showToast({
+          title: '网络请求失败',
+          icon: 'error',
+          duration: 1500
+        })
+        reject(new Error('Network request failed'))
+        // throw new Error('Network request failed')
+      },
+      complete: function () {
+      }
+    })
+  })
+
+}
+
+// GET请求
+export const GET = function(requestHandler, isShowLoading) {
+  let datas = JSON.stringify(requestHandler)  
+  let setRequest = request(requestHandler, isShowLoading)
+  return setRequest
+}
+
+// POST请求
+export const POST = function(requestHandler, isShowLoading) {
+  return request('POST', requestHandler, isShowLoading)
+}
+
