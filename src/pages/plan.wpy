@@ -32,7 +32,7 @@
       planList: [
         {
           id: 0,
-          image: '/images/reading.png',
+          image: '/images/read.jpg',
           title: '阅读',
           remark: '书籍并不是没有生命的东西，它包藏着一种生命的潜力，与作者同样地活跃。不仅如此，它还像一个宝瓶，把作者生机勃勃的智慧中最纯净的精华保存起来。',
           create_time: '2018年2月24日',
@@ -41,7 +41,7 @@
         },
         {
           id: 1,
-          image: '/images/reading.png',
+          image: '/images/sport.jpg',
           title: '运动',
           remark: '一定要每天运动三十分钟',
           create_time: '2018年2月24日',
@@ -57,12 +57,16 @@
 
     onLoad() {
       let res = wx.getStorageSync('onTimes')
+      console.log(res)
       if(!res){
         wx.setStorage({
         key:'onTimes',
-        data:true
+        data:formatTime(new Date()).slice(0, 3).join('-')
       })
         this.planList.map((v) => v.create_time = formatTime(new Date()).slice(0, 3).join('-'))
+        this.$apply()
+      }else{
+        this.planList.map((v) => v.create_time = res)
         this.$apply()
       }      
     }
