@@ -2,13 +2,8 @@
   <view class="wrap">
     <repeat for="{{ dynamicList }}" key="index" index="index" item="item">
       <listitem
-        :id="item.id"
-        :image="item.image"
-        :content="item.content"
-        :avatar="item.avatar"
-        :createtime="item.create_time"
-        :username="item.username"
-        :likes="item.likes">
+        :title="item.title"
+        :image="item.thumburl">
       </listitem>
     </repeat>    
   </view>
@@ -27,13 +22,14 @@
   import Toast from 'wepy-com-toast'
   import testMixin from '../mixins/test'
   import ListItem from '@/components/index/listitem'
-  import {GET,POST,formatTime} from '../utils/util'
+  import {httpRequest,formatTime} from '../utils/util'
 
   console.log('moduleA ignored: ', moduleA) // => moduleA ignored: {}
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '圈子'
+      navigationBarTitleText: '圈子',
+      enablePullDownRefresh: true
     }
     components = {
       panel: Panel,
@@ -49,45 +45,8 @@
 
     data = {
       showMark:false,
-      dynamicList: [
-        {
-          id: 1,
-          username: '曦莫琅',
-          avatar: '/images/reading.png',
-          content: '这是动态',
-          image: '',
-          create_time: '2018-02-23 17:31',
-          likes: 12
-        },
-        {
-          id: 2,
-          username: '曦莫琅',
-          avatar: '/images/reading.png',
-          content: '这是动态',
-          image: '',
-          create_time: '2018-02-23 17:31',
-          likes: 12
-        },
-        {
-          id: 3,
-          username: '曦莫琅',
-          avatar: '/images/reading.png',
-          content: '这是动态',
-          image: '/images/reading.png',
-          create_time: '2018-02-23 17:31',
-          likes: 123
-        },
-        {
-          id: 4,
-          username: '曦莫琅',
-          avatar: '/images/reading.png',
-          content: '这是动态',
-          image: '',
-          create_time: '2018-02-23 17:31',
-          likes: 12
-        }
-      ],
-
+      dynamicList: [],
+      pages:1,
       mynum: 20,
     }
 
@@ -133,13 +92,25 @@
         "showapi_appid": '32868',
         "showapi_sign": '37c9611696e648c9b5febf972ebffb99',           
         },
-        url:"https://route.showapi.com/107-32"
+        url:"https://route.showapi.com/107-33"
       }
-      GET('get',datas,true).then((res)=>{
-          console.log(res)
+      httpRequest('get',datas,true).then((res)=>{
+          console.log(res.list)
+          if(res.ret_code==0){
+            this.dynamicList = res.list
+            this.$apply()
+          }
       }).catch((error)=>{
         console.log(error)
       })
+    }
+
+    onReachBottom(){
+      console.log('底部')
+    }
+
+    onPullDownRefresh(){
+      console.log('顶部')
     }
   }
 </script>

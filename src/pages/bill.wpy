@@ -119,7 +119,7 @@
         }
         arr = this.detailList.list.slice()
         let totalT = {}
-        if(this.detailList.list&&this.detailList.list.length>1){
+        if(this.detailList.list&&this.detailList.list.length>0){
             arr.map((v,i) => {
               let getDay = `${v.getDate[0]}-${v.getDate[1]}-${v.getDate[2]}`
               if(!totalT[getDay]){
@@ -196,13 +196,7 @@
   .picker{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    .icon-pulldown::after{
-      font-family: "iconfont" !important;
-      font-size: 32rpx;
-      color: #fff;
-      content: '\e629';
-    }
+    align-items: center
   }
   .iconfont{
     color:#8ac1f4

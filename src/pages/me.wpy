@@ -19,15 +19,15 @@
     <!-- 菜单列表 -->
     <view class="menulist">
       <view class="menuitem">
-        <view class="icon iconfont icon-plan"></view>
+        <view class="icon iconfont icon-jihua"></view>
         <text>计划统计</text>
       </view>
       <view class="menuitem">
-        <view class="icon iconfont icon-bill"></view>
+        <view class="icon iconfont icon-zhangben"></view>
         <text>账本统计</text>
       </view>
       <view class="menuitem">
-        <view class="icon iconfont icon-setting"></view>
+        <view class="icon iconfont icon-shezhi"></view>
         <text>设置</text>
       </view>
     </view>
@@ -35,19 +35,19 @@
     <!-- 菜单列表 -->
     <view class="menulist">
       <view class="menuitem">
-        <view class="icon iconfont icon-menual"></view>
+        <view class="icon iconfont icon-shiyongshouce"></view>
         <text>使用手册</text>
       </view>
       <view class="menuitem">
-        <view class="icon iconfont icon-feed"></view>
+        <view class="icon iconfont icon-yijianfankui"></view>
         <text>意见反馈</text>
       </view>
       <view class="menuitem">
-        <view class="icon iconfont icon-log"></view>
+        <view class="icon iconfont icon-gengxinrizhi"></view>
         <text>更新日志</text>
       </view>
       <view class="menuitem">
-        <view class="icon iconfont icon-author"></view>
+        <view class="icon iconfont icon-guanyu"></view>
         <text>关于</text>
       </view>
     </view>
@@ -132,11 +132,8 @@
         width: 50rpx;
         height: 50rpx;
         text-align: center;
-      }
-      .icon::after{
-        font-family: "iconfont" !important;
-        font-size: 34rpx;
-        line-height: 50rpx;
+        line-height:50rpx;
+        color:#138cff
       }
       text{
         flex: 1;
@@ -149,35 +146,6 @@
     }
     .menuitem:active{
       background-color: #f8f8f8;
-    }
-
-    .icon-plan::after{
-      content: "\e601";
-      color: #138cff;
-    }
-    .icon-bill::after{
-      content: "\e61c";
-      color: #138cff;
-    }
-    .icon-setting::after{
-      content: "\e62c";
-      color: #138cff;
-    }
-    .icon-menual::after{
-      content: "\e647";
-      color: #138cff;
-    }
-    .icon-feed::after{
-      content: "\e62f";
-      color: #138cff;
-    }
-    .icon-log::after{
-      content: "\e696";
-      color: #138cff;
-    }
-    .icon-author::after{
-      content: "\e614";
-      color: #138cff;
     }
   }
 </style>

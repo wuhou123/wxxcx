@@ -40,7 +40,7 @@
         this.$emit('selectCate', type, id,title)
       }
     }
-    onLoad(){console.log(this.list)}
+    
   }
 </script>
 

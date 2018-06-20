@@ -40,8 +40,8 @@
     onLoad(){
       setTimeout(()=>{
         if(this.item) this.week = new Date(this.item.day).getWeek();
-        this.$apply()
-        console.log(new Date(this.item.day).getWeek())
+
+        this.$apply()        
       })
     }
   }

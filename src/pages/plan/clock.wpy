@@ -3,9 +3,13 @@
     <view class="plan-head">
       <text>计划 {{ planTitle }} {{ totalTime }} 分钟</text>
     </view>
+    <view class="ntimes">
+      <text>{{planTimes}}times</text>
+    </view>
 
     <!-- 时钟 -->
     <view class="clock" wx:if="{{ isStart }}">
+      <view class="test-breath" wx:if="{{isStart}}"></view>
       <text>计时中</text>
       <text>{{ clock[0] }} : {{ clock[1] }} : {{ clock[2] }}</text>
     </view>
@@ -46,6 +50,8 @@
     }
 
     data = {
+      intimes:0,
+      planTimes:1,
       planId: '',     // 计划ID
       planTitle: '',  // 计划标题
       totalTime: 0,    // 计划执行时间（秒）
@@ -67,18 +73,20 @@
         this.totalTime = minutes
         this.restTime = minutes * 60    // 秒
         this.clock = _clock
-        this.hadSet = true
+        this.hadSet = true        
         this.$apply()
+        this.methods.bindStartOrPause.call(this)
+        
       },
       // 点击开始或暂停
       bindStartOrPause() {
         let _isStart = this.isStart
-        if (_isStart && !isZero(this.clock)) {
+        if (_isStart && !isZero(this.clock)) {          
           this.isStart = false
           this.btnText = '继续'
           // 停止倒计时
           clearInterval(timer)
-        } else if (!_isStart && !isZero(this.clock)) {
+        } else if (!_isStart && !isZero(this.clock)) {          
           this.isStart = true
           this.btnText = '暂停'
           // 开始\继续倒计时
@@ -97,7 +105,7 @@
               this.$apply()
             })
           }, 1000)
-        } else {
+        } else {          
           this.isStart = false
           this.btnText = '开始'
           console.log('请先设置时长')
@@ -121,27 +129,79 @@
         this.isStart = false
         this.hadSet = false
         this.btnText = '开始'
-        this.$apply()
+        this.planTimes ++;
+        this.intimes = parseFloat(this.intimes)+ parseFloat((parseFloat(this.totalTime)/60).toFixed(2))
+        console.log('执行完',this.planId,this.planTimes,this.intimes)
         // 发送post请求发送数据
+        try {
+          var res = wx.getStorageSync('setTime')          
+          if(res){
+            res[this.planId] = {
+              id:this.planId,
+              times: this.planTimes,
+              hours: this.intimes
+            }
+            wx.setStorage({
+              key:'setTime',
+              data:res
+            })                         
+          }else{
+            console.log('jinru')
+            let arr = [];
+            arr[this.planId] = {
+              id:this.planId,
+              times: this.planTimes,
+              hours: this.intimes
+            }
+            console.log(arr)
+            wx.setStorage({
+              key:'setTime',
+              data:arr
+            })               
+          }              
+
+        } catch (e) {   
+        }        
+        this.$apply()
       }
     }
 
     onLoad(params) {
       // 没有传递计划ID，页面报错
-      if (!params.planId || !params.planTitle) return
+      if (params.planId == ''|| !params.planTitle) return
       this.planId = params.planId
       this.planTitle = params.planTitle
+      this.planTimes = params.planTimes
+      this.intimes = params.planHours      
       this.$apply()
     }
 
     onUnload() {
       console.log('页面隐藏，清除定时器')
       // clearInterval(timer)
+      
     }
   }
 </script>
 
 <style lang="less">
+  .ntimes{
+    font-size:20rpx;
+    color:#ccc
+  }
+  .test-breath{
+    width:20rpx;
+    height:20rpx;
+    border:1rpx solid #d61f26;
+    background:#d61f26;
+    border-radius:50%;
+    animation:breath 3s ease-in-out infinite
+  }
+  @keyframes breath {
+      from { opacity: .2; box-shadow:0 5rpx 50rpx rgba(255,255,255,0.1);}                         
+      50%  { opacity: 1; box-shadow:0 5rpx 50rpx rgba(255,255,255,1);}                          
+      to   { opacity: .2; box-shadow:0 5rpx 20rpx rgba(255,255,255,0.1);}                          
+  }  
   .wrap {
     display: flex;
     justify-content: space-around;

@@ -123,15 +123,8 @@ export const request = function(method, requestHandler, isShowLoading = true) {
 
 }
 
-// GET请求
-export const GET = function(requestHandler, isShowLoading) {
-  let datas = JSON.stringify(requestHandler)  
-  let setRequest = request(requestHandler, isShowLoading)
-  return setRequest
-}
-
-// POST请求
-export const POST = function(requestHandler, isShowLoading) {
-  return request('POST', requestHandler, isShowLoading)
+// 多methods请求
+export const httpRequest = function(requestHandler, isShowLoading) {
+  return request(requestHandler, isShowLoading)
 }
 

@@ -1,20 +1,8 @@
 <template>
   <view class="list-item">
-    <view class="header">
-      <view class="left">
-        <image src="{{ avatar }}"></image>
-        <text>{{ username }}</text>
-      </view>
-    </view>
-    <view class="main">
-      <text class="">{{ content }}</text>
+    <view class="main">      
       <image wx:if="{{ image }}" src="{{ image }}"></image>
-    </view>
-    <view class="footer">
-      <view class="like">{{ likes }} 赞</view>
-      <view class="right">
-        <text>{{ createtime }}</text>
-      </view>
+      <text class="cardTitle">{{ title }}</text>
     </view>
   </view>
 </template>
@@ -23,31 +11,11 @@
   import wepy from 'wepy'
   export default class ListItem extends wepy.component {
     props = {
-      id: {
-        type: Number,
-        default: 0
+      title: {
+        type: String,
+        default: ''
       },
       image: {
-        type: String,
-        default: ''
-      },
-      content: {
-        type: String,
-        default: ''
-      },
-      username: {
-        type: String,
-        default: ''
-      },
-      createtime: {
-        type: String,
-        default: ''
-      },
-      likes: {
-        type: Number,
-        default: 0
-      },
-      avatar: {
         type: String,
         default: ''
       }
@@ -68,33 +36,15 @@
   .list-item{
     padding: 0 30rpx;
     margin-bottom: 20rpx;
-    background-color: #fff;
-    .header{
-      display: flex;
-      justify-content: space-between;
-      font-size: 26rpx;
-      color: #666;
-      border-bottom: 1rpx solid #f3f3f3;
-      .left{
-        display: flex;
-        image, text{
-          display: block;
-          height: 60rpx;
-          line-height: 60rpx;
-        }
-        image{
-          margin: 10rpx 20rpx 10rpx 0;
-          height: 40rpx;
-          width: 40rpx;
-          border-radius: 100%;
-        }
-      }
-    }
+    background-color: #f0f0f0;
+    border-radius:4rpx;
+    padding-bottom:10rpx;
     .main{
+      margin-top:20rpx;
       text{
         font-weight: bold;
         font-size: 28rpx;
-        color: #000;
+        color: #666;
       }
       image{
         display: block;

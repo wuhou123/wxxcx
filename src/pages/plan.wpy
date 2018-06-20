@@ -21,6 +21,7 @@
 <script>
   import wepy from 'wepy'
   import ListItem from '@/components/plan/listitem'
+  import {formatTime } from '@/utils/util'
 
   export default class Plan extends wepy.page {
     config = {
@@ -30,28 +31,52 @@
     data = {
       planList: [
         {
-          id: 1,
+          id: 0,
           image: '/images/reading.png',
           title: '阅读',
           remark: '书籍并不是没有生命的东西，它包藏着一种生命的潜力，与作者同样地活跃。不仅如此，它还像一个宝瓶，把作者生机勃勃的智慧中最纯净的精华保存起来。',
           create_time: '2018年2月24日',
           times: 0,
-          hours: '5.22'
+          hours: 0
         },
         {
-          id: 2,
+          id: 1,
           image: '/images/reading.png',
           title: '运动',
           remark: '一定要每天运动三十分钟',
           create_time: '2018年2月24日',
-          times: 2,
-          hours: '2.22'
+          times: 0,
+          hours: 0
         }
       ]
     }
 
     components = {
       listitem: ListItem
+    }
+
+    onLoad() {
+      let res = wx.getStorageSync('onTimes')
+      if(!res){
+        wx.setStorage({
+        key:'onTimes',
+        data:true
+      })
+        this.planList.map((v) => v.create_time = formatTime(new Date()).slice(0, 3).join('-'))
+        this.$apply()
+      }      
+    }
+    
+    onShow() {
+      let res = wx.getStorageSync('setTime')
+      if(res){
+        res.map((val,index)=>{
+          if(val){
+            this.planList[val.id].times = val.times
+            this.planList[val.id].hours = val.hours
+          }
+        })
+      }
     }
   }
 </script>
