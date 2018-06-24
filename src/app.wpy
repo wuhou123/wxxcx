@@ -55,7 +55,7 @@ export default class extends wepy.app {
         },
         {
           pagePath: 'pages/ranking',
-          text: '榜单',
+          text: '影单',
           iconPath: 'images/tabbar/ranking.png',
           selectedIconPath: 'images/tabbar/ranking-on.png'
         },

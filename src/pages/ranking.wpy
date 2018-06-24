@@ -2,11 +2,11 @@
   <view class="wrap">
     <view class="typewrap">
       <view class="typebar">
-        <view class="{{ rank.typeId === '1' ? 'active' : '' }}" @tap="toggleType(1)">
-          <text>资产排行</text>
-        </view>
         <view class="{{ rank.typeId === '2' ? 'active' : '' }}" @tap="toggleType(2)">
-          <text>目标排行</text>
+          <text>即将上映</text>
+        </view>
+        <view class="{{ rank.typeId === '1' ? 'active' : '' }}" @tap="toggleType(1)">
+          <text>正在热映</text>
         </view>
       </view>
     </view>
@@ -15,12 +15,23 @@
     <view class="rankbox">
       <scroll-view>
         <repeat for="{{ rankList }}" key="index" index="index" item="item">
-          <view class="item" data-id="{{ item.id }}">
-            <view class="number">{{ index + 1 }}</view>
-            <image src="{{ item.image }}"></image>
-            <text class="name">{{ item.name }}</text>
-            <text class="val">{{ item.val }}</text>
-          </view>
+            <view class="list-item" wx:if={{!isShow}}>
+              <view class="main">      
+                <image wx:if="{{ item.img }}" src="{{ item.img }}" mode="widthFix"></image>
+                <text class="cardTitle">{{ item.t }}</text>
+                <text class="cardTitle">上映时间:{{item.rd}}</text>
+                <text class="cardTitle">{{item.commonSpecial}}</text>
+                <text class="cardTitle">评分:{{item.r}}</text>
+              </view>
+            </view>
+            <view class="list-item" wx:if={{isShow}}>
+              <view class="main">
+                <video id="myVideo" src = "{{item.videos[0].url}}" controls poster="{{item.videos[0].image}}"></video>
+                <text class="cardTitle">{{ item.title }}</text>
+                <text class="cardTitle">上映时间:{{item.releaseDate}}</text>
+                <text class="cardTitle">{{item.type}}</text>
+              </view>
+            </view>
         </repeat>
       </scroll-view>
     </view>
@@ -29,40 +40,18 @@
 
 <script>
   import wepy from 'wepy'
+  import {httpRequest,formatTime} from '../utils/util'
+
   export default class Ranking extends wepy.page {
     config = {
-      navigationBarTitleText: '榜单'
+      navigationBarTitleText: '影单'
     }
 
     data = {
-      rankList: [
-        {
-          id: 1,
-          image: '/images/reading.png',
-          name: '曦莫琅',
-          val: '100币'
-        },
-        {
-          id: 2,
-          image: '/images/reading.png',
-          name: '曦莫琅',
-          val: '100币'
-        },
-        {
-          id: 3,
-          image: '/images/reading.png',
-          name: '曦莫琅',
-          val: '100币'
-        },
-        {
-          id: 4,
-          image: '/images/reading.png',
-          name: '曦莫琅',
-          val: '100币'
-        }
-      ],
+      isShow:true,
+      rankList: [],
       rank: {
-        typeId: '1'
+        typeId: '2'
       }
     }
 
@@ -70,10 +59,48 @@
       toggleType(t) {
         if (t === '1' && this.rank.typeId === '2') {
           this.rank.typeId = t
+          this.isShow = false
         } else if (t === '2' && this.rank.typeId === '1') {
           this.rank.typeId = t
+          this.isShow = true
         }
+        this.methods.getList.call(this)
+      },
+      getList() {
+        let datas;
+        if(this.rank.typeId ==='1'){
+          datas = {
+            params:{    
+            },
+            url:"https://api-m.mtime.cn/Showtime/LocationMovies.api?locationId=292"
+          }
+        }else{
+          datas = {
+            params:{    
+            },
+            url:"https://api-m.mtime.cn/Movie/MovieComingNew.api?locationId=292"
+          }
+        }
+        httpRequest('get',datas,true).then((res)=>{
+          if(!res || res.length<0) return;
+          if(this.rank.typeId ==='1'){
+            this.rankList = res.slice(0,12)
+            this.rankList.map((v,i) => {
+              v.rd = `${v.rd.slice(0,4)}/${v.rd.slice(4,6)}/${v.rd.slice(6)}`
+            })
+          }else{
+            console.log(res.attention)
+            this.rankList = res.attention
+          }
+          this.$apply()
+        }).catch((error)=>{
+          console.log(error)
+        })
       }
+    }
+
+    onLoad(){
+      this.methods.getList.call(this)
     }
   }
 </script>
@@ -116,34 +143,29 @@
     }
   }
 
-  .rankbox{
-    padding: 0 30rpx;
-  }
-
-  .rankbox .item{
-    display: flex;
-    padding: 10rpx;
-    height: 60rpx;
-    border-bottom: 1rpx solid #f3f3f3;
-    text{
-      font-size: 28rpx;
-      line-height: 60rpx;
-    }
-    .number{
-      width: 100rpx;
-      text-align: center;
-    }
-    image{
-      display: block;
-      margin-right: 30rpx;
-      width: 60rpx;
-      height: 60rpx;
-    }
-    .name{
-      flex: 1;
-    }
-    .val{
-      padding: 0 20rpx;
+  .list-item{
+    padding:10rpx 30rpx;
+    margin-bottom: 20rpx;
+    background-color: #f0f0f0;
+    border-radius:4rpx;
+    padding-bottom:10rpx;
+    height:100%;
+    .main{
+      margin-top:20rpx;
+      height:100%;
+      text{
+        font-size: 26rpx;
+        color: #666;
+        display:block;
+        padding:5rpx 0
+      }
+      image{
+        display: block;
+        width: 100%;
+      }
+      video{
+        width:100%
+      }
     }
   }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <view class="list-item">
     <view class="main">      
-      <image wx:if="{{ image }}" src="{{ image }}"></image>
+      <image wx:if="{{ image }}" src="{{ image }}" mode="widthFix"></image>
       <text class="cardTitle">{{ title }}</text>
     </view>
   </view>
@@ -34,13 +34,15 @@
 
 <style lang="less">
   .list-item{
-    padding: 0 30rpx;
+    padding: 30rpx;
     margin-bottom: 20rpx;
     background-color: #f0f0f0;
     border-radius:4rpx;
     padding-bottom:10rpx;
+    height:100%;
     .main{
       margin-top:20rpx;
+      height:100%;
       text{
         font-weight: bold;
         font-size: 28rpx;
@@ -49,16 +51,6 @@
       image{
         display: block;
         width: 100%;
-      }
-    }
-    .footer{
-      display: flex;
-      justify-content: space-between;
-      font-size: 26rpx;
-      color: #666;
-      .like{
-        height: 50rpx;
-        line-height: 50rpx;
       }
     }
   }

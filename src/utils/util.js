@@ -98,8 +98,10 @@ export const request = function(method, requestHandler, isShowLoading = true) {
       success: function (res) {
         isShowLoading && wx.hideLoading && wx.hideLoading()
         // 解密
-        if (res.data.showapi_res_code==0) {
-          resolve(res.data.showapi_res_body)
+        if (res.data.showapi_res_code==0||res.data.lid||res.data.attention) {
+          if(res.data.showapi_res_code==0) resolve(res.data.showapi_res_body)
+          if(res.data.lid) resolve(res.data.ms)
+          if(res.data.attention) resolve(res.data)
         } else {
           reject(res.data.showapi_res_error)
           // throw new Error('Network request success but data state not success')
