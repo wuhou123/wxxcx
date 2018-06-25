@@ -17,40 +17,16 @@
     </view>
 
     <!-- 菜单列表 -->
-    <view class="menulist">
-      <view class="menuitem">
-        <view class="icon iconfont icon-jihua"></view>
-        <text>计划统计</text>
+    <view class="menulist">      
+      <repeat for="{{ meList }}" key="index" index="index" item="item">
+      <view class="menuitem" @tap="goTo({{item.path}})"> 
+        <view class="icon iconfont {{item.icon}}"></view>
+          <text>{{item.name}}</text>
       </view>
-      <view class="menuitem">
-        <view class="icon iconfont icon-zhangben"></view>
-        <text>账本统计</text>
-      </view>
-      <view class="menuitem">
-        <view class="icon iconfont icon-shezhi"></view>
-        <text>设置</text>
-      </view>
+      </repeat>
     </view>
 
-    <!-- 菜单列表 -->
-    <view class="menulist">
-      <view class="menuitem">
-        <view class="icon iconfont icon-shiyongshouce"></view>
-        <text>使用手册</text>
-      </view>
-      <view class="menuitem">
-        <view class="icon iconfont icon-yijianfankui"></view>
-        <text>意见反馈</text>
-      </view>
-      <view class="menuitem">
-        <view class="icon iconfont icon-gengxinrizhi"></view>
-        <text>更新日志</text>
-      </view>
-      <view class="menuitem">
-        <view class="icon iconfont icon-guanyu"></view>
-        <text>关于</text>
-      </view>
-    </view>
+
   </view>
 </template>
 
@@ -64,9 +40,43 @@
     data = {
       userInfo: {},
       assets: 12330,
-      hours: 120
+      hours: 120,
+      meList:[{
+        name:'计划统计',
+        path:'me-plan',
+        icon:'icon-jihua'
+      },{
+        name:'账本统计',
+        path:'me-plan',
+        icon:'icon-zhangben'
+      },{
+        name:'设置',
+        path:'me-plan',
+        icon:'icon-shezhi'
+      },{
+        name:'使用手册',
+        path:'me-plan',
+        icon:'icon-shiyongshouce'
+      },{
+        name:'意见反馈',
+        path:'me-plan',
+        icon:'icon-yijianfankui'
+      },{
+        name:'更新日志',
+        path:'me-plan',
+        icon:'icon-gengxinrizhi'
+      },{
+        name:'关于',
+        path:'./me/about',
+        icon:'icon-guanyu'
+      }]
     }
-
+    methods = {
+      goTo(path){
+        console.log(path)
+        this.$navigate(path)
+      }
+    }
     onLoad() {
       let self = this
       try {

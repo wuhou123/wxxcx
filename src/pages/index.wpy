@@ -110,7 +110,14 @@
     }
 
     onPullDownRefresh(){
-      console.log('顶部')
+     setTimeout(()=>{
+        wx.stopPullDownRefresh()
+        wx.showToast({
+          title:'已更新至最新',
+          icon:'none'
+        })
+     },1000)
+
     }
   }
 </script>

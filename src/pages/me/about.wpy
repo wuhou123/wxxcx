@@ -1,0 +1,48 @@
+<template>
+  <view class="wrap">
+    快乐生活,快乐随心!
+            --武侯
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import ListItem from '@/components/plan/listitem'
+  import {formatTime } from '@/utils/util'
+
+  export default class Plan extends wepy.page {
+    config = {
+      navigationBarTitleText: '关于'
+    }
+
+    data = {
+      planList: []
+    }
+
+
+    onLoad() {}
+    
+    onShow() {}
+  }
+</script>
+
+<style lang="less">
+  .wrap {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    .swiper {
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      swiper-item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60rpx;
+        box-sizing: border-box;
+      }
+    }
+  }
+</style>

@@ -19,7 +19,8 @@ export default class extends wepy.app {
       'pages/plan',
       'pages/plan/clock',
       'pages/bill',
-      'pages/me'
+      'pages/me',
+      'pages/me/about'
       // 子页面
     ],
     window: {
