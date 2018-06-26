@@ -48,11 +48,13 @@
     }
 
     data = {
+      storageDatas:[],
       isShow:true,
       rankList: [],
       rank: {
         typeId: '2'
-      }
+      },
+      pages:1
     }
 
     methods = {
@@ -84,7 +86,8 @@
         httpRequest('get',datas,true).then((res)=>{
           if(!res || res.length<0) return;
           if(this.rank.typeId ==='1'){
-            this.rankList = res.slice(0,12)
+            this.storageDatas = res
+            this.rankList = res.slice(0,10)
             this.rankList.map((v,i) => {
               v.rd = `${v.rd.slice(0,4)}/${v.rd.slice(4,6)}/${v.rd.slice(6)}`
             })
@@ -101,6 +104,16 @@
 
     onLoad(){
       this.methods.getList.call(this)
+    }
+
+    onReachBottom(){
+      if(this.pages<6) this.pages ++
+      let n = this.pages + 1
+      let arr = this.storageDatas.slice(this.pages*10,n*10)
+      arr.map((v,i)=>{
+        v.rd = `${v.rd.slice(0,4)}/${v.rd.slice(4,6)}/${v.rd.slice(6)}`
+      })
+      this.rankList = [...this.rankList,...arr]
     }
   }
 </script>
