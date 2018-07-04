@@ -1,49 +1,85 @@
 <template>
   <view class="wrap">
-    <view class="toparea">
-      <view class="left">
-        <text>资产</text>
-        <text>{{ assets }} 币</text>
-      </view>
-      <view class="center">
-        <image src="{{ userInfo.avatarUrl }}"></image>
-        <text>{{ userInfo.nickName }}</text>
-        <text>{{ userInfo.city?userInfo.city:userInfo.province }}</text>
-      </view>
-      <view class="right">
-        <text>计划</text>
-        <text>{{ hours }} h</text>
-      </view>      
+    <view class="container" >
+      <echarts  :ec="ec" />
     </view>
-
-    <!-- 菜单列表 -->
-    <view class="menulist">      
-      <repeat for="{{ meList }}" key="index" index="index" item="item">
-      <view class="menuitem" @tap="goTo({{item.path}})"> 
-        <view class="icon iconfont {{item.icon}}"></view>
-          <text>{{item.name}}</text>
-      </view>
-      </repeat>
-    </view>
-
-
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class Me extends wepy.page {
+  import Echarts from '../../components/echart';
+
+  export default class planT extends wepy.page {
     config = {
-      navigationBarTitleText: '我的'
+      navigationBarTitleText: '计划统计'
+    }
+
+    components = {
+      echarts: Echarts,
     }
 
     data = {
+        ec: {
+        option: {
+            backgroundColor: '#ffffff',
+            color: ['#37A2DA', '#FF9F7F'],
+            tooltip: {},
+            xAxis: {
+                show: false
+            },
+            yAxis: {
+                show: false
+            },
+            radar: {
+                // shape: 'circle',
+                indicator: [{
+                    name: '食品',
+                    max: 500
+                },
+                {
+                    name: '玩具',
+                    max: 500
+                },
+                {
+                    name: '服饰',
+                    max: 500
+                },
+                {
+                    name: '绘本',
+                    max: 500
+                },
+                {
+                    name: '医疗',
+                    max: 500
+                },
+                {
+                    name: '门票',
+                    max: 500
+                }
+                ]
+            },
+            series: [{
+                name: '预算 vs 开销',
+                type: 'radar',
+                data: [{
+                    value: [430, 340, 500, 300, 490, 400],
+                    name: '预算'
+                },
+                {
+                    value: [300, 430, 150, 300, 420, 250],
+                    name: '开销'
+                }
+                ]
+            }]
+        }
+    },
       userInfo: {},
       assets: 12330,
       hours: 120,
       meList:[{
         name:'计划统计',
-        path:'./me/planT',
+        path:'./me/playT',
         icon:'icon-jihua'
       },{
         name:'账本统计',
@@ -91,6 +127,18 @@
 </script>
 
 <style lang="less">
+.container {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    box-sizing:border-box;
+}
   .toparea{
     display: flex;
     align-items: baseline;

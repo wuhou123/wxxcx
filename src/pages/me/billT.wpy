@@ -1,49 +1,71 @@
 <template>
   <view class="wrap">
-    <view class="toparea">
-      <view class="left">
-        <text>资产</text>
-        <text>{{ assets }} 币</text>
-      </view>
-      <view class="center">
-        <image src="{{ userInfo.avatarUrl }}"></image>
-        <text>{{ userInfo.nickName }}</text>
-        <text>{{ userInfo.city?userInfo.city:userInfo.province }}</text>
-      </view>
-      <view class="right">
-        <text>计划</text>
-        <text>{{ hours }} h</text>
-      </view>      
+    <view class="container" >
+      <echarts  :ec="ec" />
     </view>
-
-    <!-- 菜单列表 -->
-    <view class="menulist">      
-      <repeat for="{{ meList }}" key="index" index="index" item="item">
-      <view class="menuitem" @tap="goTo({{item.path}})"> 
-        <view class="icon iconfont {{item.icon}}"></view>
-          <text>{{item.name}}</text>
-      </view>
-      </repeat>
-    </view>
-
-
   </view>
 </template>
 
 <script>
   import wepy from 'wepy'
-  export default class Me extends wepy.page {
+  import Echarts from '../../components/echart';
+
+  export default class billT extends wepy.page {
     config = {
-      navigationBarTitleText: '我的'
+      navigationBarTitleText: '账本统计'
+    }
+
+    components = {
+      echarts: Echarts,
     }
 
     data = {
+        ec: {
+        option: {
+            backgroundColor: "#ffffff",
+            color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
+            series: [{
+            label: {
+                normal: {
+                fontSize: 14
+                }
+            },
+            type: 'pie',
+            center: ['50%', '50%'],
+            radius: [0, '60%'],
+            data: [{
+                value: 55,
+                name: '北京'
+            }, {
+                value: 20,
+                name: '武汉'
+            }, {
+                value: 10,
+                name: '杭州'
+            }, {
+                value: 20,
+                name: '广州'
+            }, {
+                value: 38,
+                name: '上海'
+            },
+            ],
+            itemStyle: {
+                emphasis: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 2, 2, 0.3)'
+                }
+            }
+            }]
+        }
+    },
       userInfo: {},
       assets: 12330,
       hours: 120,
       meList:[{
         name:'计划统计',
-        path:'./me/planT',
+        path:'./me/playT',
         icon:'icon-jihua'
       },{
         name:'账本统计',
@@ -91,6 +113,18 @@
 </script>
 
 <style lang="less">
+.container {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:space-between;
+    box-sizing:border-box;
+}
   .toparea{
     display: flex;
     align-items: baseline;
