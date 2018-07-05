@@ -21,7 +21,7 @@
 
     data = {
         ec: {
-        option: {
+        option: {    
             backgroundColor: "#ffffff",
             color: ["#37A2DA", "#32C5E9", "#67E0E3", "#91F2DE", "#FFDB5C", "#FF9F7F"],
             series: [{
@@ -58,57 +58,11 @@
                 }
             }
             }]
-        }
+    }
     },
-      userInfo: {},
-      assets: 12330,
-      hours: 120,
-      meList:[{
-        name:'计划统计',
-        path:'./me/playT',
-        icon:'icon-jihua'
-      },{
-        name:'账本统计',
-        path:'./me/billT',
-        icon:'icon-zhangben'
-      },{
-        name:'设置',
-        path:'me-plan',
-        icon:'icon-shezhi'
-      },{
-        name:'使用手册',
-        path:'me-plan',
-        icon:'icon-shiyongshouce'
-      },{
-        name:'意见反馈',
-        path:'me-plan',
-        icon:'icon-yijianfankui'
-      },{
-        name:'更新日志',
-        path:'me-plan',
-        icon:'icon-gengxinrizhi'
-      },{
-        name:'关于',
-        path:'./me/about',
-        icon:'icon-guanyu'
-      }]
     }
-    methods = {
-      goTo(path){
-        console.log(path)
-        this.$navigate(path)
-      }
-    }
-    onLoad() {
-      let self = this
-      try {
-        var res = wx.getStorageSync('user')        
-        if(res) this.userInfo = res;        
-        self.$apply()
-      } catch (e) {
-        this.userInfo.nickName = '未获取';
-      }      
-    }
+    methods = {}
+    onLoad() {}
   }
 </script>
 
@@ -125,71 +79,4 @@
     justify-content:space-between;
     box-sizing:border-box;
 }
-  .toparea{
-    display: flex;
-    align-items: baseline;
-    text-align: center;
-    padding: 50rpx 0;
-    margin-bottom: 20rpx;
-    background-color: #138cff;
-    text{
-      display: block;
-      font-size: 26rpx;
-      color: #fff;
-    }
-  }
-  .left, .right{
-    width: 25%;
-    text:last-child{
-      margin-top: 10rpx;
-      font-size: 28rpx;
-      font-weight: bold;
-      color: #fff;
-    }
-  }
-  .center{
-    flex: 1;
-    image{
-      display: block;
-      width: 100rpx;
-      height: 100rpx;
-      margin: 0 auto 30rpx auto;
-      border-radius: 100%;
-      border: 1rpx solid #f8f8f8;
-    }
-    text:last-child{
-      margin-top: 10rpx;
-      font-size: 28rpx;
-      font-weight: bold;
-    }
-  }
-
-  .menulist{
-    margin-bottom: 20rpx;
-    background-color: #fff;
-    .menuitem{
-      display: flex;
-      padding: 30rpx;
-      transition: background-color 0.3s;
-      .icon{
-        margin-right: 20rpx;
-        width: 50rpx;
-        height: 50rpx;
-        text-align: center;
-        line-height:50rpx;
-        color:#138cff
-      }
-      text{
-        flex: 1;
-        display: block;
-        height: 50rpx;
-        line-height: 50rpx;
-        font-size: 26rpx;
-        color: #666;
-      }
-    }
-    .menuitem:active{
-      background-color: #f8f8f8;
-    }
-  }
 </style>
