@@ -34,20 +34,11 @@
             center: ['50%', '50%'],
             radius: [0, '60%'],
             data: [{
-                value: 55,
-                name: '北京'
+                value: 20,
+                name: '收入'
             }, {
                 value: 20,
-                name: '武汉'
-            }, {
-                value: 10,
-                name: '杭州'
-            }, {
-                value: 20,
-                name: '广州'
-            }, {
-                value: 38,
-                name: '上海'
+                name: '支出'
             },
             ],
             itemStyle: {
@@ -62,7 +53,25 @@
     },
     }
     methods = {}
-    onLoad() {}
+    onLoad() {
+        let ref = wx.getStorageSync('payList')
+        console.log(this.ec.option)
+        if(ref){
+            let get = 0,out = 0;
+            ref.map(v=>{
+                if(v.getmoney) get += parseFloat(v.getmoney)
+                if(v.money) out += parseFloat(v.money)
+            })
+            this.ec.option.series[0].data[0].value = get>0?get:10
+            this.ec.option.series[0].data[1].value = out>0?out:10
+
+            this.ec.option.series[0].data[0].name = `收入${Math.round(get/(get+out)*100)}%`
+            this.ec.option.series[0].data[1].name = `支出${Math.round(out/(get+out)*100)}%`
+        }else{
+            this.ec.option.series[0].data[0].name = `无数据 `
+            this.ec.option.series[0].data[1].name = `无数据`
+        }
+    }
   }
 </script>
 

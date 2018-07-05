@@ -39,8 +39,8 @@
 
     data = {
       userInfo: {},
-      assets: 12330,
-      hours: 120,
+      assets: 0,
+      hours: 0,
       meList:[{
         name:'计划统计',
         path:'./me/planT',
@@ -85,7 +85,26 @@
         self.$apply()
       } catch (e) {
         this.userInfo.nickName = '未获取';
-      }      
+      }
+
+      let ref = wx.getStorageSync('payList')
+      if(ref){
+          let get = 0,out = 0;
+          ref.map(v=>{
+              if(v.getmoney) get += parseFloat(v.getmoney)
+              if(v.money) out += parseFloat(v.money)
+          })
+          this.assets = get + out
+      }
+      let ags = wx.getStorageSync('setTime')
+      if(ags){
+        let add = 0 
+        ags.map(v=>{
+          add += parseFloat(v.hours)
+        })
+        this.hours = add
+      }
+
     }
   }
 </script>
