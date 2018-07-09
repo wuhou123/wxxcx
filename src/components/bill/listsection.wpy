@@ -39,8 +39,8 @@
 
     onLoad(){
       setTimeout(()=>{
+        console.log(this.item.day)
         if(this.item) this.week = new Date(this.item.day).getWeek();
-
         this.$apply()        
       })
     }
