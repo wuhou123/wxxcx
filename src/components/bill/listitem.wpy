@@ -3,7 +3,7 @@
     <i class="iconfont icon-{{ obj.cateType }}"></i>
     <text class="title">{{ obj.title }}</text>
     <text class="mount" wx:if="{{obj.money}}">{{'-'+ obj.money }}</text>
-    <text class="mount" wx:if="{{obj.getmoney}}">{{'+'+ obj.getmoney }}</text>
+    <text class="getmount" wx:if="{{obj.getmoney}}">{{'+'+ obj.getmoney }}</text>
   </view>
 </template>
 
@@ -51,6 +51,12 @@
       width:30rpx;
       padding-right:10rpx;
 
+    }
+    .mount{
+      color:#EE6363
+    }
+    .getmount{
+      color:#76EE00
     }
   }
 </style>

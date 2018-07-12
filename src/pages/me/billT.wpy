@@ -65,8 +65,8 @@
             this.ec.option.series[0].data[0].value = get>0?get:10
             this.ec.option.series[0].data[1].value = out>0?out:10
 
-            this.ec.option.series[0].data[0].name = `收入${Math.round(get/(get+out)*100)}%`
-            this.ec.option.series[0].data[1].name = `支出${Math.round(out/(get+out)*100)}%`
+            this.ec.option.series[0].data[0].name = `收入${Math.round(get/(get+out)*100)}%(${get})`
+            this.ec.option.series[0].data[1].name = `支出${Math.round(out/(get+out)*100)}%(${out})`
         }else{
             this.ec.option.series[0].data[0].name = `无数据 `
             this.ec.option.series[0].data[1].name = `无数据`

@@ -23,12 +23,12 @@
 
     <!-- 滚动区域 -->
     <scroll-view class="scroll-view" scroll-y style="height:{{ scrollHeight }}px">
-      <view class="list-wrap">
+      <view class="list-wrap" wx:if='{{detailList.list.length>0}}'>
         <repeat for="{{ detailList.list }}" key="index" index="index" item="item">
           <listsection :item="item"></listsection>
         </repeat>
       </view>
-      <view wx:if='{{detailList.list.length==0}}' style="width:100%;height:100%">
+      <view style="width:100%;height:100%" wx:else>
         <image src="../images/nodatas.png" style="height:100%;width:100%"/></image>
       </view>
     </scroll-view>
@@ -130,7 +130,8 @@
                   day:getDay,
                   income:null,
                   pay:null,
-                  list:[]
+                  list:[],
+                  week:new Date(getDay).getWeek()
                 }
               }
               let adds = v.getmoney?v.getmoney:0

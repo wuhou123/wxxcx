@@ -3,7 +3,7 @@
     <view class="header">
       <view class="left">
         <text>{{ item.day }}</text>
-        <text>{{ week }}</text> 
+        <text>{{ item.week }}</text> 
       </view>
       <view class="right">
         <text>收入：{{ item.income }}</text>
@@ -29,21 +29,16 @@
       }
     }
     data = {
-      week:''
     }
 
     components = {
       listitem: ListItem
     }
 
+    methods = {
 
-    onLoad(){
-      setTimeout(()=>{
-        console.log(this.item.day)
-        if(this.item) this.week = new Date(this.item.day).getWeek();
-        this.$apply()        
-      })
     }
+    onLoad(){}
   }
 </script>
 

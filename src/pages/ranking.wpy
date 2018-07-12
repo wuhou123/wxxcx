@@ -15,7 +15,7 @@
     <view class="rankbox">
       <scroll-view>
         <repeat for="{{ rankList }}" key="index" index="index" item="item">
-            <view class="list-item" wx:if={{!isShow}}>
+            <view class="list-item" wx:if="{{!isShow}}">
               <view class="main">      
                 <image wx:if="{{ item.img }}" src="{{ item.img }}" mode="widthFix"></image>
                 <text class="cardTitle">{{ item.t }}</text>
@@ -24,7 +24,7 @@
                 <text class="cardTitle">评分:{{item.r}}</text>
               </view>
             </view>
-            <view class="list-item" wx:if={{isShow}}>
+            <view class="list-item" wx:else>
               <view class="main">
                 <video id="myVideo" src = "{{item.videos[0].url}}" controls poster="{{item.videos[0].image}}"></video>
                 <text class="cardTitle">{{ item.title }}</text>
@@ -118,7 +118,7 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .typewrap{
     padding: 30rpx 0;
   }
