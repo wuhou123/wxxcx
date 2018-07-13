@@ -63,8 +63,8 @@
       form: {
         cateType: '',
         cateId: '',
-        money:0,
-        getmoney:0,
+        money:null,
+        getmoney:null,
         remark: '',
         getDate:'',
         title:''
@@ -83,13 +83,13 @@
           this.cateList = payCateList
           this.form.cateType = ''
           this.form.cateId = ''
-          this.form.getmoney = 0
+          this.form.getmoney = null
         } else if (t === '2' && this.bill.typeId === '1') {
           this.bill.typeId = t
           this.cateList = incomeCateList
           this.form.cateType = ''
           this.form.cateId = ''
-          this.form.money = 0
+          this.form.money = null
         }
       },
 
@@ -190,7 +190,7 @@
   }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
   .money{
     position:relative
   }

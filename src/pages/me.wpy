@@ -50,9 +50,9 @@
         path:'./me/billT',
         icon:'icon-zhangben'
       },{
-        name:'设置',
-        path:'me-plan',
-        icon:'icon-shezhi'
+        name:'快递查询',
+        path:'./express/express',
+        icon:'icon-kuaidi'
       },{
         name:'使用手册',
         path:'me-plan',

@@ -1,0 +1,265 @@
+<template>
+    <view class="container">
+    <view class="express-img-wrap">
+        <image class='express-img' src='../../images/express.png'></image>
+    </view>
+        <!--快递入口-->
+    <view class="express-input-wrap iconfont icon-search">
+        <input bindblur="searchExpress"  class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
+        <view catchtap='scanExpressCode' class="scan-code iconfont icon-saoma"></view>
+    </view>
+        <!--历史记录-->
+        <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
+            <view class='info-wrap'>
+                <view class="company">{{ item.company }}</view>
+                <view class="number">{{ item.nubmer }}</view>
+            </view>
+            <view class="last-info-wrap">
+                <view class="time">{{ item.traces.acceptTime }}</view>
+                <view class="content">{{ item.traces.acceptStation }}</view>
+            </view>
+            <view wx:if="{{ item.traces.phone }}" catchtap='call' class="phone iconfont icon-dianhua1" data-phone="{{ item.traces.phone }}"></view>
+            <view class="delete iconfont icon-lajitong_kuai" data-index="{{ index }}" catchtap='delete'></view>
+        </view>
+    </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  import {formatTime } from '@/utils/util'
+
+  export default class express extends wepy.page {
+    config = {
+        navigationBarTitleText: '快递查询'
+    }
+
+    data = {
+        baseUrl: "https://qf-restapi.mdscj.com/xp_express",
+        getExpressType : "/logistics/company/list",
+        getExpressMessage : "/logistics/search",
+        getExpressAllType : "/logistics/company-by-sort",
+        geMessageNoType : "/logistics/query",
+        geMessageMD : "/logistics/query-product-logisticsno",
+        hotMatch : "/logistics/query-company-quickly",
+        getExpressBy100 : "/kuaidi100/query",
+        getCompanyBy100 : "/kuaidi100/query-company-quickly",
+        expressValue:'',
+        delStatus:false,
+        chosseIndex:-1,
+        history:[]
+    }
+
+    methods = {
+        inputExpress (e) {
+            // console.log(e)
+            let val = e.detail.value.trim()
+            if (val !== '') {
+                val = val.replace(/<\/?[^>]*>/g, '')
+            }
+            this.expressValue = val
+        },
+        /**
+        * 搜索快递单号
+        */
+        searchExpress () {
+            let number = this.expressValue
+            number = number.replace(/\s+/g, '')
+            if (number.length === 0) return
+            wx.navigateTo({
+                url: '../expressJump/expressJump?number=' + number
+            })
+        },
+        /**
+        * 调用微信扫码
+        */
+        scanExpressCode () {
+            let that = this
+            wx.scanCode({
+            success (res) {
+                this.expressValue = res.result
+                this.$apply()
+                that.searchExpress()
+            }
+            })
+        },
+        /**
+        * 打电话
+        * @param e
+        */
+        call (e) {
+            wx.makePhoneCall({
+                phoneNumber: e.currentTarget.dataset.phone
+            })
+        },
+        /**
+        * 查询详细内容
+        * @param e
+        */
+        goToExpress (e) {
+            console.log(e)
+            let number = e.currentTarget.dataset.number
+            wx.navigateTo({
+                url: '../expressJump/expressJump?number=' + number
+            })
+        },
+        /**
+        * 删除记录
+        */
+        delete (e) {
+            let that = this
+            if (this.delStatus) return
+            this.delStatus = true
+            let index = e.currentTarget.dataset.index
+            let history = this.data.history
+            this.chosseIndex = index
+
+            setTimeout(function () {
+                history.splice(index, 1)
+                wx.setStorageSync('saveList', history)
+                that.history = wx.getStorageSync('saveList')
+                that.delStatus = false
+                that.chosseIndex = -1
+                that.$apply()
+            }, 1200)
+        }
+    }
+    onLoad() {}
+    
+    onShow() {
+        this.history = wx.getStorageSync('saveList')
+        this.$apply()
+    }
+  }
+</script>
+
+<style lang="less" scoped>
+.scan-code{
+    margin-right: 20rpx;
+    width: 80rpx;
+    height: 80rpx;
+    text-align: center;
+    line-height:50rpx;
+    color:#138cff;
+    font-size:24px   
+}
+page {
+  background-color: #fff;
+  //background-image: linear-gradient(#7FC06E, #fff, #fff);
+}
+.express-img-wrap {
+  height: 200rpx;
+  background-image: linear-gradient(#138cff, #fff);
+}
+.express-img {
+  width: 200rpx;
+  height: 200rpx;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.express-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //margin-top: 210rpx;
+  //background-image: linear-gradient(#7FC06E, #fff);
+  height: 100rpx;
+  //border-bottom: 4rpx solid #7FC06E;
+  .express-input {
+    width: 60%;
+    //transform: ;
+    line-height: 60rpx;
+    font-size: 26rpx;
+    padding: 0 40rpx;
+    //padding-left: rpx;
+    border: 4rpx solid #999;
+    border-radius: 30rpx;
+  }
+}
+.express-input-wrap::before {
+  transform: translatex(40rpx);
+  //line-height: 60rpx;
+  color: #999;
+}
+.icon-saoma {
+  height: 80rpx;
+  transform: translate(10rpx, 12rpx);
+  position: relative;
+  z-index: 999;
+}
+.icon-saoma::before {
+  font-size: 50rpx;
+  color: #999;
+}
+.del {
+  animation: dl 1s forwards;
+  //margin: 0;
+}
+@keyframes dl {
+  0% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-100rpx, 0);
+  }
+  100% {
+    transform: translate(1000rpx, -50rpx);
+    opacity:0
+  }
+}
+.history {
+  padding: 20rpx 10rpx;
+  box-sizing: border-box;
+  //background-color: #f00;
+  //width: 100%;
+  height: 150rpx;
+  margin: 0rpx 10rpx;
+  margin-bottom: 20rpx;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1rpx solid #138cff;
+  border-radius: 20rpx;
+  box-shadow: 4rpx -2rpx 4rpx #ccc;
+  .info-wrap {
+    display: flex;
+    width: 180rpx;
+    flex-direction: column;
+    text-align: left;
+    margin-right: 5rpx;
+    .company {
+      font-size: 30rpx;
+    }
+    .number {
+      font-size: 24rpx;
+    }
+  }
+  .last-info-wrap {
+    font-size: 24rpx;
+    color:#666
+  }
+  .phone {
+    font-size: 40rpx;
+    //transform: translateY(-10rpx);
+  }
+  .delete {
+    width:40rpx;
+    height:40rpx;
+    position: absolute;
+    top: 5rpx;
+    right: 20rpx;
+    border: 1rpx solid #ccc;
+    border-radius: 10rpx;
+    padding: 5rpx 5rpx 5rpx 8rpx;
+    background: #63B8FF;
+    color:#CD5555;
+    font-size:16px
+  }
+}
+.time{
+    padding:15rpx 0 0
+}
+</style>

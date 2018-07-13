@@ -34,7 +34,7 @@
             radar: {
                 // shape: 'circle',
                 indicator: [{
-                    name: '读书',
+                    name: '阅读',
                     max: 500
                 },
                 {
@@ -67,7 +67,7 @@
                     name: '计划'
                 },
                 {
-                    value: [30, 430, 150, 500, 420, 250],
+                    value: [50, 50, 50, 50, 50, 50],
                     name: '实际'
                 }
                 ]
@@ -90,13 +90,11 @@
     onLoad() {
       let ref = wx.getStorageSync('setTime')
       if(ref){
-        this.ec.option.series[0].data[0].value[0] = ref[0].hours
-        this.ec.option.series[0].data[1].value[1] = ref[1].hours
+        ref.map((v,index) => {
+          this.ec.option.series[0].data[index].value[index] = v.hours
+        })
       }else{
-        this.methods.showTitle('还没计划额')
-        setTimeout(()=>{
-          this.methods.showTitle('计划完成后可看到变化')
-        },2000)
+        this.methods.showTitle('还没计划额,计划完成后可看到变化')
       }
     }
   }

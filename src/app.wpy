@@ -22,7 +22,9 @@ export default class extends wepy.app {
       'pages/me',
       'pages/me/about',
       'pages/me/planT',
-      'pages/me/billT'
+      'pages/me/billT',
+      'pages/express/express',
+      'pages/expressJump/expressJump'
       // 子页面
     ],
     window: {

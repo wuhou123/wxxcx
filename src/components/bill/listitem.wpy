@@ -2,6 +2,7 @@
   <view class="listitem">
     <i class="iconfont icon-{{ obj.cateType }}"></i>
     <text class="title">{{ obj.title }}</text>
+    <text class="description" wx:if="{{obj.remark}}">备注:{{ obj.remark }}</text>
     <text class="mount" wx:if="{{obj.money}}">{{'-'+ obj.money }}</text>
     <text class="getmount" wx:if="{{obj.getmoney}}">{{'+'+ obj.getmoney }}</text>
   </view>
@@ -46,11 +47,16 @@
     .title{
       flex: 1;
     }
+    .description{
+      color: #666;
+      font-size: 22rpx;
+      margin-right: 30rpx;
+      font-style: italic
+    }
     .iconfont{
       line-height:60rpx;
       width:30rpx;
       padding-right:10rpx;
-
     }
     .mount{
       color:#EE6363
