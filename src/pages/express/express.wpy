@@ -253,13 +253,13 @@ page {
     right: 20rpx;
     border: 1rpx solid #ccc;
     border-radius: 10rpx;
-    padding: 5rpx 5rpx 5rpx 8rpx;
+    padding: 5rpx 5rpx 5rpx 12rpx;
     background: #63B8FF;
     color:#CD5555;
     font-size:16px
   }
 }
 .time{
-    padding:15rpx 0 0
+    padding:24rpx 0 0
 }
 </style>
