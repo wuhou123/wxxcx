@@ -1,7 +1,7 @@
 <template>
   <view class="wrap">
-    <canvas canvas-id="shareCanvas" style="width:100vw;height:90vh"></canvas>
-    <button class='more' bindtap='save'>保存图片</button>
+    <canvas canvas-id="shareCanvas" style="width:750rpx;height:940rpx"></canvas>
+    <button class='more' bindtap='save' type='primary' size='mini'>保存图片</button>
   </view>
 </template>
 
@@ -13,51 +13,102 @@
     }
 
     data = {
-        screenWidth:'',
-        saveImgPath:''
+        screenWidth:{},
+        saveImgPath:'',
+        userInfo:{}
     }
     methods = {
+        setCanvasSize(){
+            var size = {};
+            try {
+            var res = wx.getSystemInfoSync();
+            var scale = 750;//画布宽度
+            var scaleH = 940 / 750;//生成图片的宽高比例
+            var width = res.windowWidth;//画布宽度
+            var height = res.windowWidth * scaleH;//画布的高度
+            size.w = width;
+            size.h = height;
+            } catch (e) {
+                console.log("获取设备信息失败" + e);
+            }
+            this.screenWidth = size
+            this.$apply()
+        },
+        settextFir(context,size){
+            let that = this;
+            var textFir = "发了一只猫";
+            console.log(textFir);
+            context.setFontSize(24);
+            context.setTextAlign("center");
+            context.setFillStyle("#fee6b5");
+            console.log(size)
+            context.fillText(textFir, size.w / 2, size.h * 0.25);
+            context.stroke();
+        },
+        settextSec(context,size){
+            let that = this;
+            var textSec = "长按识别小程序，领取小猫";
+            context.setFontSize(14);
+            context.setTextAlign("center");
+            context.setFillStyle("#fee6b5");
+            context.fillText(textSec, size.w / 2, size.h * 0.88);
+            context.stroke();
+        },
         saveImageToPhotosAlbum(){
             var that = this;
             //设置画板显示，才能开始绘图
-            var unit = that.data.screenWidth / 375
-            var path1 = "../../images/shares2.jpg"
-            var path2 = "../../images/shareForsm.png"
-            var context = wx.createCanvasContext('shareCanvas')
-            let user = wx.getStorageSync('user') || ''
-            let userName = user.nickName || '猫新人'
-            var wxappName = userName + "使用武侯的猫打卡啦"
-            context.drawImage(path1, 0, 0, unit * 375, unit * 462.5)
-            //   context.drawImage(path4, unit * 164, unit * 40, unit * 50, unit * 50)
-             context.drawImage(path2, unit * 0, unit * 0, unit * 375, unit * 100)
-            //   context.drawImage(path4, 48, 200, 280, 128)
-            context.setFontSize(14)
-            context.setFillStyle("#fff")
-            context.fillText("长按识别小程序", unit * 140, unit * 428)
-            context.fillText(wxappName, unit * 100, unit * 448)
-            //把画板内容绘制成图片，并回调 画板图片路径
-            context.draw(false, function () {
-                wx.canvasToTempFilePath({
-                    x: 0,
-                    y: 0,
-                    width: unit * 375,
-                    height: unit * 462.5,
-                    destWidth: unit * 375,
-                    destHeight: unit * 462.5,
-                    canvasId: 'shareCanvas',
-                    success: function (res) {
-                        if (!res.tempFilePath) {
-                            wx.showModal({
-                                title: '提示',
-                                content: '图片绘制中，请稍后重试',
-                                showCancel: false
-                            })
-                        }
-                        that.saveImgPath = res.tempFilePath
-                        that.$apply()
-                    }
-                })
-            });            
+            //新生成适配
+            var size = this.screenWidth;
+            var context = wx.createCanvasContext('shareCanvas');
+            //获取头像信息
+            var path = "../../images/hb.jpg";
+            var imageTx = wx.getStorageSync('user').avatarUrl || '../../images/tabbar/me-on.png';
+            console.log(wx.getStorageSync('user').avatarUrl)
+            var imageEwm = "../../images/shareForsm.png";
+            var imageZw = "../../images/zw.jpg";
+            wx.getImageInfo({
+                src:imageTx,
+                success(res){
+                    //处理图片
+                    context.drawImage(path, 0, 0, size.w, size.h);                    
+                    context.drawImage(imageEwm, size.w / 2 - 60, size.h * 0.32, size.w * 0.33, size.w * 0.33);                    
+                    that.methods.settextFir(context,size);
+                    that.methods.settextSec(context,size);
+                    //测试圆形
+                    context.save() //保存之前操作
+                    var r = size.w * 0.14/2
+                    var cx = size.w / 2 - 25 + r
+                    var cy = size.h * 0.02 + r
+                    context.arc(cx, cy, r, 0, 2 * Math.PI)
+                    context.clip()                    
+                    context.drawImage(res.path, size.w / 2 - 25, size.h * 0.02, size.w * 0.14, size.w * 0.14);
+                    context.restore() //还原画布坐标等
+                    //圆形图片可行
+                    var cy1 = size.h * 0.7 + r
+                    context.arc(cx, cy1, r, 0, 2 * Math.PI)
+                    context.clip()
+                    context.drawImage(imageZw, size.w / 2 - 25, size.h * 0.7, size.w * 0.14, size.w * 0.14);
+                    //把画板内容绘制成图片，并回调 画板图片路径
+                    context.draw(false, function () {
+                        wx.canvasToTempFilePath({
+                            canvasId: 'shareCanvas',
+                            success: function (res) {
+                                if (!res.tempFilePath) {
+                                    wx.showModal({
+                                        title: '提示',
+                                        content: '图片绘制中，请稍后重试',
+                                        showCancel: false
+                                    })
+                                }
+                                that.saveImgPath = res.tempFilePath
+                                that.$apply()
+                            }
+                        })
+                    });
+                    //处理end
+                }
+            })
+            
         },
         save(){
             wx.showLoading({
@@ -68,9 +119,11 @@
                 filePath: this.saveImgPath,
                 //保存成功失败之后，都要隐藏画板，否则影响界面显示。
                 success: (res) => {
+                    console.log(res)
                     wx.hideLoading()
                 },
                 fail: (err) => {
+                    console.log(err)
                     wx.hideLoading()
                 }
             })
@@ -78,19 +131,16 @@
     }
     onLoad() {
         //获取用户设备信息，屏幕宽度
-        wx.getSystemInfo({
-            success: res => {
-                this.screenWidth = res.screenWidth
-                this.$apply()
-            }
-        })
-        this.methods.saveImageToPhotosAlbum.call(this)
+        this.methods.setCanvasSize.call(this)
+        this.methods.saveImageToPhotosAlbum.call(this)        
     }
 
     onShow(){}
   }
 </script>
 
-<style lang="less">
-
+<style lang="less" scoped>
+.wrap{
+    text-align:center
+}
 </style>

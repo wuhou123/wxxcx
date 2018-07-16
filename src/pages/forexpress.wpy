@@ -151,8 +151,19 @@
                 data:e.detail.userInfo
             })
             }        
+        },
+        onShareAppMessage(){
+            return {
+                title:'武侯的猫',
+                path:'pages/forexpress',
+                success(res){
+                    console.log(res)
+                },
+                fail(res){
+                    console.log(res)
+                }
+            }
         }
-
     }
     onLoad() {}
     

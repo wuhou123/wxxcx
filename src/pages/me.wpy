@@ -52,11 +52,11 @@
       },{
         name:'开心猫',
         path:'./index/index',
-        icon:'icon-CAT_huaban'
+        icon:'icon-lanmao'
       },{
-        name:'分享',
+        name:'分享猫',
         path:'./share/share',
-        icon:'icon-shiyongshouce'
+        icon:'icon-fenxiang'
       },{
         name:'意见反馈',
         path:'contact',
