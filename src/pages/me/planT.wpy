@@ -91,7 +91,7 @@
       let ref = wx.getStorageSync('setTime')
       if(ref){
         ref.map((v,index) => {
-          this.ec.option.series[0].data[index].value[index] = v.hours
+          this.ec.option.series[1].data[index].value[index] = v.hours
         })
       }else{
         this.methods.showTitle('还没计划额,计划完成后可看到变化')

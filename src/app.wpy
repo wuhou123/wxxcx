@@ -13,7 +13,7 @@ import 'wepy-async-function'
 export default class extends wepy.app {
   config = {
     pages: [
-      'pages/index',
+      'pages/forexpress',
       'pages/ranking',
       'pages/bill/addone',
       'pages/plan',
@@ -23,8 +23,9 @@ export default class extends wepy.app {
       'pages/me/about',
       'pages/me/planT',
       'pages/me/billT',
-      'pages/express/express',
-      'pages/expressJump/expressJump'
+      'pages/index/index',
+      'pages/expressJump/expressJump',
+      'pages/share/share'
       // 子页面
     ],
     window: {
@@ -53,8 +54,8 @@ export default class extends wepy.app {
           selectedIconPath: 'images/tabbar/bill-on.png'
         },
         {
-          pagePath: 'pages/index',
-          text: '圈子',
+          pagePath: 'pages/forexpress',
+          text: '快递',
           iconPath: 'images/tabbar/index.png',
           selectedIconPath: 'images/tabbar/index-on.png'
         },

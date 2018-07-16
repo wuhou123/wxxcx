@@ -1,0 +1,96 @@
+<template>
+  <view class="wrap">
+    <canvas canvas-id="shareCanvas" style="width:100vw;height:90vh"></canvas>
+    <button class='more' bindtap='save'>保存图片</button>
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  export default class Share extends wepy.page {
+    config = {
+      navigationBarTitleText: '分享'
+    }
+
+    data = {
+        screenWidth:'',
+        saveImgPath:''
+    }
+    methods = {
+        saveImageToPhotosAlbum(){
+            var that = this;
+            //设置画板显示，才能开始绘图
+            var unit = that.data.screenWidth / 375
+            var path1 = "../../images/shares2.jpg"
+            var path2 = "../../images/shareForsm.png"
+            var context = wx.createCanvasContext('shareCanvas')
+            let user = wx.getStorageSync('user') || ''
+            let userName = user.nickName || '猫新人'
+            var wxappName = userName + "使用武侯的猫打卡啦"
+            context.drawImage(path1, 0, 0, unit * 375, unit * 462.5)
+            //   context.drawImage(path4, unit * 164, unit * 40, unit * 50, unit * 50)
+             context.drawImage(path2, unit * 0, unit * 0, unit * 375, unit * 100)
+            //   context.drawImage(path4, 48, 200, 280, 128)
+            context.setFontSize(14)
+            context.setFillStyle("#fff")
+            context.fillText("长按识别小程序", unit * 140, unit * 428)
+            context.fillText(wxappName, unit * 100, unit * 448)
+            //把画板内容绘制成图片，并回调 画板图片路径
+            context.draw(false, function () {
+                wx.canvasToTempFilePath({
+                    x: 0,
+                    y: 0,
+                    width: unit * 375,
+                    height: unit * 462.5,
+                    destWidth: unit * 375,
+                    destHeight: unit * 462.5,
+                    canvasId: 'shareCanvas',
+                    success: function (res) {
+                        if (!res.tempFilePath) {
+                            wx.showModal({
+                                title: '提示',
+                                content: '图片绘制中，请稍后重试',
+                                showCancel: false
+                            })
+                        }
+                        that.saveImgPath = res.tempFilePath
+                        that.$apply()
+                    }
+                })
+            });            
+        },
+        save(){
+            wx.showLoading({
+                title: '保存中...',
+            })
+            //画板路径保存成功后，调用方法吧图片保存到用户相册
+            wx.saveImageToPhotosAlbum({
+                filePath: this.saveImgPath,
+                //保存成功失败之后，都要隐藏画板，否则影响界面显示。
+                success: (res) => {
+                    wx.hideLoading()
+                },
+                fail: (err) => {
+                    wx.hideLoading()
+                }
+            })
+        }
+    }
+    onLoad() {
+        //获取用户设备信息，屏幕宽度
+        wx.getSystemInfo({
+            success: res => {
+                this.screenWidth = res.screenWidth
+                this.$apply()
+            }
+        })
+        this.methods.saveImageToPhotosAlbum.call(this)
+    }
+
+    onShow(){}
+  }
+</script>
+
+<style lang="less">
+
+</style>

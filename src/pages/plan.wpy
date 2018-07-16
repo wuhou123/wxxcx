@@ -130,18 +130,16 @@
 
     onLoad(){
       let res = wx.getStorageSync('onTimes')
-      console.log(res)
       if(!res){
         wx.setStorage({
         key:'onTimes',
         data:formatTime(new Date()).slice(0, 3).join('-')
       })
         this.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${formatTime(new Date()).slice(0, 3).join('-')}`)
-        this.$apply()
       }else{
         this.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${res}`)
-        this.$apply()
-      }       
+      }
+      this.$apply()      
     }
 
     onShow(){
@@ -297,6 +295,8 @@
 .card_wrap .card_item {
   position: absolute;
   width: 80%;
+  height:702rpx;
+  background:#f6f6f6
 }
 .card_wrap .card_item .buy_btn {
   position: absolute;
@@ -344,23 +344,20 @@
 .card_wrap .card_item.card1 {
   /*top: 62px;
   left: 25px;*/
-  transform: translateY(62px) translateX(25px);
+  transform: translateY(146rpx) translateX(58rpx);
   /*z-index: 3*/
 }
 .card_wrap .card_item.card1 .card_info {
   top: 280rpx;
-  left: 20px;
+  left: 48rpx;
   background-color:rgba(255,255,255,0.6)
 }
 .card_wrap .card_item.card2 {
-  /*top: 44px;
-  left: 41px;*/
-  /*z-index: 2;*/
-  transform: translateY(44px) translateX(41px);
+  transform: translateY(104rpx) translateX(96rpx);
 }
 .card_wrap .card_item.card2 .card_info {
   top: 300rpx;
-  left: 14px;
+  left: 34rpx;
   border-color: #fff;
   background-color:rgba(255,255,255,0.6)
 }
@@ -368,13 +365,13 @@
 .card_wrap .card_item.card3 {
   /*top: 28px;
   left: 51px;*/
-  transform: translateY(28px) translateX(51px);
+  transform: translateY(66rpx) translateX(120rpx);
   /*z-index: 1;*/
 }
 
 .card_wrap .card_item.card3 .card_info {
-  top: 73px;
-  left: 50px;
+  top: 172rpx;
+  left: 78rpx;
   border-color: #fff;
   background-color:rgba(255,255,255,0.6)
 }

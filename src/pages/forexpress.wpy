@@ -1,10 +1,10 @@
 <template>
     <view class="container">
     <view class="express-img-wrap">
-        <image class='express-img' src='../../images/express.png'></image>
+        <image class='express-img' src='../images/express.png'></image>
     </view>
         <!--快递入口-->
-    <view class="express-input-wrap iconfont icon-search">
+    <view class="express-input-wrap iconfont icon-sousuo-copy">
         <input bindblur="searchExpress"  class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
         <view catchtap='scanExpressCode' class="scan-code iconfont icon-saoma"></view>
     </view>
@@ -22,18 +22,22 @@
             <view class="delete iconfont icon-lajitong_kuai" data-index="{{ index }}" catchtap='delete'></view>
         </view>
     </view>
+    <view class='mark' wx:if="{{showMark}}">
+      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
+    </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import {formatTime } from '@/utils/util'
 
-  export default class express extends wepy.page {
+  export default class Forexpress extends wepy.page {
     config = {
         navigationBarTitleText: '快递查询'
     }
 
     data = {
+        showMark:false,
         baseUrl: "https://qf-restapi.mdscj.com/xp_express",
         getExpressType : "/logistics/company/list",
         getExpressMessage : "/logistics/search",
@@ -65,8 +69,8 @@
             let number = this.expressValue
             number = number.replace(/\s+/g, '')
             if (number.length === 0) return
-            wx.navigateTo({
-                url: '../expressJump/expressJump?number=' + number
+            this.$navigate({
+                url: './expressJump/expressJump?number=' + number
             })
         },
         /**
@@ -75,10 +79,27 @@
         scanExpressCode () {
             let that = this
             wx.scanCode({
+            onlyFromCamera:false,
             success (res) {
-                this.expressValue = res.result
-                this.$apply()
-                that.searchExpress()
+                let realdata = res.result || ''
+                if(realdata&&realdata.includes('.com')){
+                    let forone = realdata.split('?')?realdata.split('?')[1]:''
+                    let fortwo = forone.split('?')?forone.split('=')[1]:''
+                    that.expressValue = fortwo
+                    that.$apply()
+                    that.methods.searchExpress.call(that)
+                    return
+                }
+                that.expressValue = realdata
+                that.$apply()
+                that.methods.searchExpress.call(that)
+            },
+            fail(res){
+                 wx.showModal({
+                    tilte: '扫码失败',
+                    content: '请重试',
+                    showCancel: false
+                })               
             }
             })
         },
@@ -98,8 +119,8 @@
         goToExpress (e) {
             console.log(e)
             let number = e.currentTarget.dataset.number
-            wx.navigateTo({
-                url: '../expressJump/expressJump?number=' + number
+            this.$navigate({
+                url: './expressJump/expressJump?number=' + number
             })
         },
         /**
@@ -121,11 +142,31 @@
                 that.chosseIndex = -1
                 that.$apply()
             }, 1200)
+        },
+        onGotUserInfo(e){
+            if(e.detail.userInfo){
+            this.showMark = false
+            wx.setStorage({
+                key:'user',
+                data:e.detail.userInfo
+            })
+            }        
         }
+
     }
     onLoad() {}
     
     onShow() {
+        let self = this
+        try {
+            var res = wx.getStorageSync('user')
+            console.log(res)             
+            if(res) this.showMark = false;
+            if(!res) this.showMark = true;               
+            self.$apply()
+        } catch (e) {
+            this.showMark = true;
+        }
         this.history = wx.getStorageSync('saveList')
         this.$apply()
     }
@@ -133,12 +174,22 @@
 </script>
 
 <style lang="less" scoped>
+.css-button{
+    width:150px;
+    margin:50% auto;
+    background:#138cff;
+    color:#fff
+}
+.icon-sousuo-copy{
+    color:#138cff;
+    font-size:12px
+}
 .scan-code{
     margin-right: 20rpx;
     width: 80rpx;
     height: 80rpx;
     text-align: center;
-    line-height:50rpx;
+    line-height:55rpx;
     color:#138cff;
     font-size:24px   
 }
@@ -148,7 +199,7 @@ page {
 }
 .express-img-wrap {
   height: 200rpx;
-  background-image: linear-gradient(#138cff, #fff);
+  background-image: linear-gradient(#138cff, #f6f6f6);
 }
 .express-img {
   width: 200rpx;
@@ -187,7 +238,7 @@ page {
   height: 80rpx;
   transform: translate(10rpx, 12rpx);
   position: relative;
-  z-index: 999;
+//   z-index: 999;
 }
 .icon-saoma::before {
   font-size: 50rpx;
@@ -214,7 +265,7 @@ page {
   box-sizing: border-box;
   //background-color: #f00;
   //width: 100%;
-  height: 150rpx;
+  height: auto;
   margin: 0rpx 10rpx;
   margin-bottom: 20rpx;
   overflow: hidden;
@@ -229,7 +280,7 @@ page {
     width: 180rpx;
     flex-direction: column;
     text-align: left;
-    margin-right: 5rpx;
+    margin-right: 8rpx;
     .company {
       font-size: 30rpx;
     }
@@ -260,6 +311,15 @@ page {
   }
 }
 .time{
-    padding:24rpx 0 0
+    padding:8rpx 0 0
 }
+  .mark{
+    width:100%;
+    height:100%;
+    position:fixed;
+    background:rgba(0,0,0,0.8);
+    top:0;
+    z-index:2;
+    overflow:hidden;
+  }
 </style>

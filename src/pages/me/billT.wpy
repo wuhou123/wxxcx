@@ -34,10 +34,10 @@
             center: ['50%', '50%'],
             radius: [0, '60%'],
             data: [{
-                value: 20,
+                value: 0.1,
                 name: '收入'
             }, {
-                value: 20,
+                value: 0.1,
                 name: '支出'
             },
             ],
@@ -62,8 +62,8 @@
                 if(v.getmoney) get += parseFloat(v.getmoney)
                 if(v.money) out += parseFloat(v.money)
             })
-            this.ec.option.series[0].data[0].value = get>0?get:10
-            this.ec.option.series[0].data[1].value = out>0?out:10
+            this.ec.option.series[0].data[0].value = get>0?get:0.1
+            this.ec.option.series[0].data[1].value = out>0?out:0.1
 
             this.ec.option.series[0].data[0].name = `收入${Math.round(get/(get+out)*100)}%(${get})`
             this.ec.option.series[0].data[1].name = `支出${Math.round(out/(get+out)*100)}%(${out})`

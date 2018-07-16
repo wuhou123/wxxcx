@@ -7,28 +7,25 @@
       </listitem>
     </repeat>    
   </view>
-    <view class='mark' wx:if="{{showMark}}">
-      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
-    </view>
 </template>
 
 <script>
   import wepy from 'wepy'
   import Panel from '@/components/panel' // alias example
   import Counter from 'counter' // alias example
-  import List from '../components/list' // aliasFields example
+  import List from '../../components/list' // aliasFields example
   import moduleA from 'module-a' // aliasFields ignore module example
-  import Group from '../components/group'
+  import Group from '../../components/group'
   import Toast from 'wepy-com-toast'
-  import testMixin from '../mixins/test'
+  import testMixin from '../../mixins/test'
   import ListItem from '@/components/index/listitem'
-  import {httpRequest,formatTime} from '../utils/util'
+  import {httpRequest,formatTime} from '../../utils/util'
 
   console.log('moduleA ignored: ', moduleA) // => moduleA ignored: {}
 
   export default class Index extends wepy.page {
     config = {
-      navigationBarTitleText: '圈子',
+      navigationBarTitleText: '开心猫',
       enablePullDownRefresh: true
     }
     components = {
@@ -44,7 +41,6 @@
     mixins = [testMixin]
 
     data = {
-      showMark:false,
       dynamicList: [],
       pages:1,
       mynum: 20,
@@ -56,17 +52,7 @@
       }
     }
 
-    methods = {
-      onGotUserInfo(e){
-        if(e.detail.userInfo){
-          this.showMark = false
-          wx.setStorage({
-            key:'user',
-            data:e.detail.userInfo
-          })
-        }        
-      }
-    }
+    methods = {}
 
     events = {
       'index-emit': (...args) => {
@@ -77,15 +63,6 @@
 
     onLoad() {
       let self = this
-      try {
-        var res = wx.getStorageSync('user')
-        console.log(res)             
-        if(res) this.showMark = false;
-        if(!res) this.showMark = true;               
-        self.$apply()
-      } catch (e) {
-        this.showMark = true;
-      }
       let datas = {
         params:{
         "showapi_timestamp": formatTime(new Date()).join(''),
@@ -113,7 +90,7 @@
      setTimeout(()=>{
         wx.stopPullDownRefresh()
         wx.showToast({
-          title:'已更新至最新',
+          title:'每天十天更新',
           icon:'none'
         })
      },1000)
@@ -123,21 +100,6 @@
 </script>
 
 <style lang="less">
-  .css-button{
-    width:150px;
-    margin:50% auto;
-    background:#138cff;
-    color:#fff
-  }
-  .mark{
-    width:100%;
-    height:100%;
-    position:fixed;
-    background:rgba(0,0,0,0.8);
-    top:0;
-    z-index:2;
-    overflow:hidden;
-  }
   .wrap{
     background-color: #f8f8f8;
   }

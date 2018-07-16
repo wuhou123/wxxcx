@@ -9,7 +9,7 @@
                 <view class="dot {{ index == 0 ? 'first' : '' }}"></view>
                 <view class="content-wrap">                    
                     <view class="site">{{ item.acceptStation }}</view>
-                    <view class="phone iconfont icon-dianhua1" data-phone="{{ item.phone }}" catchtap="callPhone" wx:if="{{ item.phone }}"></view>
+                    <view class="phone iconfont icon-tongxunfei" data-phone="{{ item.phone }}" catchtap="callPhone" wx:if="{{ item.phone }}"></view>
                 </view>
             </view>
         </view>
@@ -20,7 +20,7 @@
   import wepy from 'wepy'
   import {formatTime } from '@/utils/util'
 
-  export default class expressJump extends wepy.page {
+  export default class ExpressJump extends wepy.page {
     config = {
         navigationBarTitleText: '快递查询结果'
     }
@@ -43,13 +43,11 @@
         */
         save () {
             let list = wx.getStorageSync('saveList') || []
+            let saveSwitch = false;
             for (var item in list) {
                 if (list[item].nubmer === this.number) {
-                    return wx.showModal({
-                        tilte: '已有信息',
-                        content: '亲爱的小主，您已经保存过啦',
-                        showCancel: false
-                    })
+                    list.splice(item,1)
+                    saveSwitch = true
                 }
             }
             let obj = {
@@ -60,11 +58,20 @@
             // console.log(obj)
             list.unshift(obj)
             wx.setStorageSync('saveList', list)
-            wx.showModal({
-                tilte: '保存成功',
-                content: '已保存该快递记录',
-                showCancel: false
-            })
+            if(saveSwitch){
+                wx.showModal({
+                    tilte: '已有信息',
+                    content: '亲爱的小主，快递信息已更新',
+                    showCancel: false
+                })
+            }else{
+                wx.showModal({
+                    tilte: '保存成功',
+                    content: '已保存该快递记录',
+                    showCancel: false
+                })
+            }
+
         },
     }
 
@@ -107,12 +114,15 @@
 </script>
 
 <style lang="less" scoped>
+.icon-tongxunfei{
+    color:#138cff
+}
 .title {
   line-height: 160rpx;
   text-align: center;
   font-weight: 800;
   font-size: 40rpx;
-  background: linear-gradient(#138cff, #fff);
+  background: linear-gradient(#138cff, #f6f6f6);
   position: relative;
 }
 .save {
@@ -184,7 +194,7 @@
     }
     .phone {
       position: absolute;
-      top: 40rpx;
+      top: 20rpx;
       left: -50rpx;
       font-size: 40rpx;
     }

@@ -21,11 +21,11 @@
       <repeat for="{{ meList }}" key="index" index="index" item="item">
       <view class="menuitem" @tap="goTo({{item.path}})"> 
         <view class="icon iconfont {{item.icon}}"></view>
-          <text>{{item.name}}</text>
+          <button open-type="contact" wx:if="{{item.name=='意见反馈'}}" class="conten_btn">意见反馈</button>
+          <text wx:else>{{item.name}}</text>
       </view>
       </repeat>
     </view>
-
 
   </view>
 </template>
@@ -50,16 +50,16 @@
         path:'./me/billT',
         icon:'icon-zhangben'
       },{
-        name:'快递查询',
-        path:'./express/express',
-        icon:'icon-kuaidi'
+        name:'开心猫',
+        path:'./index/index',
+        icon:'icon-CAT_huaban'
       },{
-        name:'使用手册',
-        path:'me-plan',
+        name:'分享',
+        path:'./share/share',
         icon:'icon-shiyongshouce'
       },{
         name:'意见反馈',
-        path:'me-plan',
+        path:'contact',
         icon:'icon-yijianfankui'
       },{
         name:'更新日志',
@@ -74,19 +74,21 @@
     methods = {
       goTo(path){
         console.log(path)
-        this.$navigate(path)
+        if(path!='contact') this.$navigate(path)
       }
     }
     onLoad() {
       let self = this
       try {
         var res = wx.getStorageSync('user')        
-        if(res) this.userInfo = res;        
-        self.$apply()
+        if(res) this.userInfo = res;   
       } catch (e) {
         this.userInfo.nickName = '未获取';
       }
+      self.$apply()
+    }
 
+    onShow(){
       let ref = wx.getStorageSync('payList')
       if(ref){
           let get = 0,out = 0;
@@ -94,7 +96,7 @@
               if(v.getmoney) get += parseFloat(v.getmoney)
               if(v.money) out += parseFloat(v.money)
           })
-          this.assets = get + out
+          this.assets = get - out
       }
       let ags = wx.getStorageSync('setTime')
       if(ags){
@@ -104,12 +106,23 @@
         })
         this.hours = add
       }
-
     }
   }
 </script>
 
 <style lang="less">
+  .menuitem button{
+    border:none;
+    background:none;
+    border-radius:0;
+    color:#666;
+    font-size:26rpx;
+    text-align:left;
+    line-height:2.05;
+    padding-left:0;
+    margin-left:0
+  }
+  .menuitem button:after{border:none;}
   .toparea{
     display: flex;
     align-items: baseline;
