@@ -36,21 +36,20 @@
         },
         settextFir(context,size){
             let that = this;
-            var textFir = "发了一只猫";
-            console.log(textFir);
+            var textFir = "身份:猫新人";
             context.setFontSize(24);
             context.setTextAlign("center");
-            context.setFillStyle("#fee6b5");
-            console.log(size)
-            context.fillText(textFir, size.w / 2, size.h * 0.25);
+            // context.setFillStyle("#fee6b5");
+            context.setFillStyle("#999");
+            context.fillText(textFir, size.w / 2, size.h * 0.25+10);
             context.stroke();
         },
         settextSec(context,size){
             let that = this;
-            var textSec = "长按识别小程序，领取小猫";
+            var textSec = "长按识别小程序,加入吧!";
             context.setFontSize(14);
             context.setTextAlign("center");
-            context.setFillStyle("#fee6b5");
+            context.setFillStyle("#999");
             context.fillText(textSec, size.w / 2, size.h * 0.88);
             context.stroke();
         },
@@ -58,12 +57,14 @@
             var that = this;
             //设置画板显示，才能开始绘图
             //新生成适配
+            wx.showLoading({
+                title: '出图中...',
+            })
             var size = this.screenWidth;
             var context = wx.createCanvasContext('shareCanvas');
             //获取头像信息
-            var path = "../../images/hb.jpg";
-            var imageTx = wx.getStorageSync('user').avatarUrl || '../../images/tabbar/me-on.png';
-            console.log(wx.getStorageSync('user').avatarUrl)
+            var path = "../../images/bgs1.jpeg";
+            var imageTx = wx.getStorageSync('user').avatarUrl || 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2844859017,352483783&fm=27&gp=0.jpg';
             var imageEwm = "../../images/shareForsm.png";
             var imageZw = "../../images/zw.jpg";
             wx.getImageInfo({
@@ -93,6 +94,7 @@
                         wx.canvasToTempFilePath({
                             canvasId: 'shareCanvas',
                             success: function (res) {
+                                wx.hideLoading()
                                 if (!res.tempFilePath) {
                                     wx.showModal({
                                         title: '提示',
@@ -102,6 +104,9 @@
                                 }
                                 that.saveImgPath = res.tempFilePath
                                 that.$apply()
+                            },
+                            fail(err){
+                                wx.hideLoading()
                             }
                         })
                     });
@@ -119,11 +124,9 @@
                 filePath: this.saveImgPath,
                 //保存成功失败之后，都要隐藏画板，否则影响界面显示。
                 success: (res) => {
-                    console.log(res)
                     wx.hideLoading()
                 },
                 fail: (err) => {
-                    console.log(err)
                     wx.hideLoading()
                 }
             })
@@ -142,5 +145,8 @@
 <style lang="less" scoped>
 .wrap{
     text-align:center
+}
+.more{
+    margin-top:20rpx
 }
 </style>
