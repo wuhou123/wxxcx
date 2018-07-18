@@ -14,7 +14,7 @@ export default class extends wepy.app {
   config = {
     pages: [
       'pages/forexpress',
-      'pages/ranking',
+      // 'pages/ranking',
       'pages/bill/addone',
       'pages/plan',
       'pages/plan/clock',
@@ -25,7 +25,8 @@ export default class extends wepy.app {
       'pages/me/billT',
       'pages/index/index',
       'pages/expressJump/expressJump',
-      'pages/share/share'
+      'pages/share/share',
+      'pages/me/edit'
       // 子页面
     ],
     window: {
@@ -59,12 +60,12 @@ export default class extends wepy.app {
           iconPath: 'images/tabbar/index.png',
           selectedIconPath: 'images/tabbar/index-on.png'
         },
-        {
-          pagePath: 'pages/ranking',
-          text: '影单',
-          iconPath: 'images/tabbar/ranking.png',
-          selectedIconPath: 'images/tabbar/ranking-on.png'
-        },
+        // {
+        //   pagePath: 'pages/ranking',
+        //   text: '影单',
+        //   iconPath: 'images/tabbar/ranking.png',
+        //   selectedIconPath: 'images/tabbar/ranking-on.png'
+        // },
         {
           pagePath: 'pages/me',
           text: '我的',

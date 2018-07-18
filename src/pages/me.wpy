@@ -54,7 +54,7 @@
         path:'./index/index',
         icon:'icon-lanmao'
       },{
-        name:'分享猫',
+        name:'测试猫',
         path:'./share/share',
         icon:'icon-fenxiang'
       },{
@@ -63,7 +63,7 @@
         icon:'icon-yijianfankui'
       },{
         name:'更新日志',
-        path:'me-plan',
+        path:'./me/edit',
         icon:'icon-gengxinrizhi'
       },{
         name:'关于',

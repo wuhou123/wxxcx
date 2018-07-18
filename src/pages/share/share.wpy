@@ -9,7 +9,7 @@
   import wepy from 'wepy'
   export default class Share extends wepy.page {
     config = {
-      navigationBarTitleText: '分享'
+      navigationBarTitleText: '测试实验室'
     }
 
     data = {

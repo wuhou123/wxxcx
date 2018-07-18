@@ -12,11 +12,24 @@
     </view>
 
     <!-- 排行榜滚动区域 -->
-    <view class="rankbox">
-      <view style="height:1000rpx;overflow:scroll">
+    <view class="rankbox" wx:if="{{isShow}}">
         <view>
           <repeat for="{{ rankList }}" key="index" index="index" item="item">
-              <view class="list-item" wx:if="{{!isShow}}">
+              <view class="list-item">
+                <view class="main">
+                  <video id="myVideo" src = "{{item.videos[0].url}}" controls poster="{{item.videos[0].image}}"></video>
+                  <text class="cardTitle">{{ item.title }}</text>
+                  <text class="cardTitle">上映时间:{{item.releaseDate}}</text>
+                  <text class="cardTitle">{{item.type}}</text>
+                </view>
+              </view>
+          </repeat>
+        </view>
+    </view>
+    <view class="rankboxTwo" wx:else>
+        <view>
+          <repeat for="{{ rankList }}" key="index" index="index" item="item">
+              <view class="list-item">
                 <view class="main">      
                   <image wx:if="{{ item.img }}" src="{{ item.img }}" mode="widthFix"></image>
                   <text class="cardTitle">{{ item.t }}</text>
@@ -26,19 +39,8 @@
                   <text class="cardTitle" wx:else>评分:无评分数据</text>
                 </view>
               </view>
-              <view class="list-item" wx:else>
-                <view class="main">
-                  <video id="myVideo" src = "{{item.videos[0].url}}" controls poster="{{item.videos[0].image}}"></video>
-                  <text class="cardTitle">{{ item.title }}</text>
-                  <text class="cardTitle">上映时间:{{item.releaseDate}}</text>
-                  <text class="cardTitle">{{item.type}}</text>
-                </view>
-              </view>
           </repeat>
-        </view>      
-      </view>
-
-
+        </view>    
     </view>
   </view>
 </template>
@@ -126,9 +128,9 @@
 </script>
 
 <style lang="less" scoped>
-  .rankbox{
+  .rankboxTwo{
     height:1000rpx;
-    overflow:hidden
+    overflow:auto
   }
   .typewrap{
     padding: 30rpx 0;

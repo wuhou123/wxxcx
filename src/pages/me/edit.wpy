@@ -2,7 +2,7 @@
   <view class="wrap">
     <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
   </view>
-  <view style="text-align:center">佳人失其猫,吾将亲逐之</view>
+  <view style="text-align:center;color:#e8e8e8">v1.0</view>
 </template>
 
 <script>
@@ -10,9 +10,9 @@
   import ListItem from '@/components/plan/listitem'
   import {formatTime } from '@/utils/util'
 
-  export default class About extends wepy.page {
+  export default class Edit extends wepy.page {
     config = {
-      navigationBarTitleText: '关于'
+      navigationBarTitleText: '更新日志'
     }
 
     data = {

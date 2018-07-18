@@ -23,6 +23,9 @@
         </view>
     </view>
     <view class='mark' wx:if="{{showMark}}">
+      <view animation="{{animationData}}" class="animCat">
+        <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
+      </view>
       <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
     </view>
 </template>
@@ -50,7 +53,8 @@
         expressValue:'',
         delStatus:false,
         chosseIndex:-1,
-        history:[]
+        history:[],
+        animationData:{}
     }
 
     methods = {
@@ -165,9 +169,31 @@
             }
         }
     }
-    onLoad() {}
-    
-    onShow() {
+    onLoad() {
+        //动画
+    var animation = wx.createAnimation({
+      duration: 1200,
+      timingFunction: 'linear',
+    })
+
+    this.animation = animation
+
+    // animation.scale(2, 2).rotate(45).step()
+
+    this.setData({
+      animationData: animation.export()
+    })
+   //连续动画需要添加定时器,所传参数每次+1就行
+    setTimeout(()=> {
+      this.animation.opacity(0.5).step().translateY(50).translateX(160).rotateX(360).opacity(1).step()
+      this.setData({
+        animationData: this.animation.export()
+      })
+    },1000)
+        //donghua end 
+    }
+
+    onShow() {       
         let self = this
         try {
             var res = wx.getStorageSync('user')
@@ -185,6 +211,14 @@
 </script>
 
 <style lang="less" scoped>
+.animCat{
+    height:100rpx;
+    width:100rpx;
+    image{
+        height:100rpx;
+        width:100rpx;
+    }
+}
 .css-button{
     width:150px;
     margin:50% auto;
