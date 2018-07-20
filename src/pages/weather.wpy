@@ -1,0 +1,383 @@
+<template>
+  <view>
+    <view class='backgroundView'>
+      <view class='content'>
+      <!-- iamge标签可以加载本地图片，但背景图片用网络图片或者base64的才能在手机端显示。 -->
+        <view class='topView'>
+          <image src='../images/weather/{{bgSrc}}.png' class='topImg' mode='aspectFill'/>
+          <view class='location' bindtap='chooseLocation'>
+            <view>
+              <image class='locationImg' src='../images/weather/location.png' mode='aspectFit'/>
+              <text>{{weatherData.currentCity}}</text>
+            </view>
+          </view>
+          <view class='nowTemp'>{{weatherData.temperature}}</view>
+          <view class='nowWind'>{{weatherData.wind}}</view>
+          <view class='air_now'>pm {{weatherData.pm25}}</view>
+          <view class='week'>{{weatherData.date}}</view>
+          <view class='historytoday' bindtap='lookHistory'>历史上的今天</view>
+        </view>
+        <view class='dailyForecast'>
+          <repeat for="{{futureWeather}}" style="display: block;">
+            <view class='daily' style="flex-direction:row;">
+            <!-- <view wx:if="{{index===0}}">今天</view>
+            <view wx:else>{{getDailyDate(item.date)}}</view> -->
+              <view class='dailyDate'>{{item.date}}</view> 
+              <image class='dailyImg' src='{{item.dayPictureUrl}}' mode='aspectFit'/> 
+              <view class='dailyCond'>{{item.weather}}</view>
+              <view class='dailyTmp'>{{item.temperature}}</view>
+            </view>
+          </repeat>
+        </view>
+        <!--穿衣提示 -->
+        <view class='lifeStyle'>
+          <repeat for="{{lifeWay}}" index="index">
+            <view class='life' bindtap="showDetail({{index}})">
+              <image class='lifeImg' src='../images/weather/{{index}}.png' mode='aspectFit'/>
+              <view class='lifeText'>{{item.title}}{{item.zs}}</view>
+            </view>
+          </repeat>
+        </view>
+        <view class='bottom'>实时天气数据来自百度地图</view>
+      </view>
+  </view>
+  </view>
+</template>
+<script>
+import wepy from 'wepy'
+import bmap from '../utils/bmap-wx.min.js'
+export default class Weather extends wepy.page {
+  config = {
+    navigationBarTitleText: '天气'
+  }
+  data = {
+    weatherData: {},
+    futureWeather: [],
+    hasWeather: false,
+    bgSrc: '',
+    lifeWay: [],
+    date: ''
+  }
+  methods = {
+    showDetail (index) {
+      let _this = this
+      // console.log('index', index)
+      // console.log(_this.lifeWay[index])
+      wepy.showModal({
+        title: _this.lifeWay[index].tipt,
+        content: _this.lifeWay[index].des,
+        showCancel: false
+      })
+    },
+    // 查看历史上的今天
+    lookHistory: function() {
+      wepy.navigateTo({
+        url: '/pages/historytoday'
+      })
+    }
+  }
+  onLoad () {
+    wepy.showLoading({
+      title: '加载中'
+    })
+    this.loadWeather()
+  }
+  loadWeather () {
+    let _this = this
+    // 新建百度地图对象
+    let BMap = new bmap.BMapWX({
+      ak: 'XZOll1iy7oOaxEHum4Qty6ahaem8YUXd'
+    })
+    let fail = function(data) {
+      console.log(data)
+    }
+    let success = function(data) {
+      // console.log(data)
+      let weatherData = data.currentWeather[0]
+      let futureWeather = data.originalData.results[0].weather_data
+      // weatherData = '城市：' + weatherData.currentCity + '\n' + 'PM2.5：' + weatherData.pm25 + '\n' + '日期：' + weatherData.date + '\n' + '温度：' + weatherData.temperature + '\n' + '天气：' + weatherData.weatherDesc + '\n' + '风力：' + weatherData.wind + '\n'
+
+      _this.weatherData = weatherData
+      _this.futureWeather = futureWeather
+      _this.lifeWay = data.originalData.results[0].index
+      _this.hasWeather = true
+      _this.nowBackImage(_this.weatherData.weatherDesc)
+      _this.futureWeather[0].date = '今天'
+      _this.$apply()
+      // console.log(_this.weatherData)
+      // console.log(_this.futureWeather)
+      // console.log(_this.lifeWay)
+    }
+    // 发起weather请求
+    BMap.weather({
+      fail: fail,
+      success: success
+    })
+    wepy.hideLoading()
+  }
+  nowBackImage (str) {
+    let _this = this
+    if (str === '晴') {
+      // return 'sun'
+      _this.bgSrc = 'sun'
+      _this.$apply()
+    } else if (str === '多云' || str === '晴转多云' || str === '阴') {
+      _this.bgSrc = 'cloud'
+      _this.$apply()
+    } else if (str === '阵雨' || str === '雷阵雨' || str === '雷阵雨伴有冰雹' || str === '雨夹雪' || str === '小雨' || str === '中雨' || str === '大雨' || str === '暴雨' || str === '大暴雨' || str === '特大暴雨' || str === '小雨转中雨' || str === '中雨转大雨' || str === '大雨转暴雨' || str === '暴雨转大暴雨' || str === '大暴雨转特大暴雨') {
+      // return 'rain'
+      _this.bgSrc = 'rain'
+      _this.$apply()
+    } else if (str === '阵雪' || str === '小雪' || str === '中雪' || str === '大雪' || str === '暴雪' || str === '小雪转中雪' || str === '中雪转大雪' || str === '大雪转暴雪') {
+      // return 'snow'
+      _this.bgSrc = 'snow'
+      _this.$apply()
+    } else if (str === '浮尘' || str === '扬沙' || str === '强沙尘暴' || str === '霾' || str === '雾') {
+      // return 'smog'
+      _this.bgSrc = 'smog'
+      _this.$apply()
+    } else {
+      // return 'sun2'
+      _this.bgSrc = 'sun2'
+      _this.$apply()
+    }
+  }
+}
+</script>
+
+<style lang="less" scoped>
+  .backgroundView {
+  background-color: #F8F8F8;
+}
+.topView {
+  background-color: #F8F8F8;
+  width: 100%; 
+  position: relative;
+  text-align:center;
+  height: 910rpx;
+}
+.topImg {
+  width: 100%;  
+  height: 100%;
+}
+.location {
+  color: red;
+  padding: 10rpx;
+  font-size: 42rpx;
+  font-family: "PingFangSC-Medium";
+  text-align: center;
+  position: absolute; 
+   /* z-index: 2;  */
+  top: 1%;  
+  left: 0;
+  right: 0;
+  height: 56rpx;
+}
+.location view {
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  white-space: nowrap; 
+}
+.location view text {
+  color: white;
+  font-size: 30rpx;
+  padding-right: 20rpx;
+  padding-top: 10rpx;
+  padding-bottom: 10rpx;
+  padding-left: 60rpx;
+  white-space: nowrap;
+  border-radius: 30rpx;
+  background-color: rgba(215, 215, 215, 0.1);
+}
+.locationImg {
+  width: 28rpx;
+  height: 28rpx;
+  padding: 20rpx;
+  margin-right: -70rpx;
+  position: absolute;
+  z-index: 10;
+}
+.nowTemp {
+  text-align: center;
+  font-size: 120rpx;
+  color: #fafbfb;
+  font-family: "SFUIDisplay-Regular";
+  position: absolute; 
+  top: 18%;
+  left: 0;
+  right: 0;
+}
+.nowWind {
+  text-align: center;
+  color: white;
+  font-size: 40rpx;
+  position: absolute; 
+  top: 38%;
+  left: 0;
+  right: 0;
+}
+.air_now {
+  text-align: center;
+  font-size: 40rpx;
+  color: white;
+  position: absolute; 
+  top: 46%;
+  left: 0;
+  right: 0;
+}
+.week{
+  text-align: center;
+  font-size: 40rpx;
+  color: white;
+  position: absolute; 
+  top: 53%;
+  left: 0;
+  right: 0;
+}
+.historytoday {
+  width: 280rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 40rpx;
+  color: white;
+  background: lightblue;
+  position: absolute; 
+  top: 85%;
+  right: 0;
+  border-radius: 40rpx 0 0 40rpx;
+}
+.hourly {
+  height: 308rpx;
+  white-space: nowrap; 
+  display: flex; 
+  background-color: white;
+}
+.oneHourly {
+  height: 100%;
+  width: 150rpx;
+  display: inline-block;  
+  /* background-color: blue; */
+  /* letter-spacing:4px;   */
+  font-size:30rpx;  
+}
+.oneHourlyFlex {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10%;
+  margin-bottom: 10%;
+}
+.hourlyDate {
+  text-align: center;
+  color: #4B4B4B;
+  font-size: 30rpx;
+  font-family: "SFUIDisplay-Regular";
+}
+.hourlyImg {
+  width: 64rpx;
+  height: 64rpx;
+  text-align: center;
+}
+.hourlyTmp {
+  text-align: center;
+  color: #4B4B4B;
+  font-size: 30rpx;
+  font-family: "PingFangSC-Semibold";
+}
+.hourlyWind {
+  text-align: center;
+  color: #4B4B4B;
+  font-size: 28rpx;
+  font-family: "PingFangSC-Medium";
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+
+.hourlyWind image {
+  width: 16rpx;
+  height: 28rpx;
+  margin-right: 5rpx;
+}
+.dailyForecast {
+  margin-top: 40rpx; 
+  font-family: "PingFangSC-Medium"; 
+}
+.daily {
+  display: flex;
+  align-items: center;
+  height: 80rpx;
+  background-color: white;
+  text-align: center;
+}
+.dailyDate {
+   text-align: left; 
+   width: 25%;
+   color: #4B4B4B;
+   font-size: 30rpx;
+   margin-left: 5%;
+}
+.dailyImg {
+  margin-left: 100rpx;
+  margin-right: 40rpx;
+  width: 64rpx;
+  height: 80%;
+}
+.dailyCond {
+   text-align: left; 
+   width: 40%;
+   color: #4B4B4B;
+   font-size: 30rpx;
+}
+.dailyTmp {
+   text-align: center; 
+   width: 40%;
+   font-size: 30rpx;
+   font-family: "PingFangSC-Semibold";
+}
+.lifeStyle {
+  margin-top: 40rpx;
+  display: flex;
+  flex-direction: row;
+  align-items: center; 
+  justify-content: space-between;
+  font-family: "PingFangSC-Medium";
+}
+.life {
+  background-color: white;
+  width: 24.5%;
+  height: 0;
+  padding-bottom: 24.5%;
+  /* align-items: center; 
+  justify-content: center; */
+  /* display: flex;
+  flex-direction: column;
+   
+  /* justify-content: space-around; */ 
+}
+.lifeImg {
+  width: 100%;
+  height: 50rpx; 
+  margin-top: 30rpx; 
+  margin-bottom: 20rpx; 
+}
+.lifeText {
+  width: 100%;
+  text-align: center; 
+  font-size: 25rpx;
+  color: #4B4B4B;
+}
+.bottom {
+  height: 100rpx;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: 25rpx;
+  display: flex;
+}
+</style>

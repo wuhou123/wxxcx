@@ -1,0 +1,79 @@
+<template>
+  <repeat for="{{result.result}}">
+      <view class="single-member effect-2">
+        <view class="member-image">
+            <image src="{{item.pic}}" />
+          </view>
+          <view class="member-info">
+            <text class="h3">{{item.title}}</text>
+            <text class="p">{{item.des}}</text>
+          </view>
+          <view class="social-touch"></view>
+      </view> 
+  </repeat>
+</template>
+
+<script>
+import wepy from 'wepy'
+export default class HistoryToday extends wepy.page {
+  config = {
+    navigationBarTitleText: '历史上的今天',
+    enablePullDownRefresh: false
+  }
+  data = {
+    result: {}
+  }
+  onLoad (options) {
+    this.getHistoryData()
+  }
+
+  getHistoryData () {
+    var _this = this
+    wepy.showLoading({
+      title: '正在加载中...'
+    })
+    var url = 'https://www.ljbniubi.top/wx/api/history'
+    var data = {
+      key: '207e4c3b38f969392aee546c3970007e',
+      v: '1.0',
+      month: new Date().getMonth(),
+      day: new Date().getDay()
+    }
+    wepy.request({
+      url: url,
+      data: data,
+      success: res => {
+        _this.result = res.data
+        _this.$apply()
+        console.log(_this.result)
+      }
+    })
+    wepy.hideLoading()
+  }
+}
+</script>
+<style lang="less" scoped>
+  .single-member{
+    width: 80%; 
+    margin: 30rpx 2.5%; 
+    background-color: #fff; 
+    text-align: center;
+    margin: 50rpx auto; 
+    position: relative;
+  }
+  .effect-2{max-height: 500rpx; min-height: 500rpx; overflow: hidden;}
+  .effect-2 .h3{padding-top: 7rpx; line-height: 33rpx;display: block;}
+  .effect-2 .member-image{border-bottom: 15rpx solid #1fb554; height: 430rpx; overflow: hidden; width: 100%; transition: 0.4s; display: inline-block; vertical-align: middle;}
+  .effect-2 .member-info{
+    transition: 0.4s;
+    .h3{
+      font-size: 32rpx; font-weight: normal; margin: 10rpx 0 0; text-transform: uppercase;
+    }
+    .p{
+      font-size: 14px; font-weight: 300; line-height: 40rpx; padding: 0 26rpx; margin-bottom: 20rpx;margin-top:20rpx;display: block;
+    }
+  }
+  .effect-2 .member-image image{width: 100%; vertical-align: bottom;}
+  .effect-2 .social-touch{background-color: #1fb554; left: 0; bottom: 0; overflow: hidden; padding: 7.5rpx 0; width: 100%; transition: 0.4s;}
+  .effect-2:hover .member-image{height: 302rpx; transition: 0.4s;}
+</style>
