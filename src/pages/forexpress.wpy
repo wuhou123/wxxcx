@@ -170,6 +170,7 @@
         }
     }
     onLoad() {
+    let that = this
         //动画
     var animation = wx.createAnimation({
       duration: 1200,
@@ -183,14 +184,19 @@
     this.setData({
       animationData: animation.export()
     })
-   //连续动画需要添加定时器,所传参数每次+1就行
+    try {
+    var res = wx.getSystemInfoSync();
+    var width = res.windowWidth;//画布宽度
+    let setwidth = res.windowWidth/2 - 25
     setTimeout(()=> {
-      this.animation.opacity(0.5).step().translateY(50).translateX(160).rotateX(360).opacity(1).step()
-      this.setData({
-        animationData: this.animation.export()
+      that.animation.opacity(0.5).step().translateY(150).translateX(setwidth).rotateX(720).opacity(1).step()
+      that.setData({
+        animationData: that.animation.export()
       })
-    },1000)
-        //donghua end 
+    },500)
+    } catch (e) {
+        console.log("获取设备信息失败" + e);
+    }
     }
 
     onShow() {       
@@ -212,11 +218,11 @@
 
 <style lang="less" scoped>
 .animCat{
-    height:100rpx;
-    width:100rpx;
+    height:50px;
+    width:50px;
     image{
-        height:100rpx;
-        width:100rpx;
+        height:50px;
+        width:50px;
     }
 }
 .css-button{

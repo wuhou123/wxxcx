@@ -80,12 +80,14 @@
     onLoad() {
       let self = this
       try {
-        var res = wx.getStorageSync('user')        
+        var res = wx.getStorageSync('user')  
+        console.log(res)      
         if(res) this.userInfo = res;   
       } catch (e) {
         this.userInfo.nickName = '未获取';
-      }
-      self.$apply()
+      } finally{
+        self.$apply()
+      }      
     }
 
     onShow(){

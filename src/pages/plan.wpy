@@ -129,17 +129,30 @@
     }
 
     onLoad(){
+      let that = this
       let res = wx.getStorageSync('onTimes')
-      if(!res){
-        wx.setStorage({
-        key:'onTimes',
-        data:formatTime(new Date()).slice(0, 3).join('-')
-      })
-        this.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${formatTime(new Date()).slice(0, 3).join('-')}`)
-      }else{
-        this.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${res}`)
+      try{
+        //图片加载慢
+        wx.showLoading({
+          title: '初始化',
+        })
+        if(!res){
+          wx.setStorage({
+          key:'onTimes',
+          data:formatTime(new Date()).slice(0, 3).join('-')
+        })
+          that.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${formatTime(new Date()).slice(0, 3).join('-')}`)
+        }else{
+          that.cardInfoList.map((v) => v.cardInfo.cardInfoMes[2] = `创建于${res}`)
+        }
+      }finally{
+        that.$apply()
+        setTimeout(function(){
+          wx.hideLoading()
+        },500)
       }
-      this.$apply()      
+
+            
     }
 
     onShow(){
@@ -165,7 +178,7 @@
   color:#666;
   left:50%;
   transform:translate(-50%);
-  background-color:rgba(255,255,255,0.5)
+  background-color:rgba(255,255,255,0.8)
 }
 .font-p {
   font-size: 13px;
@@ -331,7 +344,7 @@
   margin-left: 28px;
   position: absolute;
   top: -12px;
-  background-color:rgba(255,255,255,0.6)
+  background-color:rgba(255,255,255,0.8)
 }
 .card_wrap .card_item .card_info .card_info_mes_item {
   margin-left: 28px;
@@ -350,7 +363,7 @@
 .card_wrap .card_item.card1 .card_info {
   top: 280rpx;
   left: 48rpx;
-  background-color:rgba(255,255,255,0.6)
+  background-color:rgba(255,255,255,0.8)
 }
 .card_wrap .card_item.card2 {
   transform: translateY(104rpx) translateX(96rpx);
@@ -359,7 +372,7 @@
   top: 300rpx;
   left: 34rpx;
   border-color: #fff;
-  background-color:rgba(255,255,255,0.6)
+  background-color:rgba(255,255,255,0.8)
 }
 
 .card_wrap .card_item.card3 {
@@ -373,7 +386,7 @@
   top: 172rpx;
   left: 78rpx;
   border-color: #fff;
-  background-color:rgba(255,255,255,0.6)
+  background-color:rgba(255,255,255,0.8)
 }
 .card_wrap .card_item image {
   display: block;
