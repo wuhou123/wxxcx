@@ -77,7 +77,9 @@
         if(path!='contact') this.$navigate(path)
       }
     }
-    onLoad() {
+    onLoad() {}
+
+    onShow(){
       let self = this
       try {
         var res = wx.getStorageSync('user')  
@@ -87,10 +89,7 @@
         this.userInfo.nickName = '未获取';
       } finally{
         self.$apply()
-      }      
-    }
-
-    onShow(){
+      }
       let ref = wx.getStorageSync('payList')
       if(ref){
           let get = 0,out = 0;

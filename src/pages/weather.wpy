@@ -54,7 +54,7 @@ export default class Weather extends wepy.page {
     weatherData: {},
     futureWeather: [],
     hasWeather: false,
-    bgSrc: '',
+    bgSrc: 'sun',
     lifeWay: [],
     date: ''
   }
@@ -86,7 +86,7 @@ export default class Weather extends wepy.page {
     let _this = this
     // 新建百度地图对象
     let BMap = new bmap.BMapWX({
-      ak: 'XZOll1iy7oOaxEHum4Qty6ahaem8YUXd'
+      ak: 'gGpLpLOSIGme81xiRacyTc5VWxfY3Gka'
     })
     let fail = function(data) {
       console.log(data)
@@ -112,6 +112,17 @@ export default class Weather extends wepy.page {
     BMap.weather({
       fail: fail,
       success: success
+    })
+    BMap.regeocoding({ 
+        fail:function(res){
+          console.log(res)
+        }, 
+        success: function(res){
+          setTimeout(()=>{
+            _this.weatherData.currentCity = res.wxMarkerData[0].address
+            _this.$apply()
+          },500)
+        }
     })
     wepy.hideLoading()
   }

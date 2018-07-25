@@ -1,2 +1,15 @@
 {
+    "editor.fontSize": 18,
+    "vetur.format.defaultFormatter.html": "prettier",
+    "files.associations": {
+        "*.vue": "vue",
+        "*.wpy": "vue",
+        "*.wxml": "html",
+        "*.wxss": "css"
+    },
+    "emmet.syntaxProfiles": {
+        "vue-html": "html",
+        "vue": "html"
+    },
+    "vetur.validation.template": false
 }
