@@ -36,8 +36,8 @@ export default class HistoryToday extends wepy.page {
     var data = {
       key: '207e4c3b38f969392aee546c3970007e',
       v: '1.0',
-      month: new Date().getMonth(),
-      day: new Date().getDay()
+      month: new Date().getMonth()+1,
+      day: new Date().getDate()
     }
     wepy.request({
       url: url,
