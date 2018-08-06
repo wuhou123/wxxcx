@@ -61,7 +61,7 @@ export default class HistoryToday extends wepy.page {
     margin: 50rpx auto; 
     position: relative;
   }
-  .effect-2{max-height: 500rpx; min-height: 500rpx; overflow: hidden;}
+  .effect-2{max-height: 500rpx; min-height: 500rpx; overflow: hidden;z-index:2}
   .effect-2 .h3{padding-top: 7rpx; line-height: 33rpx;display: block;}
   .effect-2 .member-image{border-bottom: 15rpx solid #1fb554; height: 430rpx; overflow: hidden; width: 100%; transition: 0.4s; display: inline-block; vertical-align: middle;}
   .effect-2 .member-info{
