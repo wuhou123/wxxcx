@@ -15,9 +15,9 @@
     <view>下拉刷新中……</view>
     <view>{{refreshTime}}</view>
   </view>
-  <!-- <scroll-view scroll-y="true" class="container" lower-threshold="5" bindscrolltolower="upMethod" bindscrolltoupper="refresh"> -->
+  <scroll-view scroll-y="true" class="container" lower-threshold="5" bindscrolltolower="upMethod" bindscrolltoupper="refresh">
   <view class="container">
-    <block wx:for="{{jokes}}" key = "index">
+    <block wx:for="{{jokes}}" wx:key = "index">
       <view class="feed-item">
         <view class="feed-source">
           <a>
@@ -29,10 +29,16 @@
           <text class="item-more">{{item.create_time}}</text>
         </view>
         <view class="feed-content">
-          <view class="question" qid="{{question_id}}" bindtap="bindQueTap">
+          <view class="question" data-id="{{item.id}}" bindtap="bindQueTap({{item.id}})">
             <a class="question-link">
               <!--<text>{{item.text}}</text>-->
-              <video src="{{item.video_uri}}"></video>
+              <video wx:if="{{curr_id == item.id}}" id="myVideo" id="myVideo" src="{{item.video_uri}}" objectFit="cover"  controls></video>
+              <view wx:else>
+                  <image class="model-img" mode="aspectFill" src="{{item.poster}}"></image>
+                  <view class="model-btn">
+                    <view class="play-icon"></view>
+                  </view>
+              </view>
             </a>
           </view>
           <view class="answer-body">
@@ -55,7 +61,7 @@
       </view>
     </block>
   </view>
-  <!-- </scroll-view> -->
+  </scroll-view>
 </template>
 
 <script>
@@ -78,6 +84,7 @@ export default class HistoryToday extends wepy.page {
     // this.getHistoryData();
     this.getList();
     this.refreshTime = formatTime(new Date()).join(' ')
+    this.videoContext = wx.createVideoContext('myVideo')
   }
   refresh(){
     this.hideHeader = true
@@ -116,6 +123,14 @@ export default class HistoryToday extends wepy.page {
   upMethod(){
     console.log("reach to up...");
     this.getList();
+  }
+
+  bindQueTap(id){
+    // console.log(e.currentTarget.dataset.id)
+    // this.curr_id = e.currentTarget.dataset.id
+    this.$apply()
+    console.log(this.curr_id,id)
+    this.videoContext.play()
   }
 
   getList() {
@@ -322,19 +337,6 @@ export default class HistoryToday extends wepy.page {
     margin: 10rpx 0 0;
     text-transform: uppercase;
   }
-<<<<<<< HEAD
-  .effect-2{max-height: 500rpx; min-height: 500rpx; overflow: hidden;z-index:2}
-  .effect-2 .h3{padding-top: 7rpx; line-height: 33rpx;display: block;}
-  .effect-2 .member-image{border-bottom: 15rpx solid #1fb554; height: 430rpx; overflow: hidden; width: 100%; transition: 0.4s; display: inline-block; vertical-align: middle;}
-  .effect-2 .member-info{
-    transition: 0.4s;
-    .h3{
-      font-size: 32rpx; font-weight: normal; margin: 10rpx 0 0; text-transform: uppercase;
-    }
-    .p{
-      font-size: 14px; font-weight: 300; line-height: 40rpx; padding: 0 26rpx; margin-bottom: 20rpx;margin-top:20rpx;display: block;
-    }
-=======
   .p {
     font-size: 14px;
     font-weight: 300;
@@ -343,7 +345,6 @@ export default class HistoryToday extends wepy.page {
     margin-bottom: 20rpx;
     margin-top: 20rpx;
     display: block;
->>>>>>> fab8b852443bcc6f86a5cc3e7a12ffbe2ecd2419
   }
 }
 .effect-2 .member-image image {
