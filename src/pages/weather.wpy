@@ -13,9 +13,9 @@
           </view>
           <view class='nowTemp'>{{weatherData.temperature}}</view>
           <view class='nowWind'>{{weatherData.wind}}</view>
-          <view class='air_now'>PM25: {{weatherData.pm25}}</view>
+          <view class='air_now'>PM2.5: {{weatherData.pm25}}</view>
           <view class='week'>{{weatherData.date}}</view>
-          <view class='historytoday' bindtap='lookHistory'>历史上的今天</view>
+          <view class='historytoday' bindtap='lookHistory'>今日看点</view>
         </view>
         <view class='dailyForecast'>
           <repeat for="{{futureWeather}}" style="display: block;">
