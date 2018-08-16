@@ -2,7 +2,7 @@
   <!-- <repeat for="{{result.result}}">
     <view class="single-member effect-2">
       <view class="member-image">
-        <image src="{{item.pic}}" />
+        <image src="{{item.pic}}" /> 
       </view>
       <view class="member-info">
         <text class="h3">{{item.title}}</text>

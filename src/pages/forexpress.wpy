@@ -1,13 +1,15 @@
 <template>
     <view class="container">
-    <view class="express-img-wrap">
-        <image class='express-img' src='../images/express.png'></image>
-    </view>
+        <view class="express-img-wrap">
+            <text class="save" catchtap='save'>其他信息查询</text>
+            <text class="save" style="left:250rpx" @tap="goToGame">摇骰子</text>
+            <image class='express-img' src='../images/timg.gif'></image>
+        </view>
         <!--快递入口-->
-    <view class="express-input-wrap iconfont icon-sousuo-copy">
-        <input bindblur="searchExpress"  class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
-        <view catchtap='scanExpressCode' class="scan-code iconfont icon-saoma"></view>
-    </view>
+        <view class="express-input-wrap iconfont icon-sousuo-copy">
+            <input bindblur="searchExpress" class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
+            <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
+        </view>
         <!--历史记录-->
         <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
             <view class='info-wrap'>
@@ -23,226 +25,253 @@
         </view>
     </view>
     <view class='mark' wx:if="{{showMark}}">
-      <view animation="{{animationData}}" class="animCat">
-        <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
-      </view>
-      <button open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
+        <view animation="{{animationData}}" class="animCat">
+            <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
+        </view>
+        <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
     </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import {formatTime } from '@/utils/util'
+import wepy from 'wepy';
+import { formatTime } from '@/utils/util';
 
-  export default class Forexpress extends wepy.page {
-    config = {
-        navigationBarTitleText: '快递查询'
-    }
+export default class Forexpress extends wepy.page {
+  config = {
+    navigationBarTitleText: '快递查询'
+  };
 
-    data = {
-        showMark:false,
-        baseUrl: "https://qf-restapi.mdscj.com/xp_express",
-        getExpressType : "/logistics/company/list",
-        getExpressMessage : "/logistics/search",
-        getExpressAllType : "/logistics/company-by-sort",
-        geMessageNoType : "/logistics/query",
-        geMessageMD : "/logistics/query-product-logisticsno",
-        hotMatch : "/logistics/query-company-quickly",
-        getExpressBy100 : "/kuaidi100/query",
-        getCompanyBy100 : "/kuaidi100/query-company-quickly",
-        expressValue:'',
-        delStatus:false,
-        chosseIndex:-1,
-        history:[],
-        animationData:{}
-    }
+  data = {
+    showMark: false,
+    baseUrl: 'https://qf-restapi.mdscj.com/xp_express',
+    getExpressType: '/logistics/company/list',
+    getExpressMessage: '/logistics/search',
+    getExpressAllType: '/logistics/company-by-sort',
+    geMessageNoType: '/logistics/query',
+    geMessageMD: '/logistics/query-product-logisticsno',
+    hotMatch: '/logistics/query-company-quickly',
+    getExpressBy100: '/kuaidi100/query',
+    getCompanyBy100: '/kuaidi100/query-company-quickly',
+    expressValue: '',
+    delStatus: false,
+    chosseIndex: -1,
+    history: [],
+    animationData: {}
+  };
 
-    methods = {
-        inputExpress (e) {
-            // console.log(e)
-            let val = e.detail.value.trim()
-            if (val !== '') {
-                val = val.replace(/<\/?[^>]*>/g, '')
-            }
-            this.expressValue = val
+  methods = {
+    goToGame(){
+      console.log('haole')
+      this.$navigate({
+        url: './game/index'
+      });
+    },
+    inputExpress(e) {
+      // console.log(e)
+      let val = e.detail.value.trim();
+      if (val !== '') {
+        val = val.replace(/<\/?[^>]*>/g, '');
+      }
+      this.expressValue = val;
+    },
+    /**
+     * 搜索快递单号
+     */
+    searchExpress() {
+      let number = this.expressValue;
+      number = number.replace(/\s+/g, '');
+      if (number.length === 0) return;
+      this.$navigate({
+        url: './expressJump/expressJump?number=' + number
+      });
+    },
+    /**
+     * 调用微信扫码
+     */
+    scanExpressCode() {
+      let that = this;
+      wx.scanCode({
+        onlyFromCamera: false,
+        success(res) {
+          let realdata = res.result || '';
+          if (realdata && realdata.includes('.com')) {
+            let forone = realdata.split('?') ? realdata.split('?')[1] : '';
+            let fortwo = forone.split('?') ? forone.split('=')[1] : '';
+            that.expressValue = fortwo;
+            that.$apply();
+            that.methods.searchExpress.call(that);
+            return;
+          }
+          that.expressValue = realdata;
+          that.$apply();
+          that.methods.searchExpress.call(that);
         },
-        /**
-        * 搜索快递单号
-        */
-        searchExpress () {
-            let number = this.expressValue
-            number = number.replace(/\s+/g, '')
-            if (number.length === 0) return
-            this.$navigate({
-                url: './expressJump/expressJump?number=' + number
-            })
-        },
-        /**
-        * 调用微信扫码
-        */
-        scanExpressCode () {
-            let that = this
-            wx.scanCode({
-            onlyFromCamera:false,
-            success (res) {
-                let realdata = res.result || ''
-                if(realdata&&realdata.includes('.com')){
-                    let forone = realdata.split('?')?realdata.split('?')[1]:''
-                    let fortwo = forone.split('?')?forone.split('=')[1]:''
-                    that.expressValue = fortwo
-                    that.$apply()
-                    that.methods.searchExpress.call(that)
-                    return
-                }
-                that.expressValue = realdata
-                that.$apply()
-                that.methods.searchExpress.call(that)
-            },
-            fail(res){
-                 wx.showModal({
-                    tilte: '扫码失败',
-                    content: '请重试',
-                    showCancel: false
-                })               
-            }
-            })
-        },
-        /**
-        * 打电话
-        * @param e
-        */
-        call (e) {
-            wx.makePhoneCall({
-                phoneNumber: e.currentTarget.dataset.phone
-            })
-        },
-        /**
-        * 查询详细内容
-        * @param e
-        */
-        goToExpress (e) {
-            console.log(e)
-            let number = e.currentTarget.dataset.number
-            this.$navigate({
-                url: './expressJump/expressJump?number=' + number
-            })
-        },
-        /**
-        * 删除记录
-        */
-        delete (e) {
-            let that = this
-            if (this.delStatus) return
-            this.delStatus = true
-            let index = e.currentTarget.dataset.index
-            let history = this.data.history
-            this.chosseIndex = index
-
-            setTimeout(function () {
-                history.splice(index, 1)
-                wx.setStorageSync('saveList', history)
-                that.history = wx.getStorageSync('saveList')
-                that.delStatus = false
-                that.chosseIndex = -1
-                that.$apply()
-            }, 1200)
-        },
-        onGotUserInfo(e){
-            if(e.detail.userInfo){
-            this.showMark = false
-            wx.setStorage({
-                key:'user',
-                data:e.detail.userInfo
-            })
-            }        
-        },
-        onShareAppMessage(){
-            return {
-                title:'武侯的猫',
-                path:'pages/forexpress',
-                success(res){
-                    console.log(res)
-                },
-                fail(res){
-                    console.log(res)
-                }
-            }
+        fail(res) {
+          wx.showModal({
+            tilte: '扫码失败',
+            content: '请重试',
+            showCancel: false
+          });
         }
+      });
+    },
+    /**
+     * 打电话
+     * @param e
+     */
+    call(e) {
+      wx.makePhoneCall({
+        phoneNumber: e.currentTarget.dataset.phone
+      });
+    },
+    /**
+     * 查询详细内容
+     * @param e
+     */
+    goToExpress(e) {
+      console.log(e);
+      let number = e.currentTarget.dataset.number;
+      this.$navigate({
+        url: './expressJump/expressJump?number=' + number
+      });
+    },
+    /**
+     * 删除记录
+     */
+    delete(e) {
+      let that = this;
+      if (this.delStatus) return;
+      this.delStatus = true;
+      let index = e.currentTarget.dataset.index;
+      let history = this.data.history;
+      this.chosseIndex = index;
+
+      setTimeout(function() {
+        history.splice(index, 1);
+        wx.setStorageSync('saveList', history);
+        that.history = wx.getStorageSync('saveList');
+        that.delStatus = false;
+        that.chosseIndex = -1;
+        that.$apply();
+      }, 1200);
+    },
+    onGotUserInfo(e) {
+      if (e.detail.userInfo) {
+        this.showMark = false;
+        wx.setStorage({
+          key: 'user',
+          data: e.detail.userInfo
+        });
+      }
+    },
+    onShareAppMessage() {
+      return {
+        title: '武侯的猫-打造最简小工具',
+        path: 'pages/forexpress',
+        success(res) {
+          console.log(res);
+        },
+        fail(res) {
+          console.log(res);
+        }
+      };
     }
-    onLoad() {
-    let that = this
-        //动画
+  };
+  onLoad() {
+    let that = this;
+    //动画
     var animation = wx.createAnimation({
       duration: 1200,
-      timingFunction: 'linear',
-    })
+      timingFunction: 'linear'
+    });
 
-    this.animation = animation
+    this.animation = animation;
 
     // animation.scale(2, 2).rotate(45).step()
 
     this.setData({
       animationData: animation.export()
-    })
+    });
     try {
-    var res = wx.getSystemInfoSync();
-    var width = res.windowWidth;//画布宽度
-    let setwidth = res.windowWidth/2 - 25
-    setTimeout(()=> {
-      that.animation.opacity(0.5).step().translateY(150).translateX(setwidth).rotateX(720).opacity(1).step()
-      that.setData({
-        animationData: that.animation.export()
-      })
-    },500)
+      var res = wx.getSystemInfoSync();
+      var width = res.windowWidth; //画布宽度
+      let setwidth = res.windowWidth / 2 - 25;
+      setTimeout(() => {
+        that.animation
+          .opacity(0.5)
+          .step()
+          .translateY(150)
+          .translateX(setwidth)
+          .rotateX(720)
+          .opacity(1)
+          .step();
+        that.setData({
+          animationData: that.animation.export()
+        });
+      }, 500);
     } catch (e) {
-        console.log("获取设备信息失败" + e);
-    }
-    }
-
-    onShow() {       
-        let self = this
-        try {
-            var res = wx.getStorageSync('user')
-            console.log(res)             
-            if(res) this.showMark = false;
-            if(!res) this.showMark = true;               
-            self.$apply()
-        } catch (e) {
-            this.showMark = true;
-        }
-        this.history = wx.getStorageSync('saveList')
-        this.$apply()
+      console.log('获取设备信息失败' + e);
     }
   }
+
+  onShow() {
+    let self = this;
+    try {
+      var res = wx.getStorageSync('user');
+      console.log(res);
+      if (res) this.showMark = false;
+      if (!res) this.showMark = true;
+      self.$apply();
+    } catch (e) {
+      this.showMark = true;
+    }
+    this.history = wx.getStorageSync('saveList');
+    this.$apply();
+  }
+}
 </script>
 
 <style lang="less" scoped>
-.animCat{
-    height:50px;
-    width:50px;
-    image{
-        height:50px;
-        width:50px;
-    }
+.save {
+  position: fixed;
+  top: 20rpx;
+  left: 20rpx;
+  border: 2rpx solid #43cd80;
+  border-radius: 8rpx;
+  font-size: 26rpx;
+  text-align: center;
+  line-height: 30rpx;
+  padding: 8rpx;
+  background-color: #43cd80;
+  z-index: 9999;
+  color: #fff;
+  box-shadow: 2rpx 2rpx 1rpx 0 grey;
 }
-.css-button{
-    width:150px;
-    margin:50% auto;
-    background:#138cff;
-    color:#fff
+.animCat {
+  height: 50px;
+  width: 50px;
+  image {
+    height: 50px;
+    width: 50px;
+  }
 }
-.icon-sousuo-copy{
-    color:#138cff;
-    font-size:12px
+.css-button {
+  width: 150px;
+  margin: 50% auto;
+  background: #138cff;
+  color: #fff;
 }
-.scan-code{
-    margin-right: 20rpx;
-    width: 80rpx;
-    height: 80rpx;
-    text-align: center;
-    line-height:55rpx;
-    color:#138cff;
-    font-size:24px   
+.scan-code {
+  margin-right: 20rpx;
+  width: 80rpx;
+  height: 80rpx;
+  text-align: center;
+  line-height: 55rpx;
+  color: #138cff;
+  font-size: 24px;
+}
+.iconfont {
+  color: #4cc0e9;
 }
 page {
   background-color: #fff;
@@ -250,13 +279,13 @@ page {
 }
 .express-img-wrap {
   height: 200rpx;
-  background-image: linear-gradient(#138cff, #f6f6f6);
+//   background-image: linear-gradient(#138cff, #fff);
 }
 .express-img {
-  width: 200rpx;
-  height: 200rpx;
+  width: 100%;
+//   height: 200rpx;
   position: absolute;
-  top: 0;
+  top: 10%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -271,13 +300,14 @@ page {
   //border-bottom: 4rpx solid #7FC06E;
   .express-input {
     width: 60%;
-    //transform: ;
-    line-height: 60rpx;
-    font-size: 26rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 35rpx;
     padding: 0 40rpx;
     //padding-left: rpx;
-    border: 4rpx solid #999;
-    border-radius: 30rpx;
+    border: 3rpx solid #4cc0e9;
+    border-radius: 10rpx;
+    color:#666
   }
 }
 .express-input-wrap::before {
@@ -285,15 +315,12 @@ page {
   //line-height: 60rpx;
   color: #999;
 }
-.icon-saoma {
+.express-input-wrap .icon-saoma {
   height: 80rpx;
-  transform: translate(10rpx, 12rpx);
   position: relative;
-//   z-index: 999;
-}
-.icon-saoma::before {
-  font-size: 50rpx;
-  color: #999;
+  font-size: 80rpx;
+  line-height: 80rpx;
+  margin-left: 10rpx;
 }
 .del {
   animation: dl 1s forwards;
@@ -308,7 +335,7 @@ page {
   }
   100% {
     transform: translate(1000rpx, -50rpx);
-    opacity:0
+    opacity: 0;
   }
 }
 .history {
@@ -326,6 +353,7 @@ page {
   border: 1rpx solid #138cff;
   border-radius: 20rpx;
   box-shadow: 4rpx -2rpx 4rpx #ccc;
+  background:rgba(255,255,255,0.8);
   .info-wrap {
     display: flex;
     width: 180rpx;
@@ -341,36 +369,39 @@ page {
   }
   .last-info-wrap {
     font-size: 24rpx;
-    color:#666
+    color: #666;
   }
   .phone {
     font-size: 40rpx;
     //transform: translateY(-10rpx);
   }
   .delete {
-    width:40rpx;
-    height:40rpx;
+    width: 40rpx;
+    height: 40rpx;
     position: absolute;
     top: 5rpx;
     right: 20rpx;
     border: 1rpx solid #ccc;
     border-radius: 10rpx;
     padding: 5rpx 5rpx 5rpx 12rpx;
-    background: #63B8FF;
-    color:#CD5555;
-    font-size:16px
+    background: #63b8ff;
+    color: #cd5555;
+    font-size: 16px;
   }
 }
-.time{
-    padding:8rpx 0 0
+.time {
+  padding: 8rpx 0 0;
 }
-  .mark{
-    width:100%;
-    height:100%;
-    position:fixed;
-    background:rgba(0,0,0,0.8);
-    top:0;
-    z-index:2;
-    overflow:hidden;
-  }
+.mark {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  background: rgba(0, 0, 0, 0.8);
+  top: 0;
+  z-index: 2;
+  overflow: hidden;
+}
+// .container .icon-sousuo-copy {
+//   color: #138cff;
+// }
 </style>
