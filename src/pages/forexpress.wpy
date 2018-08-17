@@ -245,10 +245,10 @@ export default class Forexpress extends wepy.page {
     try {
       var res = wx.getSystemInfoSync();
       //start
-      var clientHeight = res.windowHeight,
+      var clientHeight = res.windowHeight,      
         clientWidth = res.windowWidth,
         rpxR = 750 / clientWidth;
-      var calc = clientHeight * rpxR - 180;
+      var calc = (clientHeight - 1/rpxR*80)*rpxR;
       console.log(calc);
       this.winHeight = calc;
       //end
@@ -489,7 +489,7 @@ page {
   content: '';
   display: block;
   height: 8rpx;
-  width: 52rpx;
+  width: 100%;
   background: #4675f9;
   position: absolute;
   bottom: 0;
