@@ -1,35 +1,61 @@
 <template>
-    <view class="container">
-        <view class="express-img-wrap">
-            <text class="save" catchtap='save'>其他信息查询</text>
-            <text class="save" style="left:250rpx" @tap="goToGame">摇骰子</text>
-            <image class='express-img' src='../images/timg.gif'></image>
-        </view>
-        <!--快递入口-->
-        <view class="express-input-wrap iconfont icon-sousuo-copy">
-            <input bindblur="searchExpress" class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
-            <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
-        </view>
-        <!--历史记录-->
-        <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
-            <view class='info-wrap'>
+  <view class='mark' wx:if="{{showMark}}">
+    <view animation="{{animationData}}" class="animCat">
+      <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
+    </view>
+    <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
+  </view>
+  <!-- test-tab -->
+  <view>
+    <scroll-view scroll-x="true" class="tab-h" scroll-left="{{scrollLeft}}">
+      <view class="tab-item {{currentTab==0?'active':''}}" data-current="0" bindtap="swichNav">快递</view>
+      <view class="tab-item {{currentTab==1?'active':''}}" data-current="1" bindtap="swichNav">身份证</view>
+      <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">银行卡号</view>
+      <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">手机号码</view>
+      <view class="tab-item {{currentTab==4?'active':''}}" data-current="4" bindtap="swichNav">身材计算</view>
+      <view class="tab-item {{currentTab==5?'active':''}}" data-current="5" bindtap="swichNav">青葱</view>
+      <view class="tab-item {{currentTab==6?'active':''}}" data-current="6" bindtap="swichNav">全部</view>
+      <view class="tab-item {{currentTab==7?'active':''}}" data-current="7" bindtap="swichNav">其他</view>
+    </scroll-view>
+    <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab" style="height:{{winHeight}}rpx">
+      <!-- 快递查询 -->
+      <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}" wx:key="*this">
+        <scroll-view scroll-y="true" class="scoll-h" wx:if="{{index==0}}">
+          <view class="container">
+            <view class="express-img-wrap">
+              <text class="save" @tap="goToGame">摇骰子</text>
+              <image class='express-img' src='../images/timg.gif'></image>
+            </view>
+            <!--快递入口-->
+            <view class="express-input-wrap iconfont icon-sousuo-copy">
+              <input bindblur="searchExpress" class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
+              <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
+            </view>
+            <!--历史记录-->
+            <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
+              <view class='info-wrap'>
                 <view class="company">{{ item.company }}</view>
                 <view class="number">{{ item.nubmer }}</view>
-            </view>
-            <view class="last-info-wrap">
+              </view>
+              <view class="last-info-wrap">
                 <view class="time">{{ item.traces.acceptTime }}</view>
                 <view class="content">{{ item.traces.acceptStation }}</view>
+              </view>
+              <view wx:if="{{ item.traces.phone }}" catchtap='call' class="phone iconfont icon-dianhua1" data-phone="{{ item.traces.phone }}"></view>
+              <view class="delete iconfont icon-lajitong_kuai" data-index="{{ index }}" catchtap='delete'></view>
             </view>
-            <view wx:if="{{ item.traces.phone }}" catchtap='call' class="phone iconfont icon-dianhua1" data-phone="{{ item.traces.phone }}"></view>
-            <view class="delete iconfont icon-lajitong_kuai" data-index="{{ index }}" catchtap='delete'></view>
-        </view>
-    </view>
-    <view class='mark' wx:if="{{showMark}}">
-        <view animation="{{animationData}}" class="animCat">
-            <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
-        </view>
-        <button open-type="getUserInfo" lang="zh_CN" @getuserinfo="onGotUserInfo" class="css-button">开始吧!</button>
-    </view>
+          </view>
+        </scroll-view>
+        <scroll-view scroll-y="true" class="scoll-h" wx:else>
+          <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
+            <view>测试</view>
+          </block>
+        </scroll-view>
+      </swiper-item>
+
+    </swiper>
+  </view>
+
 </template>
 
 <script>
@@ -56,12 +82,36 @@ export default class Forexpress extends wepy.page {
     delStatus: false,
     chosseIndex: -1,
     history: [],
-    animationData: {}
+    animationData: {},
+    winHeight: '', //窗口高度
+    currentTab: 0, //预设当前项的值
+    scrollLeft: 0 //tab标题的滚动条位置
   };
 
   methods = {
-    goToGame(){
-      console.log('haole')
+    switchTab: function(e) {
+      this.currentTab = e.detail.current;
+      this.$apply();
+      this.methods.checkCor.call(this);
+    },
+    // 点击标题切换当前页时改变样式
+    swichNav: function(e) {
+      var cur = e.target.dataset.current;
+      if (this.data.currentTaB == cur) {
+        return false;
+      } else {
+        this.currentTab = cur;
+      }
+    },
+    //判断当前滚动超过一屏时，设置tab标题滚动条。
+    checkCor: function() {
+      if (this.data.currentTab > 3) {
+        this.scrollLeft = 300;
+      } else {
+        this.scrollLeft = 0;
+      }
+    },
+    goToGame() {
       this.$navigate({
         url: './game/index'
       });
@@ -194,6 +244,14 @@ export default class Forexpress extends wepy.page {
     });
     try {
       var res = wx.getSystemInfoSync();
+      //start
+      var clientHeight = res.windowHeight,
+        clientWidth = res.windowWidth,
+        rpxR = 750 / clientWidth;
+      var calc = clientHeight * rpxR - 180;
+      console.log(calc);
+      this.winHeight = calc;
+      //end
       var width = res.windowWidth; //画布宽度
       let setwidth = res.windowWidth / 2 - 25;
       setTimeout(() => {
@@ -279,11 +337,11 @@ page {
 }
 .express-img-wrap {
   height: 200rpx;
-//   background-image: linear-gradient(#138cff, #fff);
+  //   background-image: linear-gradient(#138cff, #fff);
 }
 .express-img {
   width: 100%;
-//   height: 200rpx;
+  //   height: 200rpx;
   position: absolute;
   top: 10%;
   left: 50%;
@@ -307,7 +365,7 @@ page {
     //padding-left: rpx;
     border: 3rpx solid #4cc0e9;
     border-radius: 10rpx;
-    color:#666
+    color: #666;
   }
 }
 .express-input-wrap::before {
@@ -353,7 +411,7 @@ page {
   border: 1rpx solid #138cff;
   border-radius: 20rpx;
   box-shadow: 4rpx -2rpx 4rpx #ccc;
-  background:rgba(255,255,255,0.8);
+  background: rgba(255, 255, 255, 0.8);
   .info-wrap {
     display: flex;
     width: 180rpx;
@@ -404,4 +462,93 @@ page {
 // .container .icon-sousuo-copy {
 //   color: #138cff;
 // }
+//test-tab start
+.tab-h {
+  height: 80rpx;
+  width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  line-height: 80rpx;
+  background: #f7f7f7;
+  font-size: 16px;
+  white-space: nowrap;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99;
+}
+.tab-item {
+  margin: 0 36rpx;
+  display: inline-block;
+}
+.tab-item.active {
+  color: #4675f9;
+  position: relative;
+}
+.tab-item.active:after {
+  content: '';
+  display: block;
+  height: 8rpx;
+  width: 52rpx;
+  background: #4675f9;
+  position: absolute;
+  bottom: 0;
+  left: 5rpx;
+  border-radius: 16rpx;
+}
+.item-ans {
+  width: 100%;
+  display: flex;
+  flex-grow: row no-wrap;
+  justify-content: space-between;
+  padding: 30rpx;
+  box-sizing: border-box;
+  height: 180rpx;
+  align-items: center;
+  border-bottom: 1px solid #f2f2f2;
+}
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  position: relative;
+  padding-right: 30rpx;
+}
+.avatar .img {
+  width: 100%;
+  height: 100%;
+}
+.avatar .doyen {
+  width: 40rpx;
+  height: 40rpx;
+  position: absolute;
+  bottom: -2px;
+  right: 20rpx;
+}
+.expertInfo {
+  font-size: 12px;
+  flex-grow: 2;
+  color: #b0b0b0;
+  line-height: 1.5em;
+}
+.expertInfo .name {
+  font-size: 16px;
+  color: #000;
+  margin-bottom: 6px;
+}
+.askBtn {
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 60rpx;
+  text-align: center;
+  font-size: 14px;
+  border-radius: 60rpx;
+  border: 1px solid #4675f9;
+  color: #4675f9;
+}
+.tab-content {
+  margin-top: 80rpx;
+}
+.scoll-h {
+  height: 100%;
+}
 </style>
