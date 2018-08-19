@@ -13,13 +13,10 @@
       <view class="tab-item {{currentTab==2?'active':''}}" data-current="2" bindtap="swichNav">银行卡号</view>
       <view class="tab-item {{currentTab==3?'active':''}}" data-current="3" bindtap="swichNav">手机号码</view>
       <view class="tab-item {{currentTab==4?'active':''}}" data-current="4" bindtap="swichNav">身材计算</view>
-      <view class="tab-item {{currentTab==5?'active':''}}" data-current="5" bindtap="swichNav">青葱</view>
-      <view class="tab-item {{currentTab==6?'active':''}}" data-current="6" bindtap="swichNav">全部</view>
-      <view class="tab-item {{currentTab==7?'active':''}}" data-current="7" bindtap="swichNav">其他</view>
     </scroll-view>
     <swiper class="tab-content" current="{{currentTab}}" duration="300" bindchange="switchTab" style="height:{{winHeight}}rpx">
       <!-- 快递查询 -->
-      <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}" wx:key="*this">
+      <swiper-item wx:for="{{[0,1,2,3,4]}}" wx:key="*this">
         <scroll-view scroll-y="true" class="scoll-h" wx:if="{{index==0}}">
           <ForexpressItem></ForexpressItem>
         </scroll-view>
