@@ -21,30 +21,7 @@
       <!-- 快递查询 -->
       <swiper-item wx:for="{{[0,1,2,3,4,5,6,7]}}" wx:key="*this">
         <scroll-view scroll-y="true" class="scoll-h" wx:if="{{index==0}}">
-          <view class="container">
-            <view class="express-img-wrap">
-              <text class="save" @tap="goToGame">摇骰子</text>
-              <image class='express-img' src='../images/timg.gif'></image>
-            </view>
-            <!--快递入口-->
-            <view class="express-input-wrap iconfont icon-sousuo-copy">
-              <input bindblur="searchExpress" class="express-input" bindinput="inputExpress" confirm-type="done" placeholder="请输入或扫码您的快递单号" value="{{ expressValue}}" />
-              <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
-            </view>
-            <!--历史记录-->
-            <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
-              <view class='info-wrap'>
-                <view class="company">{{ item.company }}</view>
-                <view class="number">{{ item.nubmer }}</view>
-              </view>
-              <view class="last-info-wrap">
-                <view class="time">{{ item.traces.acceptTime }}</view>
-                <view class="content">{{ item.traces.acceptStation }}</view>
-              </view>
-              <view wx:if="{{ item.traces.phone }}" catchtap='call' class="phone iconfont icon-dianhua1" data-phone="{{ item.traces.phone }}"></view>
-              <view class="delete iconfont icon-lajitong_kuai" data-index="{{ index }}" catchtap='delete'></view>
-            </view>
-          </view>
+          <ForexpressItem></ForexpressItem>
         </scroll-view>
         <scroll-view scroll-y="true" class="scoll-h" wx:else>
           <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
@@ -60,29 +37,18 @@
 
 <script>
 import wepy from 'wepy';
+import ForexpressItem from '@/components/express/index'
 import { formatTime } from '@/utils/util';
 
 export default class Forexpress extends wepy.page {
   config = {
     navigationBarTitleText: '快递查询'
   };
-
+  components = {
+    ForexpressItem
+  }
+  
   data = {
-    showMark: false,
-    baseUrl: 'https://qf-restapi.mdscj.com/xp_express',
-    getExpressType: '/logistics/company/list',
-    getExpressMessage: '/logistics/search',
-    getExpressAllType: '/logistics/company-by-sort',
-    geMessageNoType: '/logistics/query',
-    geMessageMD: '/logistics/query-product-logisticsno',
-    hotMatch: '/logistics/query-company-quickly',
-    getExpressBy100: '/kuaidi100/query',
-    getCompanyBy100: '/kuaidi100/query-company-quickly',
-    expressValue: '',
-    delStatus: false,
-    chosseIndex: -1,
-    history: [],
-    animationData: {},
     winHeight: '', //窗口高度
     currentTab: 0, //预设当前项的值
     scrollLeft: 0 //tab标题的滚动条位置
@@ -109,109 +75,6 @@ export default class Forexpress extends wepy.page {
         this.scrollLeft = 300;
       } else {
         this.scrollLeft = 0;
-      }
-    },
-    goToGame() {
-      this.$navigate({
-        url: './game/index'
-      });
-    },
-    inputExpress(e) {
-      // console.log(e)
-      let val = e.detail.value.trim();
-      if (val !== '') {
-        val = val.replace(/<\/?[^>]*>/g, '');
-      }
-      this.expressValue = val;
-    },
-    /**
-     * 搜索快递单号
-     */
-    searchExpress() {
-      let number = this.expressValue;
-      number = number.replace(/\s+/g, '');
-      if (number.length === 0) return;
-      this.$navigate({
-        url: './expressJump/expressJump?number=' + number
-      });
-    },
-    /**
-     * 调用微信扫码
-     */
-    scanExpressCode() {
-      let that = this;
-      wx.scanCode({
-        onlyFromCamera: false,
-        success(res) {
-          let realdata = res.result || '';
-          if (realdata && realdata.includes('.com')) {
-            let forone = realdata.split('?') ? realdata.split('?')[1] : '';
-            let fortwo = forone.split('?') ? forone.split('=')[1] : '';
-            that.expressValue = fortwo;
-            that.$apply();
-            that.methods.searchExpress.call(that);
-            return;
-          }
-          that.expressValue = realdata;
-          that.$apply();
-          that.methods.searchExpress.call(that);
-        },
-        fail(res) {
-          wx.showModal({
-            tilte: '扫码失败',
-            content: '请重试',
-            showCancel: false
-          });
-        }
-      });
-    },
-    /**
-     * 打电话
-     * @param e
-     */
-    call(e) {
-      wx.makePhoneCall({
-        phoneNumber: e.currentTarget.dataset.phone
-      });
-    },
-    /**
-     * 查询详细内容
-     * @param e
-     */
-    goToExpress(e) {
-      console.log(e);
-      let number = e.currentTarget.dataset.number;
-      this.$navigate({
-        url: './expressJump/expressJump?number=' + number
-      });
-    },
-    /**
-     * 删除记录
-     */
-    delete(e) {
-      let that = this;
-      if (this.delStatus) return;
-      this.delStatus = true;
-      let index = e.currentTarget.dataset.index;
-      let history = this.data.history;
-      this.chosseIndex = index;
-
-      setTimeout(function() {
-        history.splice(index, 1);
-        wx.setStorageSync('saveList', history);
-        that.history = wx.getStorageSync('saveList');
-        that.delStatus = false;
-        that.chosseIndex = -1;
-        that.$apply();
-      }, 1200);
-    },
-    onGotUserInfo(e) {
-      if (e.detail.userInfo) {
-        this.showMark = false;
-        wx.setStorage({
-          key: 'user',
-          data: e.detail.userInfo
-        });
       }
     },
     onShareAppMessage() {
@@ -252,40 +115,12 @@ export default class Forexpress extends wepy.page {
       console.log(calc);
       this.winHeight = calc;
       //end
-      var width = res.windowWidth; //画布宽度
-      let setwidth = res.windowWidth / 2 - 25;
-      setTimeout(() => {
-        that.animation
-          .opacity(0.5)
-          .step()
-          .translateY(150)
-          .translateX(setwidth)
-          .rotateX(720)
-          .opacity(1)
-          .step();
-        that.setData({
-          animationData: that.animation.export()
-        });
-      }, 500);
     } catch (e) {
       console.log('获取设备信息失败' + e);
     }
   }
 
-  onShow() {
-    let self = this;
-    try {
-      var res = wx.getStorageSync('user');
-      console.log(res);
-      if (res) this.showMark = false;
-      if (!res) this.showMark = true;
-      self.$apply();
-    } catch (e) {
-      this.showMark = true;
-    }
-    this.history = wx.getStorageSync('saveList');
-    this.$apply();
-  }
+  onShow() {}
 }
 </script>
 
