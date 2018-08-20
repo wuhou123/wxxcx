@@ -98,8 +98,8 @@ export default class ForexpressItem extends wepy.page {
       let number = this.expressValue;
       number = number.replace(/\s+/g, '');
       if (number.length === 0) return;
-      this.$navigate({
-        url: '../../pages/expressJump/expressJump?number=' + number
+      this.$parent.$navigate({
+        url: './expressJump/expressJump?number=' + number
       });
     },
     /**

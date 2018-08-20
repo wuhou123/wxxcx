@@ -20,6 +20,9 @@
         <scroll-view scroll-y="true" class="scoll-h" wx:if="{{index==0}}">
           <ForexpressItem></ForexpressItem>
         </scroll-view>
+        <scroll-view scroll-y="true" class="scoll-h" wx:elif="{{index==2}}">
+           <IdCard></IdCard>
+        </scroll-view>
         <scroll-view scroll-y="true" class="scoll-h" wx:else>
           <block wx:for="{{[1,2,3,4,5,6,7,8]}}" wx:key="*this">
             <view>测试</view>
@@ -35,6 +38,7 @@
 <script>
 import wepy from 'wepy';
 import ForexpressItem from '@/components/express/index'
+import IdCard from '@/components/querys/idCard'
 import { formatTime } from '@/utils/util';
 
 export default class Forexpress extends wepy.page {
@@ -42,7 +46,8 @@ export default class Forexpress extends wepy.page {
     navigationBarTitleText: '快递查询'
   };
   components = {
-    ForexpressItem
+    ForexpressItem,
+    IdCard
   }
   
   data = {
@@ -383,4 +388,5 @@ page {
 .scoll-h {
   height: 100%;
 }
+
 </style>

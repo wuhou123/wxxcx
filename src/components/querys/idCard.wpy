@@ -1,0 +1,288 @@
+<template>
+    <view>
+        <view class="pages-box">
+            <!--  提示文字  -->
+            <view class="fs32 fc99">
+                请输入您要查询的银行卡号
+            </view>
+            <!--  搜索框  -->
+            <view class="inp-box">
+                <input class="inp" bindinput="bankCard" placeholder="银行卡号" placeholder-style="font-size:30rpx" />
+                <view class="inpimg">
+                    <image src="../../images/querys/search.png" class="pagesimg" />
+                </view>
+            </view>
+            <!--  提交按钮  -->
+            <view class="btn-box">
+                <button class="btn fs32" bindtap="getdata">
+                    查 询
+                </button>
+            </view>
+
+        </view>
+        <!--  详细信息  -->
+        <view class="det-box {{show?'':'dp-n'}}">
+            <view class="pg-t fs36 fc99">
+                详细信息
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">银行卡号：</view>
+                <view class="pg-r fs32">{{getdata.bankCard}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">银行名称：</view>
+                <view class="pg-r fs32">{{getdata.bankName}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">卡片类型：</view>
+                <view class="pg-r fs32">{{getdata.cardType}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">银行网址：</view>
+                <view class="pg-r fs32">{{getdata.site}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">客服电话：</view>
+                <view class="pg-r fs32">{{getdata.bankMobile}}</view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class IdCard extends wepy.page {
+  config = {
+    navigationBarTitleText: '身份证查询'
+  };
+
+  data = {
+    bankCard: '',
+    show: false,
+    getdata: {}
+  };
+
+  methods = {
+    /**
+     *用户点击获取数据事件
+     */
+    getdata: function(e) {
+      var that = this;
+      wx.showLoading({
+        title: '加载中'
+      });
+      var bankCard = this.data.bankCard;
+      //6228480402564890018
+      if (bankCard == '') {
+        wx.showToast({
+          title: '输入不合法',
+          icon: 'none',
+          image: '../../images/querys/error.png',
+          duration: 2000
+        });
+        return false;
+      }
+      // 请求数据
+      wx.request({
+        url:
+          'https://www.zhaotool.com/v1/api/lt/e10adc3949ba59abbe56e057f20f883e/' + bankCard,
+        data: {},
+        header: {
+          'content-type': 'application/json' // 默认值
+        },
+        success: function(res) {
+          console.log(res);
+          wx.hideLoading();
+          if (res.data.code == '0') {
+            if (
+              res.data.data == '' ||
+              res.data.data == 'null' ||
+              res.data.data == null ||
+              res.data.data == 'undefined' ||
+              res.data.data == undefined
+            ) {
+              wx.showModal({
+                title: '提示',
+                content: '暂无数据',
+                success: function(res) {
+                  that.show = false
+                  that.$apply()
+                }
+              });
+            } else {
+              that.setData({
+                show: true,
+                getdata: res.data.data
+              });
+              that.show = true
+              that.getdata = res.data.data
+            }
+          } else {
+            wx.showModal({
+              title: '提示',
+              content: res.data.msg,
+              success: function(res) {
+                that.setData({
+                  show: false
+                });
+              }
+            });
+          }
+        }
+      });
+    }
+  };
+  onUnload() {}
+
+  onShow() {}
+}
+</script>
+
+<style lang="less" scoped>
+.container {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 200rpx 0;
+  box-sizing: border-box;
+}
+
+/*  字体大小  */
+
+.fs20 {
+  font-size: 20rpx;
+}
+
+.fs22 {
+  font-size: 22rpx;
+}
+
+.fs24 {
+  font-size: 24rpx;
+}
+
+.fs26 {
+  font-size: 26rpx;
+}
+
+.fs28 {
+  font-size: 28rpx;
+}
+
+.fs30 {
+  font-size: 30rpx;
+}
+
+.fs32 {
+  font-size: 32rpx;
+}
+
+.fs34 {
+  font-size: 34rpx;
+}
+
+.fs36 {
+  font-size: 36rpx;
+}
+
+/*  字体颜色  */
+
+.fc99 {
+  color: #999;
+}
+.fcff{
+  color:#fff;
+}
+
+/*  页面整体配置文件  */
+
+.pages-box {
+  box-sizing: border-box;
+  padding: 30rpx 30rpx;
+}
+
+.inp-box {
+  box-sizing: border-box;
+  padding-top: 30rpx;
+  position: relative;
+}
+
+.inp {
+  border: 3rpx solid #4cc0e9;
+  height: 80rpx;
+  border-radius: 10rpx;
+  line-height: 80rpx;
+  box-sizing: border-box;
+  padding-left: 130rpx;
+}
+
+.inpimg {
+  width: 120rpx;
+  height: 74rpx;
+  background-color: #f1f2f6;
+  border-top-left-radius: 10rpx;
+  border-bottom-left-radius: 10rpx;
+  position: absolute;
+  top: 33rpx;
+  left: 3rpx;
+}
+
+.pagesimg {
+  width: 40rpx;
+  height: 40rpx;
+  margin-top: 17rpx;
+  margin-left: 38rpx;
+}
+
+.btn-box {
+  margin-top: 30rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.btn {
+  width: 200rpx;
+  background-color: #50c1e9;
+  color: #fff;
+  text-align: center;
+}
+
+.det-box {
+  border-top: 10rpx solid #e3e4e9;
+  box-sizing: border-box;
+  padding: 0rpx 30rpx;
+}
+
+.pg-t {
+  padding: 20rpx 0rpx;
+  border-bottom: 3rpx solid #f0f0f0;
+}
+
+.pglist {
+  border-bottom: 3rpx solid #f0f0f0;
+  box-sizing: border-box;
+  padding: 10rpx 0rpx;
+}
+
+.pg-l {
+  display: inline-block;
+  width: 25%;
+}
+
+.pg-r {
+  display: inline-block;
+  width: 75%;
+}
+.dp-n{
+  display: none;
+}
+.clear{
+  clear:both;
+}
+.dp-ib{
+  display: inline-block;
+}
+</style>
