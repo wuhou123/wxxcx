@@ -1,0 +1,155 @@
+<template>
+    <view>
+        <view class="pages-box">
+            <!--  提示文字  -->
+            <view class="fs32 fc99">
+                请输入您的身高体重
+            </view>
+            <!--  搜索框  -->
+            <view class="inp-box">
+                <input class="inp" bindinput="height" placeholder="身高(cm)" placeholder-style="font-size:30rpx" />
+                <view class="inpimg">
+                    <image src="../../images/querys/height.png" class="pagesimg" />
+                </view>
+            </view>
+            <view class="inp-box">
+                <input class="inp" bindinput="weight" placeholder="体重（kg）" placeholder-style="font-size:30rpx" />
+                <view class="inpimg">
+                    <image src="../../images/querys/weight.png" class="pagesimg" />
+                </view>
+            </view>
+            <!--  提交按钮  -->
+            <view class="btn-box">
+                <button class="btn fs32" bindtap="getdata">
+                    开始计算
+                </button>
+            </view>
+
+        </view>
+        <!--  详细信息  -->
+        <view class="det-box {{show?'':'dp-n'}}">
+            <view class="pg-t fs36 fc99">
+                计算结果
+            </view>
+            <view class="pglist fc99 figure">
+                <image src="{{res.img}}" class="figureimg" />
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">测试结果：</view>
+                <view class="pg-r fs32">{{res.msg}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">理想体重：</view>
+                <view class="pg-r fs32">{{res.ideal}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">BMI：</view>
+                <view class="pg-r fs32">{{res.bmi}}</view>
+            </view>
+        </view>
+    </view>
+</template>
+
+<script>
+import wepy from 'wepy';
+
+export default class Figure extends wepy.page {
+  config = {
+    navigationBarTitleText: '身材查询'
+  };
+
+  data = {
+    height: '',
+    weight: '',
+    show: false,
+    res: {
+      img: '',
+      msg: '',
+      ideal: '',
+      bmi: ''
+    }
+  };
+
+  methods = {
+    height: function(e) {
+      this.height = e.detail.value;
+    },
+    weight: function(e) {
+      this.weight = e.detail.value;
+    },
+    /**
+     *用户点击获取数据事件
+     */
+    getdata: function(e) {
+      var that = this;
+      wx.showLoading({
+        title: '计算中'
+      });
+      var height = this.data.height;
+      var weight = this.data.weight;
+      if (height == '' || weight == '') {
+        wx.showToast({
+          title: '请输入身高体重',
+          icon: 'none',
+          image: '../images/querys/error.png',
+          duration: 2000
+        });
+        return false;
+      }
+      if (!isNaN(height) && !isNaN(weight)) {
+        var ideal = (height - 100) * 0.9;
+        var bmi = (weight / (height / 100 * (height / 100))).toFixed(2);
+        if (bmi < 18.5) {
+          (this.show = true),
+            (this.res = {
+              img: '../../images/querys/bq3.gif',
+              msg: '你的体重太轻,要多吃点肉哟!',
+              ideal: ideal,
+              bmi: bmi
+            });
+        } else if (bmi >= 18.5 && bmi < 25) {
+          (this.show = true),
+            (this.res = {
+              img: '../../images/querys/bq2.gif',
+              msg: '亲,你的体重正常,要继续保持哟',
+              ideal: ideal,
+              bmi: bmi
+            });
+        } else if (bmi >= 25 && bmi < 30) {
+          (this.show = true),
+            (this.res = {
+              img: '../../images/querys/bq6.gif',
+              msg: '亲,您的体重过重,要减肥了!',
+              ideal: ideal,
+              bmi: bmi
+            });
+        } else {
+          (this.show = true),
+            (this.res = {
+              img: '../../images/querys/bq1.gif',
+              msg: '亲,你确实要减肥了!',
+              ideal: ideal,
+              bmi: bmi
+            });
+        }
+
+        wx.hideLoading();
+      } else {
+        wx.showToast({
+          title: '请正确输入！',
+          icon: 'none',
+          image: '../../images/error.png',
+          duration: 2000
+        });
+      }
+    }
+  };
+  onUnload() {}
+
+  onShow() {}
+}
+</script>
+
+<style lang="less" scoped>
+@import '../../font/base.less';
+</style>

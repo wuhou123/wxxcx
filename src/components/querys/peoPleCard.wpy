@@ -3,11 +3,11 @@
         <view class="pages-box">
             <!--  提示文字  -->
             <view class="fs32 fc99">
-                请输入您要查询的银行卡号
+                请输入您要查询的身份证号码 (我们不会保留任何信息)：
             </view>
             <!--  搜索框  -->
             <view class="inp-box">
-                <input class="inp" bindinput="bankCard" placeholder="银行卡号" placeholder-style="font-size:30rpx" value="{{bankCard}}"/>
+                <input class="inp" bindinput="IDCard" placeholder="您的身份证号码" placeholder-style="font-size:30rpx" />
                 <view class="inpimg">
                     <image src="../../images/querys/search.png" class="pagesimg" />
                 </view>
@@ -26,24 +26,32 @@
                 详细信息
             </view>
             <view class="pglist fc99">
-                <view class="pg-l fs32">银行卡号：</view>
-                <view class="pg-r fs32">{{getdata.bankCard}}</view>
+                <view class="pg-l fs32">号码：</view>
+                <view class="pg-r fs32">{{getdata.idcard}}</view>
             </view>
             <view class="pglist fc99">
-                <view class="pg-l fs32">银行名称：</view>
-                <view class="pg-r fs32">{{getdata.bankName}}</view>
+                <view class="pg-l fs32">生日：</view>
+                <view class="pg-r fs32">{{getdata.birthday}}</view>
             </view>
             <view class="pglist fc99">
-                <view class="pg-l fs32">卡片类型：</view>
-                <view class="pg-r fs32">{{getdata.cardType}}</view>
+                <view class="pg-l fs32">性别：</view>
+                <view class="pg-r fs32">{{getdata.sex}}</view>
             </view>
             <view class="pglist fc99">
-                <view class="pg-l fs32">银行网址：</view>
-                <view class="pg-r fs32">{{getdata.site}}</view>
+                <view class="pg-l fs32">属性：</view>
+                <view class="pg-r fs32">{{getdata.zodiac}}</view>
             </view>
             <view class="pglist fc99">
-                <view class="pg-l fs32">客服电话：</view>
-                <view class="pg-r fs32">{{getdata.bankMobile}}</view>
+                <view class="pg-l fs32">时辰：</view>
+                <view class="pg-r fs32">{{getdata.cnEra}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">星座：</view>
+                <view class="pg-r fs32">{{getdata.constellation}}</view>
+            </view>
+            <view class="pglist fc99">
+                <view class="pg-l fs32">地址：</view>
+                <view class="pg-r fs32">{{getdata.area}}</view>
             </view>
         </view>
     </view>
@@ -52,32 +60,34 @@
 <script>
 import wepy from 'wepy';
 
-export default class IdCard extends wepy.page {
+export default class PeoPleCard extends wepy.page {
   config = {
     navigationBarTitleText: '身份证查询'
   };
 
   data = {
-    bankCard: '',
-    realCard:'',
+    IDCaed: '',
     show: false,
-    getdata: {}
+    getdata: {},
+    realCard:''
   };
 
   methods = {
-    bankCard: function (e) {
-      // this.bankCard = e.detail.value
-      this.bankCard = e.detail.value.toString().replace(/(\d{4})(?!\s)/g,'$1 ')
-      this.realCard = this.bankCard.replace(/\s/g, '')        
+    IDCard: function(e) {
+      this.IDCaed = e.detail.value.toString().replace(/(\d{4})(?!\s)/g,'$1 ')
+      this.realCard = this.IDCaed.replace(/\s/g, '')
     },
+    /**
+     *用户点击获取数据事件
+     */
     getdata: function(e) {
       var that = this;
       wx.showLoading({
         title: '加载中'
       });
-      var bankCard = this.realCard;
-      //6228480402564890018
-      if (bankCard == '') {
+      var IDCard = this.data.realCard;
+      var reg = /^\d{6}(18|19|20)?\d{2}(0[1-9]|1[012])(0[1-9]|[12]\d|3[01])\d{3}(\d|[xX])$/;
+      if (reg.test(IDCard) === false) {
         wx.showToast({
           title: '输入不合法',
           icon: 'none',
@@ -89,7 +99,8 @@ export default class IdCard extends wepy.page {
       // 请求数据
       wx.request({
         url:
-          'https://www.zhaotool.com/v1/api/lt/e10adc3949ba59abbe56e057f20f883e/' + bankCard,
+          'https://www.zhaotool.com/v1/api/lt/e10adc3949ba59abbe56e057f20f883e/' +
+          IDCard,
         data: {},
         header: {
           'content-type': 'application/json' // 默认值
@@ -108,23 +119,23 @@ export default class IdCard extends wepy.page {
               wx.showModal({
                 title: '提示',
                 content: '暂无数据',
-                success: function(res) {
-                  that.show = false
-                  that.$apply()
+                success: (res) => {
+                    this.show = false
+                    this.$apply()
                 }
               });
             } else {
-              that.show = true
-              that.getdata = res.data.data
-              that.$apply()
+                this.show = true
+                this.getdata = res.data.data
+                this.$apply()
             }
           } else {
             wx.showModal({
               title: '提示',
               content: res.data.msg,
               success: function(res) {
-                that.show = false
-                that.$apply()
+                  this.show = false
+                  this.$apply()
               }
             });
           }
@@ -139,5 +150,5 @@ export default class IdCard extends wepy.page {
 </script>
 
 <style lang="less" scoped>
-@import '../../font/base.less'; 
+@import '../../font/base.less';
 </style>
