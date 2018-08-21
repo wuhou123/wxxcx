@@ -102,7 +102,7 @@ export default class Figure extends wepy.page {
         if (bmi < 18.5) {
           (this.show = true),
             (this.res = {
-              img: '../../images/querys/bq3.gif',
+              img: '../images/querys/bq3.gif',
               msg: '你的体重太轻,要多吃点肉哟!',
               ideal: ideal,
               bmi: bmi
@@ -110,7 +110,7 @@ export default class Figure extends wepy.page {
         } else if (bmi >= 18.5 && bmi < 25) {
           (this.show = true),
             (this.res = {
-              img: '../../images/querys/bq2.gif',
+              img: '../images/querys/bq2.gif',
               msg: '亲,你的体重正常,要继续保持哟',
               ideal: ideal,
               bmi: bmi
@@ -118,7 +118,7 @@ export default class Figure extends wepy.page {
         } else if (bmi >= 25 && bmi < 30) {
           (this.show = true),
             (this.res = {
-              img: '../../images/querys/bq6.gif',
+              img: '../images/querys/bq6.gif',
               msg: '亲,您的体重过重,要减肥了!',
               ideal: ideal,
               bmi: bmi
@@ -126,7 +126,7 @@ export default class Figure extends wepy.page {
         } else {
           (this.show = true),
             (this.res = {
-              img: '../../images/querys/bq1.gif',
+              img: '../images/querys/bq1.gif',
               msg: '亲,你确实要减肥了!',
               ideal: ideal,
               bmi: bmi

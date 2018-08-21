@@ -2,7 +2,7 @@
     <view class="container">
         <view class="express-img-wrap">
             <text class="save" @tap="goToGame">摇骰子</text>
-            <image class='express-img' src='../../../images/timg.gif'></image>
+            <image class='express-img' src='../../images/timg.gif'></image>
         </view>
         <!--快递入口-->
         <view class="express-input-wrap iconfont icon-sousuo-copy">
@@ -79,7 +79,7 @@ export default class ForexpressItem extends wepy.page {
       }
     },
     goToGame() {
-      this.$navigate({
+      this.$parent.$navigate({
         url: './game/index'
       });
     },
