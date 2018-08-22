@@ -7,6 +7,8 @@
 
 <script>
   import wepy from 'wepy'
+  import { formatTime } from '@/utils/util'
+
   export default class Share extends wepy.page {
     config = {
       navigationBarTitleText: '测试实验室'
@@ -15,9 +17,31 @@
     data = {
         screenWidth:{},
         saveImgPath:'',
-        userInfo:{}
+        userInfo:{},
+        NUMBER_OF_LINE:15,
+        FONT_WIDTH:20
     }
     methods = {
+        startDraw(text,line,ctx,that,size) {
+            // 如果line > 3，则忽略
+            // 因为line从0开始
+            // 如果最后一行，并且文字还是那么多，那么就省略号代替
+            if (line === 7 && text.length === that.NUMBER_OF_LINE) {
+            text = text.slice(0, 13) + '..';
+            } else if (line > 7) {
+             return;
+            }
+            var y = 220 + (line * 20); // 200为文字初始y坐标
+            ctx.setFontSize(16);
+            ctx.setTextAlign('center');
+            ctx.setFillStyle('#333333');
+            for (var i in text) {
+            var t = text[i];
+            // 开始绘制
+            ctx.fillText(t, size.w*0.11 + (i * that.FONT_WIDTH), y);
+            ctx.stroke();
+            }
+        },
         setCanvasSize(){
             var size = {};
             try {
@@ -63,7 +87,8 @@
             var size = this.screenWidth;
             var context = wx.createCanvasContext('shareCanvas');
             //获取头像信息
-            var path = "../../images/bgs1.jpeg";
+            let BigBg = "../../images/share_tpl2@2x.png"
+            var path = "../../images/bg1.png";
             var imageTx = wx.getStorageSync('user').avatarUrl || 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2844859017,352483783&fm=27&gp=0.jpg';
             var imageEwm = "../../images/shareForsm.png";
             var imageZw = "../../images/zw.jpg";
@@ -71,10 +96,48 @@
                 src:imageTx,
                 success(res){
                     //处理图片
+                    console.log(size)
+                    context.drawImage(BigBg, 0, 0, size.w, size.h);
                     context.drawImage(path, 0, 0, size.w, size.h);                    
-                    context.drawImage(imageEwm, size.w / 2 - 60, size.h * 0.32, size.w * 0.33, size.w * 0.33);                    
-                    that.methods.settextFir(context,size);
-                    that.methods.settextSec(context,size);
+                    context.drawImage(imageEwm, size.w / 2 - 33, size.h * 0.79, size.w * 0.18, size.w * 0.18);                    
+                    // that.methods.settextFir(context,size);
+                    let dates =  formatTime(new Date())
+                    // 日
+                    context.setFontSize(90);
+                    context.setTextAlign('center');
+                    context.setFillStyle('#666666');
+                    context.fillText(dates[2], size.w/2, size.h * 0.35);
+                    // 月
+                    context.setFontSize(18);
+                    context.setTextAlign('center');
+                    context.setFillStyle('#999999');
+                    context.fillText(dates[1] + ' / ' + dates[0], size.w/2, size.h * 0.41);
+                    context.stroke();
+                    //画文章
+                          // 1. 进行分割，获取前三行
+                    let str = '今天喜欢呆在家里享受子女带来的乐趣，和孩子在一起，你有种为了孩子甘愿付出一切的想法，在与子女的相处中，同样也能让你成长起来，自己能够从孩子身上学到很多。投资方面运气不佳，一定要谨慎三思。';
+                    var c_temps = [];
+                    var n = 15;
+                    for (var i = 0, l = str.length; i < l/n; i++) {
+                        let a = str.slice(n*i, n*(i+1));
+                        c_temps.push(a);
+                    }
+                    var line_counts = 0;
+                    // 如果超过三行，那么只取前三行
+                    if (c_temps.length > 7) {
+                        c_temps = c_temps.slice(0, 7);
+                    }
+                    for (var i in c_temps) {
+                        var c_data = c_temps[i];
+                        // 计算要换多少行
+                        var c_lines = parseInt(c_data.length / that.NUMBER_OF_LINE);
+                        for (var j = 0; j < c_lines; j++) {
+                            that.methods.startDraw(c_data.slice(j * that.NUMBER_OF_LINE, (j + 1) * that.NUMBER_OF_LINE), line_counts,context,that,size);
+                            line_counts++;
+                        }
+                    }
+                    //画文章end
+                    // that.methods.settextSec(context,size);
                     //测试圆形
                     context.save() //保存之前操作
                     var r = size.w * 0.14/2
@@ -85,10 +148,10 @@
                     context.drawImage(res.path, size.w / 2 - 25, size.h * 0.02, size.w * 0.14, size.w * 0.14);
                     context.restore() //还原画布坐标等
                     //圆形图片可行
-                    var cy1 = size.h * 0.7 + r
-                    context.arc(cx, cy1, r, 0, 2 * Math.PI)
-                    context.clip()
-                    context.drawImage(imageZw, size.w / 2 - 25, size.h * 0.7, size.w * 0.14, size.w * 0.14);
+                    // var cy1 = size.h * 0.68 + r
+                    // context.arc(cx, cy1, r, 0, 2 * Math.PI)
+                    // context.clip()
+                    // context.drawImage(imageZw, size.w / 2 - 25, size.h * 0.68, size.w * 0.14, size.w * 0.14);
                     //把画板内容绘制成图片，并回调 画板图片路径
                     context.draw(false, function () {
                         wx.canvasToTempFilePath({

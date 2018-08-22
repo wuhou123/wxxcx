@@ -2,6 +2,7 @@
   <view class="wrap">
     <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
   </view>
+  <view style="text-align:center">武侯的猫</view>
   <view style="text-align:center">佳人失其猫,吾将亲逐之</view>
 </template>
 

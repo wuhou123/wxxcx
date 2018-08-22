@@ -1,0 +1,26 @@
+<template>
+  <view class="wrap">
+  </view>
+</template>
+
+<script>
+  import wepy from 'wepy'
+  
+  export default class TestYun extends wepy.page {
+    config = {
+      navigationBarTitleText: '星运测试'
+    }
+
+    data = {}
+
+    computed = {}
+
+    methods = {}
+
+    onLoad(params) {}
+  }
+</script>
+
+<style lang="less" scoped>
+ 
+</style>
