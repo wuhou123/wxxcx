@@ -34,8 +34,7 @@ export default class ForexpressItem extends wepy.page {
     navigationBarTitleText: '快递查询'
   };
 
-  data = {
-    showMark: false,
+  data = {    
     baseUrl: 'https://qf-restapi.mdscj.com/xp_express',
     getExpressType: '/logistics/company/list',
     getExpressMessage: '/logistics/search',
@@ -171,15 +170,6 @@ export default class ForexpressItem extends wepy.page {
         that.chosseIndex = -1;
         that.$apply();
       }, 1200);
-    },
-    onGotUserInfo(e) {
-      if (e.detail.userInfo) {
-        this.showMark = false;
-        wx.setStorage({
-          key: 'user',
-          data: e.detail.userInfo
-        });
-      }
     }
   };
   onLoad() {
@@ -216,16 +206,6 @@ export default class ForexpressItem extends wepy.page {
   }
 
   onShow() {
-    let self = this;
-    try {
-      var res = wx.getStorageSync('user');
-      console.log(res);
-      if (res) this.showMark = false;
-      if (!res) this.showMark = true;
-      self.$apply();
-    } catch (e) {
-      this.showMark = true;
-    }
     this.history = wx.getStorageSync('saveList');
     this.$apply();
   }
@@ -236,15 +216,15 @@ export default class ForexpressItem extends wepy.page {
 .save {
   position: fixed;
   top: 20rpx;
-  left: 20rpx;
+  right: 20rpx;
   border: 2rpx solid #43cd80;
   border-radius: 8rpx;
   font-size: 26rpx;
   text-align: center;
   line-height: 30rpx;
-  padding: 8rpx;
+  padding: 15rpx;
   background-color: #43cd80;
-  z-index: 9999;
+  z-index: 9;
   color: #fff;
   box-shadow: 2rpx 2rpx 1rpx 0 grey;
 }

@@ -55,7 +55,7 @@
         icon:'icon-lanmao'
       },{
         name:'测试猫',
-        path:'./share/share',
+        path:'./testYun/index',
         icon:'icon-fenxiang'
       },{
         name:'意见反馈',

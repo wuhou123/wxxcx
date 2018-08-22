@@ -3,37 +3,100 @@
     <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
   </view>
   <view style="text-align:center">武侯的猫</view>
-  <view style="text-align:center">佳人失其猫,吾将亲逐之</view>
+  <view style="text-align:center;color:#e8e8e8">佳人失其猫,吾将亲逐之</view>
+  <view style="text-align:center;color:#e8e8e8">just a project for wife</view>
+  <view class="mybbox" @tap="copy">
+    <view class="mybox">
+      <view class="textbox fs30 fcff" style="color:#fff">
+        <view>appId:wx80f84ed0d7bd972f</view>
+        <view>供公众号关联,点击复制</view>
+      </view>
+    </view>
+  </view>
 </template>
 
 <script>
-  import wepy from 'wepy'
-  import ListItem from '@/components/plan/listitem'
-  import {formatTime } from '@/utils/util'
+import wepy from 'wepy';
+import ListItem from '@/components/plan/listitem';
+import { formatTime } from '@/utils/util';
 
-  export default class About extends wepy.page {
-    config = {
-      navigationBarTitleText: '关于'
+export default class About extends wepy.page {
+  config = {
+    navigationBarTitleText: '关于'
+  };
+
+  data = {
+    planList: []
+  };
+  methods = {
+    copy() {
+      wx.setClipboardData({
+        data: 'wx80f84ed0d7bd972f',
+        success: function(res) {
+          // self.setData({copyTip:true}),
+          wx.showToast({
+            title: '复制成功',
+            icon: 'none'
+          });
+        }
+      });
     }
+  };
+  onLoad() {}
 
-    data = {
-      planList: []
-    }
-
-
-    onLoad() {}
-    
-    onShow() {}
-  }
+  onShow() {}
+}
 </script>
 
 <style lang="less">
-  .wrap {
-    display: flex;
-    justify-content: center;
-    image{
-      width:200rpx;
-      height:200rpx
-    }
+.wrap {
+  display: flex;
+  justify-content: center;
+  image {
+    width: 200rpx;
+    height: 200rpx;
   }
+}
+.mybbox {
+  margin-top: 40rpx;
+  padding: 40rpx;
+}
+
+.mybox {
+  width: 100%;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background: linear-gradient(to left, #e58d43, #f2dd14);
+  border-radius: 20rpx;
+}
+
+.linbox {
+  width: 100%;
+  padding: 20rpx;
+  box-sizing: border-box;
+  background: linear-gradient(to left, #6c25fe, #d28ff8);
+  border-radius: 20rpx;
+}
+
+.imgbox {
+  width: 30%;
+  display: inline-block;
+}
+
+.textbox {
+  width: 70%;
+  display: inline-block;
+  text-align: left;
+}
+
+.myimg {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+
+.ybbox {
+  margin-top: 20rpx;
+  padding: 20rpx 40rpx;
+}
 </style>

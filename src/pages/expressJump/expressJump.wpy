@@ -76,11 +76,12 @@ export default class ExpressJump extends wepy.page {
       }
     },
     onShareAppMessage() {
+      let that = this
       let title = `${this.expressInfo.logisticCode}-单号${this.number}`
       console.log('title',title)
       return {
         title: title,
-        path: 'pages/expressJump/?number=' + this.number,
+        path: 'pages/expressJump/?number=' + that.number,
         success(res) {
           wx.showToast({
             title: '分享成功',

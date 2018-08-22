@@ -30,7 +30,8 @@ export default class extends wepy.app {
       'pages/me/edit',
       'pages/weather',
       'pages/historytoday',
-      'pages/game/index'
+      'pages/game/index',
+      'pages/testYun/index'
       // 子页面
     ],
     window: {

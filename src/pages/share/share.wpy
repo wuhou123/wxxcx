@@ -19,16 +19,17 @@
         saveImgPath:'',
         userInfo:{},
         NUMBER_OF_LINE:15,
-        FONT_WIDTH:20
+        FONT_WIDTH:20,
+        content:''
     }
     methods = {
         startDraw(text,line,ctx,that,size) {
             // 如果line > 3，则忽略
             // 因为line从0开始
             // 如果最后一行，并且文字还是那么多，那么就省略号代替
-            if (line === 7 && text.length === that.NUMBER_OF_LINE) {
+            if (line === 6 && text.length === that.NUMBER_OF_LINE) {
             text = text.slice(0, 13) + '..';
-            } else if (line > 7) {
+            } else if (line > 6) {
              return;
             }
             var y = 220 + (line * 20); // 200为文字初始y坐标
@@ -60,12 +61,12 @@
         },
         settextFir(context,size){
             let that = this;
-            var textFir = "身份:猫新人";
-            context.setFontSize(24);
+            var textFir = "今日星运";
+            context.setFontSize(14);
             context.setTextAlign("center");
-            // context.setFillStyle("#fee6b5");
-            context.setFillStyle("#999");
-            context.fillText(textFir, size.w / 2, size.h * 0.25+10);
+            context.setFillStyle("#fee6b5");
+            // context.setFillStyle("#999");
+            context.fillText(textFir, size.w / 2, size.h * 0.18);
             context.stroke();
         },
         settextSec(context,size){
@@ -100,7 +101,7 @@
                     context.drawImage(BigBg, 0, 0, size.w, size.h);
                     context.drawImage(path, 0, 0, size.w, size.h);                    
                     context.drawImage(imageEwm, size.w / 2 - 33, size.h * 0.79, size.w * 0.18, size.w * 0.18);                    
-                    // that.methods.settextFir(context,size);
+                    that.methods.settextFir(context,size);
                     let dates =  formatTime(new Date())
                     // 日
                     context.setFontSize(90);
@@ -115,7 +116,7 @@
                     context.stroke();
                     //画文章
                           // 1. 进行分割，获取前三行
-                    let str = '今天喜欢呆在家里享受子女带来的乐趣，和孩子在一起，你有种为了孩子甘愿付出一切的想法，在与子女的相处中，同样也能让你成长起来，自己能够从孩子身上学到很多。投资方面运气不佳，一定要谨慎三思。';
+                    let str = that.content || '天了噜，暂无星运测算'
                     var c_temps = [];
                     var n = 15;
                     for (var i = 0, l = str.length; i < l/n; i++) {
@@ -131,7 +132,9 @@
                         var c_data = c_temps[i];
                         // 计算要换多少行
                         var c_lines = parseInt(c_data.length / that.NUMBER_OF_LINE);
+                        if(i==c_temps.length-1&&c_lines==0) c_lines = 1
                         for (var j = 0; j < c_lines; j++) {
+                            console.log(line_counts,c_temps.length,c_lines)
                             that.methods.startDraw(c_data.slice(j * that.NUMBER_OF_LINE, (j + 1) * that.NUMBER_OF_LINE), line_counts,context,that,size);
                             line_counts++;
                         }
@@ -195,7 +198,8 @@
             })
         }
     }
-    onLoad() {
+    onLoad(options) {
+        this.content = options.content
         //获取用户设备信息，屏幕宽度
         this.methods.setCanvasSize.call(this)
         this.methods.saveImageToPhotosAlbum.call(this)        
