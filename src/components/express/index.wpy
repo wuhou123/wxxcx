@@ -10,7 +10,7 @@
             <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
         </view>
         <!--历史记录-->
-        <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" catchtap='goToExpress' wx:for='{{ history }}' wx:key="unique">
+        <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" wx:for='{{ history }}' wx:key="unique" @tap="selectCate({{item}})">
             <view class='info-wrap'>
                 <view class="company">{{ item.company }}</view>
                 <view class="number">{{ item.nubmer }}</view>
@@ -32,7 +32,14 @@ import { formatTime } from '@/utils/util';
 export default class ForexpressItem extends wepy.page {
   config = {
     navigationBarTitleText: '快递查询'
-  };
+  }
+
+  props = {
+    history: {
+      type: Array,
+      default: []
+    }
+  }
 
   data = {    
     baseUrl: 'https://qf-restapi.mdscj.com/xp_express',
@@ -47,7 +54,6 @@ export default class ForexpressItem extends wepy.page {
     expressValue: '',
     delStatus: false,
     chosseIndex: -1,
-    history: [],
     animationData: {},
     winHeight: '', //窗口高度
     currentTab: 0, //预设当前项的值
@@ -144,11 +150,10 @@ export default class ForexpressItem extends wepy.page {
      * 查询详细内容
      * @param e
      */
-    goToExpress(e) {
-      console.log(e);
-      let number = e.currentTarget.dataset.number;
-      this.$navigate({
-        url: './expressJump/expressJump?number=' + number
+    selectCate(item) {
+      console.log(item.nubmer);
+      this.$parent.$navigate({
+        url: './expressJump/expressJump?number=' + item.nubmer
       });
     },
     /**
@@ -159,9 +164,9 @@ export default class ForexpressItem extends wepy.page {
       if (this.delStatus) return;
       this.delStatus = true;
       let index = e.currentTarget.dataset.index;
-      let history = this.data.history;
+      let history = this.history;
       this.chosseIndex = index;
-
+      
       setTimeout(function() {
         history.splice(index, 1);
         wx.setStorageSync('saveList', history);
@@ -205,10 +210,7 @@ export default class ForexpressItem extends wepy.page {
     }
   }
 
-  onShow() {
-    this.history = wx.getStorageSync('saveList');
-    this.$apply();
-  }
+  onShow() {}
 }
 </script>
 

@@ -18,7 +18,7 @@
       <!-- 快递查询 -->
       <swiper-item wx:for="{{[0,1,2,3,4]}}" wx:key="*this">
         <scroll-view scroll-y="true" class="scoll-h" wx:if="{{index==0}}">
-          <ForexpressItem></ForexpressItem>
+          <ForexpressItem :history.sync = 'history'></ForexpressItem>
         </scroll-view>
         <scroll-view scroll-y="true" class="scoll-h" wx:elif="{{index==1}}">
            <PeoPleCard></PeoPleCard>
@@ -56,7 +56,7 @@ export default class Forexpress extends wepy.page {
     IdCard,
     Figure,
     MobileHome,
-    PeoPleCard
+    PeoPleCard    
   }
   
   data = {
@@ -64,7 +64,8 @@ export default class Forexpress extends wepy.page {
     winHeight: '', //窗口高度
     currentTab: 0, //预设当前项的值
     scrollLeft: 0, //tab标题的滚动条位置,
-    searchArr:['快递','身份证','银行卡号','手机号码','身材']
+    searchArr:['快递','身份证','银行卡号','手机号码','身材'],
+    history:[]
   };
 
   methods = {
@@ -161,6 +162,9 @@ export default class Forexpress extends wepy.page {
     } catch (e) {
       this.showMark = true;
     }
+    //快递历史
+    this.history = wx.getStorageSync('saveList');
+    this.$apply();
   }
 }
 </script>
