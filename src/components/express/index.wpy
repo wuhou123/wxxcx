@@ -10,7 +10,7 @@
             <view catchtap='scanExpressCode' class="icon iconfont icon-saoma"></view>
         </view>
         <!--历史记录-->
-        <view class="history {{ index === chosseIndex ? 'del' : '' }}" data-number="{{ item.nubmer }}" wx:for='{{ history }}' wx:key="unique" @tap="selectCate({{item}})">
+        <view class="history {{ index === chosseIndex ? 'del' : '' }}" wx:for='{{ history }}' wx:key="unique" @tap="selectCate({{item}})">
             <view class='info-wrap'>
                 <view class="company">{{ item.company }}</view>
                 <view class="number">{{ item.nubmer }}</view>
@@ -166,7 +166,7 @@ export default class ForexpressItem extends wepy.page {
       let index = e.currentTarget.dataset.index;
       let history = this.history;
       this.chosseIndex = index;
-      
+
       setTimeout(function() {
         history.splice(index, 1);
         wx.setStorageSync('saveList', history);
@@ -305,7 +305,7 @@ page {
   line-height: 80rpx;
   margin-left: 10rpx;
 }
-.del {
+.history.del {
   animation: dl 1s forwards;
   //margin: 0;
 }
@@ -315,6 +315,9 @@ page {
   }
   10% {
     transform: translate(-100rpx, 0);
+  }
+  50% {
+    transform: translate(200rpx, 0);
   }
   100% {
     transform: translate(1000rpx, -50rpx);
