@@ -4,6 +4,8 @@
 
 状态：5.14开始编辑,初始版
 
+[了解更多](https://jiashidai.gitee.io/carforwuhou/)
+
 # [体验吧]
 
 ![二维码](http://osk1hpe2y.bkt.clouddn.com/18-8-26/87348357.jpg)
