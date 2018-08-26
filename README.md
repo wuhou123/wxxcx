@@ -6,7 +6,7 @@
 
 # [体验吧]
 
-![二维码](http://osk1hpe2y.bkt.clouddn.com/18-7-19/39403491.jpg)
+![二维码](http://osk1hpe2y.bkt.clouddn.com/18-8-26/87348357.jpg)
 
 
 
