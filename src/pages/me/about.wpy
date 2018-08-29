@@ -8,7 +8,7 @@
   <view class="mybbox" @tap="copy">
     <view class="mybox">
       <view class="textbox fs30 fcff" style="color:#fff">
-        <view>appId:wx80f84ed0d7bd972f</view>
+        <view>小程序appId:wx80f84ed0d7bd972f</view>
         <view>供公众号关联,点击复制</view>
       </view>
     </view>

@@ -2,8 +2,9 @@
   <view class="wrap">
     <image src="http://osk1hpe2y.bkt.clouddn.com/18-5-30/34559443.jpg"></image>
   </view>
-  <view style="text-align:center;color:#e8e8e8">v1.1.0</view>
+  <view style="text-align:center;color:#e8e8e8">v1.1.2</view>
   <view style="text-align:center;color:#e8e8e8">1.修改十几个问题，不再支持iphone5,懒</view>
+  <view style="text-align:center;color:#e8e8e8">2.优化数十处,待优化n,无祭天</view>
 
 </template>
 
