@@ -43,9 +43,17 @@
 
 # 效果展示
 
-### 首页、商品分类页
+### 首页分类查询tab页
 
-<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/50893518.jpg" width="320" height="619"/>
+<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/43840176.jpg" width="320" height="619"/>
+
+### 天气查询页
+
+<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/44449564.jpg" width="320" height="619"/>
+
+### 我的页面
+
+<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/92069905.jpg" width="320" height="619"/>
 
 # 后期需求
 ```
