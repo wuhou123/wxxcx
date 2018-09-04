@@ -45,7 +45,7 @@
 
 ### 首页、商品分类页
 
-<img src="https://github.com/yllg/mpvue-xbyjShop/blob/master/screenshots/1.%E9%A6%96%E9%A1%B5.gif" width="320" height="619"/>
+<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/50893518.jpg" width="320" height="619"/>
 
 # 后期需求
 ```
