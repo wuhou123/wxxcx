@@ -29,6 +29,8 @@
 - [x] 计划echarts表 -- 完成
 - [x] 账本echarts表 -- 完成
 - [x] 账本echarts表 -- 完成
+- [ ] 界面ui优化 -- 未做
+- [ ] 后台 -- 未做
 
 
 
@@ -41,7 +43,7 @@
 
 ### 首页、商品分类页
 
-<img src="https://github.com/yllg/mpvue-xbyjShop/blob/master/screenshots/1.%E9%A6%96%E9%A1%B5.gif" width="320" height="619"/> <img src="https://github.com/yllg/mpvue-xbyjShop/blob/master/screenshots/2.%E5%95%86%E5%93%81%E5%88%86%E7%B1%BB.png" width="320" height="619"/>
+<img src="https://github.com/yllg/mpvue-xbyjShop/blob/master/screenshots/1.%E9%A6%96%E9%A1%B5.gif" width="320" height="619"/>
 
 # 后期需求
 ```
@@ -57,11 +59,9 @@
 
 # 最后
 
-1、欢迎关注我的公众号
+1、欢迎关注我的公众号,[传送门](https://jiashidai.gitee.io/carforwuhou/)
 
-### 公众号、技术交流群
-<img src="https://github.com/yllg/xbyjMusic/blob/master/screenshots/13.%E5%85%AC%E4%BC%97%E5%8F%B7.jpg" width="200" height="200"/>
 
-[了解更多](https://jiashidai.gitee.io/carforwuhou/)
+
 
 
