@@ -47,7 +47,7 @@
 
 <img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/43840176.jpg" width="320" height="619"/>
 
-### 天气查询页
+### 天气查询及今日看点(视频)页
 
 <img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/44449564.jpg" width="320" height="619"/>
 
