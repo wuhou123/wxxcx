@@ -1,4 +1,4 @@
 
 *.js linguist-language=JavaScript
 *.css linguist-language=JavaScript
-*.html linguist-language=JavaScript
+*.wpy linguist-language=JavaScript
