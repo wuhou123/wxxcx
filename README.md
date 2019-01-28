@@ -1,5 +1,6 @@
 # wxxcx
 > 基于wepy构建的一个小程序,整合了n多查询工具,后续逐步更新!
+>技术调研了下taro+taro-ui+云开发项目，也已完成发布了，[传送门](https://github.com/wuhou123/taro-card)
 
 # 记录
 >  5.14开始编辑,初始版
