@@ -1,0 +1,109 @@
+page {
+    background-color: #f0e4cf;
+}
+
+.pg-container {
+    padding: 0 30rpx;
+    font-size: 32rpx;
+}
+
+.header {
+    margin: 20rpx auto;
+    width: 500rpx;
+    height: 80rpx;
+    line-height: 60rpx;
+    color: #ffffff;
+    background-color: rgba(255,182,193,.3);
+    font-weight: bold;
+    border-radius: 30rpx;
+}
+
+.header .item {
+    font-size: 30rpx;
+    width: 250rpx;
+    float: left;
+    text-align: center;
+}
+
+.header .item.cur {
+    color: #fd5757;
+    font-weight: bold;
+    background-color: #ffffff;
+    border-radius: 30rpx;
+}
+
+.tasklist {
+    margin-top: 30rpx;
+    overflow: hidden;
+}
+
+.tasklist .item {
+    padding: 35rpx 0;
+    height: 80rpx;
+    background-color: #fff;
+    border-radius: 12rpx;
+    margin-bottom: 30rpx;
+}
+
+.tasklist .item .iconp {
+    float: left;
+    width: 80rpx;
+    height: 80rpx;
+    margin-left: 24rpx;
+    margin-right: 16rpx;
+    /* background-color: #fd5757; */
+    border-radius: 40rpx;
+}
+
+.tasklist .item .icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin: 16rpx;
+}
+
+.tasklist .item .detail {
+    float: left;
+    width: 430rpx;
+}
+
+.tasklist .detail .title {
+    font-size: 30rpx;
+    height: 46rpx;
+    line-height: 46rpx;
+    color: #333333;
+}
+
+.tasklist .detail .desc {
+    height: 34rpx;
+    font-size: 22rpx;
+    line-height: 34rpx;
+    color: #999999;
+}
+
+.tasklist .item .option {
+    float: left;
+    width: 116rpx;
+    height: 60rpx;
+    margin-top: 10rpx;
+    background-color: #FF8C77;
+    color: #ffffff;
+    border-radius: 30rpx;
+    line-height: 60rpx;
+    font-size: 24rpx;
+    font-weight: bold;
+    text-align: center;
+    padding: 0;
+}
+
+.tasklist .item .option.complete {
+    background-color: #B6B4B3;
+}
+
+.gohome {
+    background-color: rgba(0,0,0,.4);
+}
+
+.center-ad {
+    border-radius: 12rpx;
+    overflow: hidden;
+}

@@ -1,0 +1,77 @@
+/* miniprogram/pages/redbag/index.wxss */
+page {
+  background-color: #eee;
+}
+
+.container {
+  padding-top: 10px;
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+}
+
+.container block {
+  margin-bottom: 10px;
+  
+}
+
+.redbag-item {
+  background-color: white;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  width: 90%;
+}
+
+.redbag-item .pre {
+  display: flex;
+  align-items: center;
+}
+
+.redbag-item .pre .image-wrap {
+  height: auto;
+  width: auto;
+}
+
+.redbag-item .pre .image-wrap image {
+  height: auto;
+  width: 70px;
+  display: block
+}
+
+.redbag-item .info {
+  height: 70px;
+  font-size: 14px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.redbag-item .info .title {
+  /* width: 190px; */
+  font-weight: bold;
+}
+
+.redbag-item .info .intro {
+  color: red;
+  display: flex;
+  align-items: center;
+}
+
+.redbag-item .info .intro .price {
+  margin-right: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.redbag-item .info .intro .price text {
+  font-weight: normal;
+  font-size: 13px;
+}

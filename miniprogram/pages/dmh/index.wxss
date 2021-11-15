@@ -1,0 +1,71 @@
+/* miniprogram/pages/dmh/index.wxss */
+page {
+  background-color: #e7e9d2;
+}
+
+.ctl-area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.ctl-area .step-name {
+  text-align: center;
+}
+
+.ctl-area .step-intro {
+  width: 80%;
+  text-align: center;
+  padding: 5px 0px 5px 0px;
+  font-size: 13px;
+  color: #e16531;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.ctl-area .img-area {
+  width: 90%;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px 5px #ddd;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ctl-area .takecare {
+  text-align: center;
+  font-size: 11px;
+  color: #d81e06;
+  padding: 5px 0 5px 0;
+}
+
+.ctl-area .img-area-anime {
+  width: 90%;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0px 0px 5px 5px #ddd;
+  display: flex;
+  justify-content: center;
+}
+
+.ctl-area image {
+  width: 100%;
+}
+
+.btn-area {
+  margin-top: 20px;
+  padding: 0px 20px 10px 20px;
+}
+
+.btn-area .btn-2-area {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.btn-area .btn-2-area .c-btn {
+  width: 100px;
+}

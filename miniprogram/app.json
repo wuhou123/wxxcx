@@ -1,0 +1,17 @@
+{
+  "pages": [
+    "pages/home/index",
+    "pages/help/index",
+    "pages/question/index",
+    "pages/history/index",
+    "pages/history/detail"
+  ],
+  "window": {
+    "backgroundColor": "#58a9fc",
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#58a9fc",
+    "navigationBarTitleText": "免费去水印全能工具",
+    "navigationBarTextStyle": "white"
+  },
+  "sitemapLocation": "sitemap.json"
+}

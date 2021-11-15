@@ -1,0 +1,39 @@
+.box {
+  position:fixed;
+  right:0;
+  z-index:999;
+  display:flex;
+  justify-content:flex-end;
+  align-items:flex-end;
+  flex-direction:column;
+  width:600rpx;
+}
+.arrow {
+  width:0;
+  height:0;
+  border-width:5px;
+  border-style:solid;
+  border-color:transparent transparent rgba(0,0,0,0.75) transparent;
+}
+.body {
+  background-color:rgba(0,0,0,0.55);
+  border-radius:8px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:30px;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.tips {
+  flex:1; color:#fff;
+  font-size:13px;
+  font-weight:700;
+}
+.logo {
+  height:30px;
+  width:30px;
+  border-radius:8px;
+  margin-right:10px;
+}

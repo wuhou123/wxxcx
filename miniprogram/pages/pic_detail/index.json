@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "图集",
+  "usingComponents": {
+    "van-toast": "../../miniprogram_npm/@vant/weapp/toast/index",
+    "van-grid": "../../miniprogram_npm/@vant/weapp/grid/index",
+    "van-grid-item": "../../miniprogram_npm/@vant/weapp/grid-item/index",
+    "van-tab": "@vant/weapp/tab/index",
+    "van-tabs": "@vant/weapp/tabs/index"
+  }
+}

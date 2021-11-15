@@ -1,0 +1,40 @@
+<view class="contain-area">
+  <van-panel custom-class="panel" title="🔥 这个小程序收费吗？">
+    <view class="help-content">
+      <view class="help-content-text">该小程序永久免费，支持所有平台短视频。</view>
+    </view>
+  </van-panel>
+  <van-panel custom-class="panel" title="🔥 有没工具网页版？">
+    <view class="help-content">
+      <view class="help-content-text">有，请关注公众号：每日互联网关注，回复：1。</view>
+    </view>
+  </van-panel>
+  <van-panel custom-class="panel" title="🔥 为什么转发不了视频？">
+    <view class="help-content">
+      <view class="help-content-text">视频需保存后才能转发。</view>
+    </view>
+  </van-panel>
+  <van-panel custom-class="panel" title="🔥 为什么我解析了视频还是有水印？">
+    <view class="help-content">
+      <view class="help-content-text">有些作者上传的视频本身就带有水印，这种暂时无法去除。</view>
+    </view>
+  </van-panel>
+  <van-panel custom-class="panel" title="🔥 为什么下载失败？">
+    <view class="help-content">
+      <view style="margin-bottom:5px" class="help-content-text">视频可能超过了50MB，目前微信只支持文件大小为50MB以内的视频下载</view>
+      <view style="margin-bottom:5px" class="help-content-text">这种情况可以点击【复制视频链接】按钮，然后到浏览器中下载。</view>
+      <view class="help-content-text">安卓手机建议使用 QQ 浏览器，苹果手机需要下载软件【documents】才能在浏览器中进行下载视频。</view>
+    </view>
+  </van-panel>
+  <van-panel custom-class="panel" title="🔥 为什么会解析失败？">
+    <view class="help-content">
+      <view class="help-content-text">视频已经被删除、私密视频和在审核的视频都会解析失败。</view>
+    </view>
+  </van-panel>
+  <van-panel title="🔥 安卓手机提示下载成功找不到视频？">
+    <view class="help-content">
+      <view class="help-content-text">OPPO 手机或个别手机保存后相册无法找到视频是因为手机厂商的系统逻辑问题，请到【文件管理】中查找对应文件，具体文件存储路径清参考保存成功时微信弹出来的提示。</view>
+    </view>
+  </van-panel>
+  <ad unit-id="adunit-f6a54697527f1519"></ad>
+</view>

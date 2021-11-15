@@ -1,81 +1,55 @@
-# wxxcx
-> 基于wepy构建的一个小程序,整合了n多查询工具,后续逐步更新!
+# 去水印小程序
 
->技术调研了下taro+taro-ui+云开发项目，也已完成发布了，[传送门](https://github.com/wuhou123/taro-card)
+## 介绍
 
-# 记录
->  5.14开始编辑,初始版
-   
->  8.24完善版,待后期优化
-   
->  8.27需求:需要添加国际快递,新闻资讯添加,记录.....
+一款短视频去水印，去水印小工具，短视频无水印，短视频去水印，免费去水印，提取无水印视频，支持抖音，火山，西瓜视频视频等主流短视频平台。
 
->  19.4.10版本有的代码提交慢了...
+## 部署方式
 
-# [体验吧]
+1. 申请小程序账号
+2. 开通小程序云开发
+3. 在 `project.config.json` 文件中修改 `appid` 和 `projectname`
+4. 将云函数部署到云端（备注：remove_watermark_v3 是最新版本，可以只部署当前版本）
+5. 将使用教程里面的图片上传到云存储并替换链接
+6. 将分享 Logo 图片上传到云存储并替换链接
+7. 配置云函数 `remove_watermark_v3` 的环境变量，下面是环境变量注释：
 
-![二维码](http://osk1hpe2y.bkt.clouddn.com/18-8-26/87348357.jpg)
+   ```
+   TZ: 时区
+   appid: 去水印服务的 appid
+   appsecret: 去水印服务的 appsecret
+   ding_at_mobile: 钉钉机器人推送消息提醒的手机号
+   ding_token: 钉钉机器人 token(相关文档参考下面的备注信息)
+   ```
 
-# 项目运行
-```
-微信开发中工具选中wxxcx/dist作为项目目录即可
-```
+## 备注
 
-# 功能列表
-## 页面
-- [x] 国内/国际快递 -- 完成
-- [x] 其他信息查询 -- 完成
-- [x] 记账本 -- 完成
-- [x] 计划 -- 完成
-- [x] 摇骰子(加速器仿微信摇一摇) -- 完成
-- [x] 生成自定义canvas分享图片 -- 完成
-- [x] 幸运测试 -- 完成
-- [x] 天气查询 -- 完成
-- [x] 计划echarts表 -- 完成
-- [x] 账本echarts表 -- 完成
-- [x] 自定义顶部导航栏 -- 完成
-- [x] 页面自定义分享 -- 完成
-- [ ] 界面ui优化 -- 未做
-- [ ] 后台 -- 未做
+0. 项目使用了小程序[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)，不用购买服务器即可部署运行；
+1. 组件库使用了 [vant](https://vant-contrib.gitee.io/vant-weapp/#/home)。
+2. 去水印接口 [小爱网络](http://api.xiuliw.com/?ref=305)
+3. 去水印接口(备用) [feeprint](https://admin.feeprint.com/?ref=47181)
+4. 钉钉机器人接入文档 [自定义机器人接入](https://developers.dingtalk.com/document/robots/custom-robot-access#topic-2026027)
 
+## 联系作者
 
+如果需要帮助的话请联系作者，作者微信号：`dafish1212`
 
-## 组件
-- [x] 各个tab页组件
-- [x] 功能基本拆分组件
+![](WechatIMG146.jpeg)
 
+## 体验
 
-# 效果展示
+微信搜索小程序 `免费去水印全能工具`
 
-### 首页分类查询tab页
+或者扫码体验
 
-<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/43840176.jpg" width="320" height="619"/>
+![小斗去水印](PP去水印助手.jpg)
 
-### 天气查询及今日看点(视频)页
+## 小程序截图
 
-<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/44449564.jpg" width="320" height="619"/>
+![](WX20211013-195246@2x.png)
+![](WX20211013-195324@2x.png)
 
-### 我的页面
+## 参考文档
 
-<img src="http://osk1hpe2y.bkt.clouddn.com/18-9-4/92069905.jpg" width="320" height="619"/>
-
-# 后期需求
-```
-需要了解node后端,补全后端,也许会更改mpvue方向,期待部署上后台
-```
-
-# 说明
-
->  借鉴了mp-jishengji项目,如果本项目对您有帮助，欢迎 "Star" 支持一下 谢谢~
-
-
-
-
-# 最后
-
-1、欢迎关注我的公众号,[传送门](https://jiashidai.gitee.io/carforwuhou/)
-
-
-
-
-
+- [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
+- [视频解析接口](https://admin.feeprint.com/?ref=47181)

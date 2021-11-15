@@ -1,0 +1,29 @@
+<view class="video-area" wx:if="{{ show_video === 1 }}">
+  <view class="save-btn-area">
+    <van-button wx:if="{{ !downloading }}" bind:click="saveVideoAction" plain type="primary" disabled="{{!download_url}}">保存视频</van-button>
+    <van-button wx:else loading loading-text="下载中... {{ download_progress }}%" plain type="primary" loading-type="spinner" />
+    <van-button bind:click="copyLinkAction" plain type="primary" data-link-type="video" disabled="{{!video_url}}">复制视频链接</van-button>
+  </view>
+  <view class="copy-btn-area">
+    <van-button bind:click="copyLinkAction" plain type="default" data-link-type="bgm" disabled="{{!bg_music}}">复制背景音乐链接</van-button>
+    <van-button bind:click="copyLinkAction" plain type="default" data-link-type="cover" disabled="{{!cover}}">复制封面链接</van-button>
+  </view>
+</view>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
+<van-popup
+  show="{{ show_ad_popup }}"
+  position="bottom"
+  closeable
+  bind:close="onAdPopupCloseAction"
+>
+  <view class="popup-content">
+    <view class="title">保存提示</view>
+    <view class="content">
+      <view class="t">保存视频，需要看完激励视频广告才能解锁</view>
+      <view class="c">看一次广告可免费使用3天（只需每3天看一次广告，就可以一直免费使用）。我们坚持不收取任何费用，谢谢理解。</view>
+    </view>
+    <van-button bind:click="showVideoAdAction" round type="primary" block >点击看广告解锁</van-button>
+    <view class="why">为什么需要看广告：我们坚持永不收费，但是也是有成本的，所以我们加了广告。只需要每3天看一次广告，就可以一直使用，谢谢您的理解。</view>
+  </view>
+</van-popup>

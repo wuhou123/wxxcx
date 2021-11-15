@@ -1,0 +1,36 @@
+<view class="contain-area">
+  <!-- <ad unit-id="adunit-25006b4270efae7d" ad-type="video" ad-theme="white"></ad> -->
+  <van-panel title="➊ 第一步">
+    <view class="help-content">
+      <view class="help-content-text">打开短视频平台，找到您要去水印的短视频，点击「转发」图标，如下图</view>
+      <image mode="aspectFit" src="cloud://summer-0gan6wz86e232ed4.7375-summer-0gan6wz86e232ed4-1306003894/pp/help/1.png"></image>
+    </view>
+  </van-panel>
+  <van-panel title="➋ 第二步">
+    <view class="help-content">
+      <view class="help-content-text">点击【复制链接】按钮，如下图</view>
+      <image mode="aspectFit" src="cloud://summer-0gan6wz86e232ed4.7375-summer-0gan6wz86e232ed4-1306003894/pp/help/2.png"></image>
+    </view>
+  </van-panel>
+  <van-panel title="➌ 第三步">
+    <view class="help-content">
+      <view class="help-content-text">打开小程序，点击【粘贴链接】按钮把内容粘贴到文本框，然后点击【立刻去水印】，如下图</view>
+      <image mode="aspectFit" src="cloud://summer-0gan6wz86e232ed4.7375-summer-0gan6wz86e232ed4-1306003894/pp/help/3.png"></image>
+      <image mode="aspectFit" src="cloud://summer-0gan6wz86e232ed4.7375-summer-0gan6wz86e232ed4-1306003894/pp/help/4.png"></image>
+    </view>
+  </van-panel>
+  <van-panel title="➍ 第四步">
+    <view class="help-content">
+      <view class="help-content-text">点击【保存视频】，到这一步后无水印的视频就保存到您的手机相册了，如下图</view>
+      <image mode="aspectFit" src="cloud://summer-0gan6wz86e232ed4.7375-summer-0gan6wz86e232ed4-1306003894/pp/help/5.png"></image>
+    </view>
+  </van-panel>
+</view>
+<view wx:if="{{auth}}" class="statistics-area">
+  <view class="title">观看激励视频广告</view>
+  <view>今天：{{ video_ad.today }}次</view>
+  <view>昨天：{{ video_ad.yesterday }}次</view>
+  <view class="title">解析接口消耗</view>
+  <view>今天：{{ parse_data.today }}次</view>
+  <view>昨天：{{ parse_data.yesterday }}次</view>
+</view>

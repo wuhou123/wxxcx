@@ -1,0 +1,17 @@
+<van-empty wx:if="{{ record_list.length <= 0 }}" description="空空如也~">
+  <van-button round type="danger" custom-class="empty-bottom-button" bind:click="goBackAction">返回</van-button>
+</van-empty>
+<view wx:else>
+  <!-- <ad unit-id="adunit-13861098ed256d2f" ad-type="video" ad-theme="white"></ad> -->
+  <view class="root">
+    <view wx:for="{{ record_list }}" data-index="{{ index }}" wx:key="index" hover-class="item-hover" bindtap="showRecordDetailAction" class="record van-hairline--bottom van-multi-ellipsis--l2">
+      <view class="title">{{ item.title }}</view>
+      <van-tag type="warning">{{ item.tag }}</van-tag>
+      <view class="time">{{ item.created_time }}</view>
+    </view>
+  </view>
+  <view class="header">
+    <view>历史记录只存储于本地缓存，服务器不存储任何视频和图片数据</view>
+    <view>本地只存储最新{{ record_max_len }}条解析记录。</view>
+  </view>
+</view>

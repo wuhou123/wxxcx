@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "历史记录",
+  "usingComponents": {
+    "van-tag": "@vant/weapp/tag/index",
+    "van-empty": "@vant/weapp/empty/index",
+    "van-button": "@vant/weapp/button/index"
+  }
+}

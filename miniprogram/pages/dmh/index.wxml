@@ -1,0 +1,26 @@
+<!--miniprogram/pages/dmh/index.wxml-->
+<view class="ctl-area">
+  <view class="step-intro">
+    <view>1. 点击下方图片选择一张人像图</view>
+  </view>
+  <view class="img-area" bindtap="onSelectImageAction">
+    <image mode="widthFix" src="{{ target_image_url || display_image_url }}" />
+  </view>
+  <view class="takecare">（最大只支持 8M 以内的图片）</view>
+  <van-icon wx:if="{{ anime_image_base64 }}" custom-style="margin-top:10px;margin-bottom:10px" class-prefix="iconfont icon-transition" color="#1296db" size="40px" />
+  <view wx:if="{{ anime_image_base64 }}" class="step-intro">
+    <view>2. 点击「保存到相册」下载动漫形象图片</view>
+  </view>
+  <view wx:if="{{ anime_image_base64 }}" class="img-area-anime">
+    <image mode="widthFix" src="data:image/png;base64,{{ anime_image_base64 }}" />
+  </view>
+</view>
+<view class="btn-area">
+  <view wx:if="{{ anime_image_base64 }}" class="btn-2-area">
+    <van-button custom-style="width:150px" bind:click="onTransitionAction" color="linear-gradient(to right, #4bb0ff, #6149f6)" round>一键转换</van-button>
+    <van-button custom-style="width:150px" bind:click="onDownloadImageAction" color="linear-gradient(to right, #4bb0ff, #6149f6)" round>保存到相册</van-button>
+  </view>
+  <van-button wx:else bind:click="onTransitionAction" color="linear-gradient(to right, #4bb0ff, #6149f6)" block round>一键转换</van-button>
+  <view style="height:10px" />
+  <van-button open-type="share" color="linear-gradient(to right, #fa603a, #ec152e)" icon="share-o" block round>推荐给好友</van-button>
+</view>

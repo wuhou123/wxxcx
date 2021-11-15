@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "人像动漫化",
+  "navigationBarBackgroundColor": "#e7e9d2",
+  "backgroundColor": "#e7e9d2",
+  "usingComponents": {
+    "van-button": "@vant/weapp/button/index",
+    "van-icon": "@vant/weapp/icon/index"
+  }
+}

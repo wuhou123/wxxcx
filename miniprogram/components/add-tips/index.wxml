@@ -1,0 +1,7 @@
+<view class="box" wx:if="{{SHOW_TOP}}" style="top:{{custom?navbarHeight:0}}px;" id="add-tips">
+  <view class='arrow' style="margin-right:{{arrowR}}px;"></view>
+  <view class='body' bindtap='hidden' style="margin-right:{{bodyR}}px;">
+		<image src="{{logo}}" class="logo"></image>
+    <view class="tips">{{ name }}</view>
+  </view>
+</view>

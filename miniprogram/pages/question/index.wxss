@@ -1,0 +1,14 @@
+/* pages/databaseGuide/databaseGuide.wxss */
+.help-content {
+  font-size: 13px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.panel {
+  margin-bottom: 5px;
+}

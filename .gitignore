@@ -1,3 +1,2 @@
-node_modules
-dist
-.DB_store
+cloudfunctions/*/node_modules
+.DS_Store

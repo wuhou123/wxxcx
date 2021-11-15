@@ -1,0 +1,22 @@
+/* miniprogram/pages/help/index.wxss */
+.help-content {
+  font-size: 13px;
+  padding: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.statistics-area {
+  color: #333;
+  font-size: 13px;
+  padding: 20px;
+}
+
+.statistics-area .title {
+  font-size: 15px;
+  font-weight: bold;
+  line-height: 30px;
+}

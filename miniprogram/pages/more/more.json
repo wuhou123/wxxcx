@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "更多好玩",
+    "usingComponents": {
+        "gzh": "/components/gzh/gzh"
+    }
+}

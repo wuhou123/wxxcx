@@ -1,0 +1,67 @@
+.pg-component {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: rgba(0,0,0,.6);
+    z-index: 9999;
+}
+
+.pg-component .box {
+    width: 540rpx;
+    height: 920rpx;
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    transform: translateX(-50%) translateY(-50%);
+    background-color: #fff;
+    border-radius: 25rpx;
+}
+
+.box .title {
+    color: #000000;
+    font-weight: bold;
+    height: 100rpx;
+    line-height: 100rpx;
+    margin-top: 32rpx;
+    font-size: 34rpx;
+}
+
+.box .gzhewm {
+    width: 420rpx;
+    height: 558rpx;
+    margin-left: 60rpx;
+    display: block;
+}
+
+.box .guidetext {
+    width: 420rpx;
+    height: 100rpx;
+    line-height: 50rpx;
+    font-size: 26rpx;
+    color: #000000;
+    margin-left: 60rpx;
+}
+
+.box .options {
+    height: 70rpx;
+    margin-top: 20rpx;
+    width: 540rpx;
+    line-height: 70rpx;
+    font-size: 28rpx;
+}
+
+.box .options .item {
+    float: left;
+    height: 70rpx;
+    border-radius: 36rpx;
+    padding: 0;
+    font-size: 28rpx;
+    color: #ffffff;
+    width: 400rpx;
+    margin-left: 70rpx;
+    background-color: #fd5757;
+}

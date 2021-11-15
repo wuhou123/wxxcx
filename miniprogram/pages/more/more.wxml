@@ -1,0 +1,25 @@
+<view class="pg-container">
+    <view class="tasklist">
+        <view class="item">
+            <image class="iconp" src="{{setting.gzh_img}}"></image>
+            <view class="detail">
+                <view class="title">很高兴认识你</view>
+                <view class="desc">等你很久了，我是大鱼</view>
+            </view>
+            <view bind:tap="subscribeGzh" class="option">联系</view>
+        </view>
+        <view class="item" wx:for="{{adv_list}}" wx:key="id">
+            <image class="iconp" src="{{item.image}}"></image>
+            <view class="detail">
+                <view class="title">{{item.name}}</view>
+                <view class="desc">{{item.description}}</view>
+            </view>
+            <view bind:tap="goSee" class="option" data-index="{{index}}">去看看</view>
+        </view>
+        <ad-custom unit-id="adunit-51e0ba6b4460ab86"></ad-custom>
+        <view class="center-ad" >
+            <!-- <ad unit-id="adunit-3d9f20a0ce851ed0" ad-type="video" ad-theme="white"></ad> -->
+        </view>
+    </view>
+</view>
+<gzh bind:cancel="pgGzhCancel" gzhEwmImg="{{setting.gzh_qrcode}}" gzhName="{{setting.gzh_name}}" wx:if="{{gzh_box_status}}"></gzh>

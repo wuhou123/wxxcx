@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "使用教程",
+  "usingComponents": {
+    "van-panel": "@vant/weapp/panel/index"
+  }
+}

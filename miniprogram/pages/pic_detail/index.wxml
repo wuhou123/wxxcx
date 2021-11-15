@@ -1,0 +1,14 @@
+<view class="content-area">
+  <view class="help-text-area">
+    <view>小贴士：</view>
+    <view>点击一张图片进行预览，然后长按图片，选择弹框中的「保存图片」即可将图片下载到手机中。</view>
+  </view>
+  <view class="pics-area">
+    <van-grid clickable column-num="3" border="{{ false }}">
+      <van-grid-item wx:key="key" id="{{index}}" bind:click="previewImage" use-slot wx:for="{{ pics }}" wx:for-item="url">
+        <image style="width: 100%; height: 190px;" src="{{url}}" />
+      </van-grid-item>
+    </van-grid>
+  </view>
+</view>
+<van-toast id="van-toast" />

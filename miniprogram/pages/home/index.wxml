@@ -1,0 +1,79 @@
+<add-tips name="添加到我的小程序，以后使用更方便" delay="{{2}}" duration="{{10}}"/>
+<view class="banner">
+  <image mode="widthFix" style="width:100%" src="../../images/banner.png"></image>
+</view>
+<view class="root">
+  <view class="input-area">
+    <view class="field-wrap">
+      <van-field value="{{ link_url }}" type="textarea"
+        center
+        placeholder="将分享的地址，粘贴到这里就可以去水印了呀"
+        bind:change="areaInputFunc"
+        bind:border="{{false}}"
+        clearable
+        >
+      </van-field>
+    </view>
+    <view class="btn-area">
+      <van-button id="past-video-link" bind:click="pasteLinkAction" round color="linear-gradient(to right, #41d186, #07c160)" size="small" icon="records">粘贴链接</van-button>
+      <van-button bind:click="removeWaterMark" round color="linear-gradient(to right, #ff6034, #ee0a24)" size="small" icon="exchange" disabled="{{ downloading }}">点击去水印</van-button>
+    </view>
+  </view>
+  <view class="video-area" wx:if="{{ show_video === 1 }}">
+    <view class="save-btn-area">
+      <van-button wx:if="{{ !downloading }}" bind:click="saveVideoAction" round plain type="primary" size="small" disabled="{{!video_url}}">保存视频</van-button>
+      <van-button wx:else loading loading-text="下载中... {{ download_progress }}%" round plain type="primary" size="small" loading-type="spinner" />
+      <van-button bind:click="copyLinkAction" round plain type="primary" size="small" data-link-type="video" disabled="{{!video_url}}">复制视频链接</van-button>
+      <!-- <van-button bind:click="saveImageAction" round plain type="primary" size="small">保存封面</van-button> -->
+    </view>
+    <video poster="{{cover}}" show-fullscreen-btn="false" src="{{video_url}}"></video>
+    <view class="copy-btn-area">
+      <van-button bind:click="copyLinkAction" round plain type="info" size="small" data-link-type="bgm" disabled="{{!bg_music}}">复制背景音乐链接</van-button>
+      <van-button bind:click="copyLinkAction" round plain type="info" size="small" data-link-type="cover" disabled="{{!cover}}">复制封面链接</van-button>
+      <van-button bind:click="shareVideoMessage" round plain type="info" size="small" data-link-type="cover" disabled="{{!tempFilePath}}">转发视频</van-button>
+    </view>
+  </view>
+  <view class="help-area">
+    <van-button custom-class="share-btn btn" plain type="default" block open-type="share" size="normal" icon="share">推荐好友</van-button>
+    <van-button wx:if="{{ contact_btn_type === 0 }}" custom-class="kefu-btn btn" plain type="default" block open-type="contact" size="normal" icon="contact">联系客服</van-button>
+    <van-button wx:if="{{ contact_btn_type === 1 }}" bind:click="copyContactWechatAction" custom-class="kefu-btn btn" plain type="default" block size="normal" icon="contact">联系微信</van-button>
+    <view class="official-area">
+    <official-account bindload="onOfficialAccountLoad" binderror="onOfficialAccountError"></official-account>
+    </view>
+    <view class="btn-2">
+      <!--<van-button bind:click="showHelpAction" custom-class="kefu-btn btn" plain type="default" block size="normal" icon="description">使用教程</van-button>-->
+      <van-button bind:click="showQuestionAction" custom-class="kefu-btn btn" plain type="default" block size="normal" icon="question-o">常见问题</van-button>
+      <van-button bind:click="showHistoryAction" custom-class="kefu-btn btn" plain type="default" block size="normal" icon="todo-list-o">历史记录</van-button>
+    </view>
+  </view>
+</view>
+<van-toast id="van-toast" />
+<van-dialog id="van-dialog" />
+<van-popup
+  show="{{ show_ad_popup }}"
+  position="bottom"
+  closeable
+  bind:close="onAdPopupCloseAction"
+>
+  <view class="popup-content">
+    <view class="title">保存提示</view>
+    <view class="content">
+      <view class="t">保存视频，需要看完激励视频广告才能解锁</view>
+      <view class="c">看一次广告可免费使用3天（只需每3天看一次广告，就可以一直免费使用）。我们坚持不收取任何费用，谢谢理解。</view>
+    </view>
+    <van-button bind:click="showVideoAdAction" round type="primary" block >点击看广告解锁</van-button>
+    <view class="why">为什么需要看广告：我们坚持永不收费，但是也是有成本的，所以我们加了广告。只需要每3天看一次广告，就可以一直使用，谢谢您的理解。</view>
+  </view>
+</van-popup>
+<van-action-sheet
+  show="{{ show_action_sheet }}"
+  cancel-text="好的"
+  actions="{{ action_list }}"
+  description="成功保存到手机相册"
+  bind:close="onActionSheetClose"
+  bind:cancel="onActionSheetClose"
+  bind:select="onActionSheetSelect"
+/>
+<view class="banner-ad-area">
+  <ad-custom unit-id="adunit-51e0ba6b4460ab86"></ad-custom>
+</view>

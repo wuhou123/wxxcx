@@ -1,0 +1,10 @@
+<view catch:touchmove="true" class="pg-component">
+    <view class="box">
+        <view class="title">联系我们</view>
+        <image class="gzhewm" src="{{gzhEwmImg}}"></image>
+        <view class="guidetext">截图保存二维码，或搜索微信「{{gzhName}}」</view>
+        <view class="options">
+            <view bind:tap="componentCancel" class="item cancel">复制微信号</view>
+        </view>
+    </view>
+</view>

@@ -1,0 +1,22 @@
+<view class="banner-ad-area">
+  <ad-custom unit-id="adunit-51e0ba6b4460ab86"></ad-custom>
+</view>
+<view class="container">
+  <block wx:for="{{redbag_list}}" wx:key="_id">
+    <view class="redbag-item" bindtap="getRedbag" data-appid="{{ item.mini_app.appid }}" data-path="{{ item.mini_app.path }}">
+      <view class="pre">
+        <view class="image-wrap">
+          <image lazy-load mode="widthFix" src="{{ item.logo }}" />
+        </view>
+        <view class="info">
+          <text class="title">{{ item.title }}</text>
+          <view class="intro">
+            <view class="price">{{ item.price }}<text>元</text></view>
+            <van-tag round type="danger">今日仅剩{{ item.total }}个</van-tag>
+          </view>
+        </view>
+      </view>
+      <view><van-button data-appid="{{ item.mini_app.appid }}" data-path="{{ item.mini_app.path }}" type="danger" size="mini" round>立即领取</van-button></view>
+    </view>
+  </block>
+</view>

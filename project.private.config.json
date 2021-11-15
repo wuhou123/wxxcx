@@ -1,0 +1,29 @@
+{
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": -1,
+                    "name": "db guide",
+                    "pathName": "pages/databaseGuide/databaseGuide",
+                    "query": ""
+                },
+                {
+                    "name": "pages/dmh/index",
+                    "pathName": "pages/dmh/index",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}

@@ -1,0 +1,59 @@
+@font-face {
+  font-family: 'iconfont';  /* project id 1788762 */
+  src: url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.eot');
+  src: url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.woff2') format('woff2'),
+  url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.woff') format('woff'),
+  url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_1788762_xe3b6r38bv.svg#iconfont') format('svg');
+}
+
+.iconfont {
+  font-family:"iconfont" !important;
+  font-size:16px;
+  font-style:normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-remove:before { content: "\e61e"; }
+.icon-download:before { content: "\e6c2"; }
+.icon-copy:before { content: "\e60a"; }
+.icon-yijian:before { content: "\e74b"; }
+.icon-kefu:before { content: "\e600"; }
+
+.icon-pipixia:before { content: "\e603"; }
+.icon-kuaishou:before { content: "\e602"; }
+.icon-weishi:before { content: "\e601"; }
+.icon-douyin:before { content: "\e660"; }
+
+.icon-huoshan:before { content: "\e604"; }
+.icon-toutiao:before { content: "\e63b"; }
+.icon-meipai:before { content: "\e612"; }
+
+.icon-kong:before { content: "\e77f"; }
+.icon-biaoxing:before { content: "\e618"; }
+
+.icon-wenti:before { content: "\e6c7"; }
+.icon-jiaocheng:before { content: "\e77c"; }
+
+.icon-buzhou:before { content: "\e60f"; }
+.icon-mall:before { content: "\e67d"; }
+.icon-mogu:before { content: "\e640"; }
+
+.icon-more:before { content: "\e620"; }
+.icon-quan:before { content: "\e66d"; }
+.icon-dayu:before { content: "\e60e"; }
+
+.icon-beike:before { content: "\e621"; }
+.icon-chengyu:before { content: "\e680"; }
+
+.icon-movie0:before { content: "\e606"; }
+.icon-movie1:before { content: "\e608"; }
+.icon-movie2:before { content: "\e61c"; }
+.icon-movie3:before { content: "\e609"; }
+
+.icon-quan0:before { content: "\e669"; }
+.icon-quan1:before { content: "\e62b"; }
+
+.icon-redbag:before { content: "\e60c"; }
