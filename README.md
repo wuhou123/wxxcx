@@ -1,4 +1,22 @@
-# 去水印小程序
+# 时隔三年终于全新改版了
+
+从微信小程序刚发布时，就创立了工具小程序仓库，主要调研技术，比较随意
+
+最近在看自媒体，当然又更新了一个全新 2.0 版本工具，永久免费~
+
+这个分支是全新版本，master 分支还保留之前版本，当然之前版本是 3 年前~
+
+该项目是小程序云开发版本，是最新全版本，创立项目之初，参考其他项目发现都是阉割版本，用的难受！
+
+## 小程序体验
+
+![](qr-img.jpg)
+
+或者微信小程序搜索 “便捷去水印工具集”
+
+## 在线体验地址
+
+- [短视频/图集在线去水印解析 https://video.wuhou.fun/](https://video.wuhou.fun/)
 
 ## 介绍
 
@@ -14,42 +32,19 @@
 6. 将分享 Logo 图片上传到云存储并替换链接
 7. 配置云函数 `remove_watermark_v3` 的环境变量，下面是环境变量注释：
 
-   ```
-   TZ: 时区
-   appid: 去水印服务的 appid
-   appsecret: 去水印服务的 appsecret
-   ding_at_mobile: 钉钉机器人推送消息提醒的手机号
-   ding_token: 钉钉机器人 token(相关文档参考下面的备注信息)
-   ```
-
 ## 备注
 
-0. 项目使用了小程序[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)，不用购买服务器即可部署运行；
-1. 组件库使用了 [vant](https://vant-contrib.gitee.io/vant-weapp/#/home)。
-2. 去水印接口 [小爱网络](http://api.xiuliw.com/?ref=305)
-3. 去水印接口(备用) [feeprint](https://admin.feeprint.com/?ref=47181)
-4. 钉钉机器人接入文档 [自定义机器人接入](https://developers.dingtalk.com/document/robots/custom-robot-access#topic-2026027)
+1. 项目使用了小程序[云开发](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)，不用购买服务器即可部署运行；
+2. 组件库使用了 [vant](https://vant-contrib.gitee.io/vant-weapp/#/home)。
 
-## 联系作者
+## 打赏
 
-如果需要帮助的话请联系作者，作者微信号：`dafish1212`
+如果项目对你有帮助，或者你需要帮助，需要帮忙敲代码，需要 ps 切图，需要搞定产品，需要搞定后端，请打赏，我来办事！当然有任何技术问题请[留言](https://wuhou.fun/msg)
 
-![](WechatIMG146.jpeg)
+![](微信图片_20211115174348.jpg)
 
-## 体验
-
-微信搜索小程序 `免费去水印全能工具`
-
-或者扫码体验
-
-![小斗去水印](PP去水印助手.jpg)
-
-## 小程序截图
-
-![](WX20211013-195246@2x.png)
-![](WX20211013-195324@2x.png)
-
-## 参考文档
+## 参考文档及项目
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
-- [视频解析接口](https://admin.feeprint.com/?ref=47181)
+
+- [参考项目](https://gitee.com/mini-app-private/qsy)
