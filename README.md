@@ -2,11 +2,11 @@
 
 ![微信图片_20220410105743.jpg](https://yun.wuhou.fun/qrcode_for_gh_95dd6259df81_258.jpg)
 
-# 每月流量紧张，大家尽量使用视频地址去下载
+### 每月流量紧张，大家尽量使用视频地址去下载
 
 微信小程序虽不会记录和保存视频资源，但是下载视频会消耗流量，每月使用的配置有限，如果有能力那就赞助呗，上架CDN资源，更丝滑！
 
-![微信图片_20220410110019.png](https://yun.wuhou.fun/4BFKGPO3I7fEQnX.png)
+<img src="https://yun.wuhou.fun/4BFKGPO3I7fEQnX.png" style="width:200px">
 
 ### 时隔三年终于全新改版了 - 短视频去水印解析小程序工具集
 
@@ -51,7 +51,7 @@
 
 如果项目对你有帮助，或者你需要帮助，需要帮忙敲代码，需要 ps 切图，需要搞定产品，需要搞定后端，请打赏，我来办事！当然有任何技术问题请[留言](https://wuhou.fun/msg)
 
-![微信图片_20220410105743.jpg](https://yun.wuhou.fun/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211115174348.jpg)
+<img src="https://yun.wuhou.fun/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20211115174348.jpg" style="width:200px">
 
 ### 参考文档及项目
 
