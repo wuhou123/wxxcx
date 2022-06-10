@@ -56,5 +56,3 @@
 ### 参考文档及项目
 
 - [云开发文档](https://developers.weixin.qq.com/miniprogram/dev/wxcloud/basis/getting-started.html)
-
-- [参考项目](https://gitee.com/mini-app-private/qsy)
