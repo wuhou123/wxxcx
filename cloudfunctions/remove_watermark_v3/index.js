@@ -9,31 +9,28 @@ cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV })
 // 云函数入口函数
 exports.main = async (event, context) => {
   const { link_url } = event
-  console.log('link_url', link_url)
   const link = _parseUrl(link_url)
-  console.log('link', link)
-  const result = await xiuliwParse(link)
-  console.log('parse res', result)
-  if (result.code === -1) {
-    const ignore_msg_list = [
-      '作品不存在，可能已经被删除。',
-      '转换失败,视频为私人视频或被删除',
-      '暂不支持该平台',
-      '请检查是否包含视频',
-      '该视频已被删除',
-    ]
-    if (!ignore_msg_list.includes(result.msg)) {
-      const tips_msg = `「免费去水印全能工具」收到视频解析接口错误信息：「${result.msg}」，请尽快排查。`
-      sendDingTalkMsg(tips_msg).catch((err) => console.error(err))
-    }
-    return result
+  // console.log('link', link)
+  const { api_url } = process.env
+  const options = {
+    method: 'GET',
+    headers: { 'content-type': 'application/x-www-form-urlencoded' },
+    params: { url: link },
+    url: api_url,
   }
-
-  // 解析结果
-  if (result.content_type === 'VIDEO') {
-    result.video_url = result.url
+  // console.log('options1', options)
+  const result = await axios(options)
+  const {
+    errno,
+    data: { downimg, downurl, title },
+  } = result.data
+  return {
+    code: errno,
+    url: downurl,
+    title,
+    cover: downimg,
+    content_type: 'VIDEO',
   }
-  return result
 }
 
 /**
@@ -44,7 +41,7 @@ function _parseUrl(text) {
   let startIndex = text.lastIndexOf('http://')
   startIndex = startIndex === -1 ? text.lastIndexOf('https://') : startIndex
   if (startIndex === -1) {
-    console.log('请输入正确的视频链接')
+    // console.log('请输入正确的视频链接')
     return
   }
   //去掉前面的中文
@@ -108,27 +105,4 @@ async function sendDingTalkMsg(message) {
  * @param {String} link 分享的链接
  * @return {Promise} video_url
  */
-async function xiuliwParse(link) {
-  const { api_url } = process.env
-  console.log('xiuliwParse', api_url)
-  const options = {
-    method: 'GET',
-    headers: { 'content-type': 'application/x-www-form-urlencoded' },
-    params: { url: link },
-    url: 'https://tenapi.cn/video/',
-  }
-  const result = await axios(options)
-  console.log('result', result)
-  const { code, title, url, cover, music } = result.data
-  const v_result = { video_type: -1 }
-  if (code !== 200) return v_result
-  v_result.channel = 'xiuliw'
-  v_result.code = 0
-  v_result.video_type = 'VIDEO'
-  v_result.title = title
-  v_result.content_type = 'VIDEO'
-  v_result.url = url
-  v_result.music = music
-  v_result.cover = cover
-  return v_result
-}
+async function xiuliwParse(link) {}

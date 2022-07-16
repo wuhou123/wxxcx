@@ -52,17 +52,63 @@ Page({
     videoAd.onClose((res) => {
       const { isEnded } = res
       if (isEnded) {
-        wx.cloud
-          .callFunction({
-            name: 'add_ad_view_record',
-            data: { app_name: app.app_name },
-          })
-          .catch((err) => {
-            console.error(err)
-          })
         that.setData({ show_videoAd: false, show_ad_popup: 0 }, () => {
           wx.showToast({ title: '看广告成功' })
         })
+        const { show_videoAd, video_url } = this.data
+        console.log('save video', video_url)
+        Utils.authorize('scope.writePhotosAlbum')
+          .then((result) => {
+            const { errMsg } = result
+            if (errMsg !== 'authorize:ok') throw Error(errMsg)
+            // 获取下载链接
+            this.setData({ downloading: true, download_progress: 0 })
+            // return wx.cloud.callFunction({
+            //   name: 'download_action',
+            //   data: { file_url: video_url },
+            // })
+            // 下载视频
+            return Utils.cloudDownloadFile(video_url, (obj) => {
+              this.setData({ download_progress: obj.progress })
+            })
+          })
+          .then((result) => {
+            console.log('下载', result)
+            this.setData({
+              downloading: false,
+              tempFilePath: result.tempFilePath,
+            })
+            return Utils.saveVideoToPhotosAlbum(result.tempFilePath)
+          })
+          .then(() => {
+            this.setData({ show_action_sheet: true })
+          })
+          .catch((error) => {
+            const { errMsg } = error
+            if ((errMsg || '').startsWith('authorize:fail')) {
+              Dialog.confirm({
+                title: '提示',
+                message: '保存失败，请授权「相册」后重新保存',
+                showCancelButton: true,
+                confirmButtonText: '去授权',
+                confirmButtonOpenType: 'openSetting',
+              })
+            } else {
+              Dialog.confirm({
+                title: '提示',
+                message: '下载失败，请重试',
+                confirmButtonText: '重试',
+              })
+                .then((res) => {
+                  this.saveVideoAction()
+                })
+                .catch(() => {
+                  console.log('取消')
+                })
+            }
+            this.setData({ downloading: false })
+            console.error(error.errMsg)
+          })
       } else {
         wx.showModal({
           title: '失败',
@@ -91,6 +137,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    videoAd = this.initRewardedVideoAd('adunit-50721537d1853aa4')
     wx.showLoading({ title: '加载中' })
     // 检查是否需要观看激励视频才能执行下载
     wx.cloud
@@ -106,8 +153,6 @@ Page({
       })
       .then((show_ad) => {
         // 在页面onLoad回调事件中创建激励视频广告实例
-        if (show_ad === 1)
-          videoAd = this.initRewardedVideoAd('adunit-50721537d1853aa4')
         wx.hideLoading()
       })
       .catch((err) => {
@@ -150,74 +195,19 @@ Page({
    * 保存视频
    */
   saveVideoAction: function () {
-    const { show_videoAd, video_url } = this.data
-    console.log('save video', video_url)
+    if (videoAd) {
+      videoAd.show().catch(() => {
+        // 失败重试
+        videoAd
+          .load()
+          .then(() => videoAd.show())
+          .catch((err) => {
+            console.log('激励视频 广告显示失败')
+          })
+      })
+    }
     // 用户触发广告后，显示激励视频广告 - 弹框告知用户广告显示规则
-    if (show_videoAd && videoAd) return this.setData({ show_ad_popup: 1 })
-    Utils.authorize('scope.writePhotosAlbum')
-      .then((result) => {
-        const { errMsg } = result
-        if (errMsg !== 'authorize:ok') throw Error(errMsg)
-        // 获取下载链接
-        this.setData({ downloading: true, download_progress: 0 })
-        return wx.cloud.callFunction({
-          name: 'download_action',
-          data: { file_url: video_url },
-        })
-      })
-      .then((result) => {
-        const { download_url } = result.result
-        // 下载视频
-        return Utils.cloudDownloadFile(download_url, (obj) => {
-          this.setData({ download_progress: obj.progress })
-        })
-      })
-      .then((result) => {
-        console.log('下载', result)
-        this.setData({ downloading: false, tempFilePath: result.tempFilePath })
-        return Utils.saveVideoToPhotosAlbum(result.tempFilePath)
-      })
-      .then(() => {
-        this.setData({ show_action_sheet: true })
-        // Dialog.confirm({
-        //   title: '保存成功',
-        //   message: `成功保存到手机相册。永不收费，不限次数，微信搜索：${app.app_name}`,
-        //   showCancelButton: true,
-        //   cancelButtonText: '好的',
-        //   confirmButtonText: '分享',
-        //   confirmButtonOpenType: 'share'
-        // });
-        // 上报下载事件
-        // const e_type = 'DOWNLOAD';
-        // const app_name = app.app_name;
-        // wx.cloud.callFunction({ name: 'report_action', data: { e_type, app_name } }).catch(err => { console.error(err) });
-      })
-      .catch((error) => {
-        const { errMsg } = error
-        if ((errMsg || '').startsWith('authorize:fail')) {
-          Dialog.confirm({
-            title: '提示',
-            message: '保存失败，请授权「相册」后重新保存',
-            showCancelButton: true,
-            confirmButtonText: '去授权',
-            confirmButtonOpenType: 'openSetting',
-          })
-        } else {
-          Dialog.confirm({
-            title: '提示',
-            message: '下载失败，请重试',
-            confirmButtonText: '重试',
-          })
-            .then((res) => {
-              this.saveVideoAction()
-            })
-            .catch(() => {
-              console.log('取消')
-            })
-        }
-        this.setData({ downloading: false })
-        console.error(error.errMsg)
-      })
+    this.setData({ show_ad_popup: 1 })
   },
 
   /**
@@ -227,6 +217,7 @@ Page({
     const that = this
     wx.getClipboardData({
       success: (option) => {
+        wx.hideToast()
         const index = option.data.indexOf('https://')
         if (option.data.length <= 0 || index < 0) {
           Dialog.alert({
@@ -281,11 +272,11 @@ Page({
     if (link_url.length <= 0) return Toast('需要粘贴链接地址！')
     const index = link_url.indexOf('https://')
     if (index < 0) return Toast('分享地址不太对哦')
-    Toast.loading({ mask: true, message: '处理中...', duration: 8000 })
+    Toast.loading({ mask: true, message: '解析中...', duration: 8000 })
     wx.cloud
       .callFunction({ name: 'remove_watermark_v3', data: { link_url } })
       .then((res) => {
-        console.log(res.result)
+        // console.log(res.result)
         const { content_type, code, cover, url, music, msg, title } = res.result
         Toast.clear()
         if (code !== 0) {

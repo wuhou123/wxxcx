@@ -1,5 +1,5 @@
 <view class="contain-area">
-  <!-- <ad unit-id="adunit-25006b4270efae7d" ad-type="video" ad-theme="white"></ad> -->
+  <ad unit-id="adunit-08e05c6867d37ae7" ad-type="video" ad-theme="white"></ad>
   <van-panel title="➊ 第一步">
     <view class="help-content">
       <view class="help-content-text">打开短视频平台，找到您要去水印的短视频，点击「转发」图标，如下图</view>

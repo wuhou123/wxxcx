@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "免费去水印全能工具",
+  "navigationBarTitleText": "免费全平台去水印工具",
   "usingComponents": {
     "add-tips": "/components/add-tips/index",
     "van-toast": "@vant/weapp/toast/index",

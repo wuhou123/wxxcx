@@ -157,17 +157,15 @@ module.exports = {
    */
   cloudDownloadFile: function (fileID, progress_cb) {
     const promise = new Promise((resolve, reject) => {
-      wx.cloud
-        .downloadFile({
-          fileID,
-          success: function (res) {
-            resolve(res)
-          },
-          fail: function (error) {
-            reject(error)
-          },
-        })
-        .onProgressUpdate(progress_cb)
+      wx.downloadFile({
+        url: fileID,
+        success: function (res) {
+          resolve(res)
+        },
+        fail: function (error) {
+          reject(error)
+        },
+      }).onProgressUpdate(progress_cb)
     })
     return promise
   },
