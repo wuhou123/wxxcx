@@ -1,2 +1,4 @@
 cloudfunctions/*/node_modules
 .DS_Store
+*/.Ds_Store
+.idea

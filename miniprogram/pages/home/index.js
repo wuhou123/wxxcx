@@ -137,7 +137,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    videoAd = this.initRewardedVideoAd('adunit-50721537d1853aa4')
+    videoAd = this.initRewardedVideoAd('adunit-0fe2b4128bd9445b')
     wx.showLoading({ title: '加载中' })
     // 检查是否需要观看激励视频才能执行下载
     wx.cloud
@@ -259,7 +259,7 @@ Page({
    */
   copyContactWechatAction: function () {
     wx.setClipboardData({
-      data: 'jiaweixinhao666',
+      data: 'Asen_Lau',
     })
   },
 
@@ -277,12 +277,12 @@ Page({
       .callFunction({ name: 'remove_watermark_v3', data: { link_url } })
       .then((res) => {
         // console.log(res.result)
-        const { content_type, code, cover, url, music, msg, title } = res.result
+        const { content_type, code, cover, url, music, title } = res.result
         Toast.clear()
-        if (code !== 0) {
+        if (code !== 200) {
           Dialog.alert({
             title: '解析失败',
-            message: msg || '解析失败，请重试',
+            message: '解析失败，请重试',
           })
           return
         }

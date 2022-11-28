@@ -11,24 +11,29 @@ exports.main = async (event, context) => {
   const { link_url } = event
   const link = _parseUrl(link_url)
   // console.log('link', link)
-  const { api_url } = process.env
   const options = {
     method: 'GET',
     headers: { 'content-type': 'application/x-www-form-urlencoded' },
     params: { url: link },
-    url: api_url,
+    url: "https://tenapi.cn/video/",
+    timeout: 10000,
   }
   // console.log('options1', options)
   const result = await axios(options)
+  console.log("result", result)
   const {
-    errno,
-    data: { downimg, downurl, title },
+    code,
+    cover,
+    music,
+    title,
+    url,
   } = result.data
   return {
-    code: errno,
-    url: downurl,
+    code,
+    url,
     title,
-    cover: downimg,
+    cover,
+    music,
     content_type: 'VIDEO',
   }
 }
